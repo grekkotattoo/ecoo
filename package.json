@@ -1,0 +1,22 @@
+{
+  "name": "tattoo-rocket-viral",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Video vertical viral 1080x1920 hecho con Remotion: máquina rotativa vs. cohete.",
+  "scripts": {
+    "dev": "remotion studio",
+    "render": "remotion render TattooRocketViral out/tattoo-rocket.mp4",
+    "still": "remotion still TattooRocketViral out/frame.png --frame=210",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.547",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.547"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}
