@@ -122,7 +122,7 @@ export const Rocket: React.FC<{
       </defs>
 
       {/* Luz azul que baña la escena */}
-      <ellipse cx={tipX} cy={(nozzleY + tipY) / 2} rx={560} ry={720} fill="url(#rk-blue)" opacity={0.55} style={{ mixBlendMode: "screen" }} />
+      <ellipse cx={tipX} cy={(nozzleY + tipY) / 2} rx={560} ry={720} fill="url(#rk-blue)" opacity={0.4} />
 
       <g transform={`translate(${tipX} ${tipY}) rotate(${rotation}) scale(${scale}) translate(${-NEEDLE_TIP.x} ${-NEEDLE_TIP.y})`}>
         {/* Llamas (detrás de las toberas) */}

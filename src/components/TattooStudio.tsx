@@ -28,8 +28,8 @@ const Limb: React.FC<{
 export const StudioBackground: React.FC<{ frame: number }> = ({ frame }) => {
   // Parpadeo determinista del neón
   const f = frame % 53;
-  const flicker = f === 7 || f === 9 ? 0.35 : f === 8 ? 0.7 : 1;
-  const afterImpact = frame >= IMPACT ? 0.55 + 0.45 * Math.abs(Math.sin(frame * 1.3)) : 1;
+  const flicker = f === 7 || f === 9 ? 0.8 : f === 8 ? 0.7 : 1;
+  const afterImpact = frame >= IMPACT ? 0.8 + 0.2 * Math.cos((frame - IMPACT) * 0.2) : 1;
   const neon = flicker * afterImpact;
 
   const planks = Array.from({ length: 17 }, (_, i) => i - 8);
@@ -51,9 +51,6 @@ export const StudioBackground: React.FC<{ frame: number }> = ({ frame }) => {
         <pattern id="bg-bricks" width="140" height="64" patternUnits="userSpaceOnUse">
           <path d="M0,0 H140 M0,32 H140 M70,0 V32 M0,32 V64 M140,32 V64" stroke="#000" strokeOpacity="0.28" strokeWidth="3" fill="none" />
         </pattern>
-        <filter id="bg-blur" x="-20%" y="-50%" width="140%" height="200%">
-          <feGaussianBlur stdDeviation="10" />
-        </filter>
       </defs>
 
       {/* Pared */}
@@ -65,7 +62,10 @@ export const StudioBackground: React.FC<{ frame: number }> = ({ frame }) => {
 
       {/* Neón "TATTOO" */}
       <g fontFamily={FONT_IMPACT} fontWeight={900} fontSize={150} textAnchor="middle" letterSpacing={10}>
-        <text x={540} y={668} fill="none" stroke={C.neon} strokeWidth={18} filter="url(#bg-blur)" opacity={neon}>
+        <text x={540} y={668} fill="none" stroke={C.neon} strokeWidth={34} strokeLinejoin="round" opacity={0.18 * neon}>
+          TATTOO
+        </text>
+        <text x={540} y={668} fill="none" stroke={C.neon} strokeWidth={20} strokeLinejoin="round" opacity={0.3 * neon}>
           TATTOO
         </text>
         <text x={540} y={668} fill="none" stroke={C.neon} strokeWidth={9} opacity={0.4 + 0.6 * neon}>
@@ -230,7 +230,7 @@ export const Lamp: React.FC<{ frame: number }> = ({ frame }) => {
   let angle = 1.5 * Math.sin(frame / 18);
   if (t1 >= 0) angle += 30 * Math.exp(-t1 / 35) * Math.sin(t1 * 0.32);
   if (t2 >= 0) angle += 40 * Math.exp(-t2 / 25) * Math.sin(t2 * 0.45);
-  const flick = t2 >= 0 && t2 < 40 ? (Math.sin(frame * 5.1) > 0.2 ? 1 : 0.25) : 1;
+  const flick = t2 >= 0 && t2 < 45 ? 0.75 + 0.25 * Math.cos(t2 * 0.3) : 1;
 
   return (
     <Layer>
@@ -241,7 +241,7 @@ export const Lamp: React.FC<{ frame: number }> = ({ frame }) => {
         </linearGradient>
       </defs>
       <g transform={`rotate(${angle} 540 290)`}>
-        <polygon points="495,470 585,470 900,1340 180,1340" fill="url(#lp-cone)" opacity={flick} style={{ mixBlendMode: "screen" }} />
+        <polygon points="495,470 585,470 900,1340 180,1340" fill="url(#lp-cone)" opacity={flick} />
         <line x1={540} y1={290} x2={540} y2={425} stroke={OUT} strokeWidth={6} />
         <path d="M505,425 L575,425 L612,474 L468,474 Z" fill="#1d1a22" stroke={OUT} strokeWidth={7} strokeLinejoin="round" />
         <path d="M512,432 L540,432 L548,468 L480,468 Z" fill="#3a3346" />
@@ -343,7 +343,7 @@ export const Client: React.FC<{ frame: number }> = ({ frame }) => {
       <path d="M228,1118 Q240,1126 252,1114" stroke={OUT} strokeWidth={4.5} fill="none" strokeLinecap="round" />
 
       {/* Brillo del móvil en la cara */}
-      <circle cx={250} cy={1010} r={130} fill="url(#cl-glow)" opacity={glow} style={{ mixBlendMode: "screen" }} />
+      <circle cx={250} cy={1010} r={130} fill="url(#cl-glow)" opacity={glow * 0.8} />
 
       {/* Brazo del móvil */}
       <Limb pts={[[275, 1122], [322, 1046], [272, 992]]} width={28} color={C.skin} />
