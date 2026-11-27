@@ -7,8 +7,9 @@
       "created": "2026-11-27T22:38:42+00:00",
       "name": "Cliente",
       "episode": "EP001",
-      "preview": "characters/cliente/v001/preview_sheet.png"
+      "preview": "characters/cliente/v001/preview_sheet.png",
+      "approved_at": "2026-11-27T23:42:54+00:00"
     }
   ],
-  "approved": null
+  "approved": 1
 }
