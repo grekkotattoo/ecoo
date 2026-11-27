@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 1.3.0 — 2026-11-27 · Estilo urbano + render rápido
+- Biblia visual v4 "Urbano gráfico — caricatura extrema" (por defecto): color plano + 1 sombra dura, contorno negro grueso,
+  personajes geométricos extremos (cabezas desproporcionadas, extremidades fideo, manos y zapatillas enormes, caras cínicas),
+  vestuario urbano (hoodie, chándal, chaqueta; gorra, gorro, cadena, auriculares), escenarios nocturnos con ladrillo, persianas,
+  pintadas en rotulador, neones, farolas y skyline. Fuentes Anton y Permanent Marker. Sin degradados, desenfoques ni texturas.
+- Render: animación en dobles (1 de cada 2 fotogramas), resolución interna al 75 % con reescalado lanczos, planos pendientes
+  en una sola llamada al motor, caché por plano en fotogramas JPEG y una única codificación final.
+  Resultado: 3,2× tiempo real (antes 14,8×; pico 47×). Re-render sin cambios: <4 s.
+- Los estilos anteriores (premium v2/v3) siguen disponibles cambiando `builder` en la biblia visual.
+
 ## 1.2.0 — 2026-11-27 · Cámara 2.5D, actuación exagerada y acabado semirrealista
 - Cámara 2.5D real: cada capa es un plano a su profundidad en un espacio con perspectiva; dolly, órbita, grúa, roll, vértigo,
   swoop, rack focus y desenfoque de profundidad (DOF). Ningún plano es estático (deriva + cámara al hombro sutil).

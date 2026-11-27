@@ -24,8 +24,8 @@ def style_props(style: dict) -> dict:
     tex = style["texture"]
     return {
         "palette": style["palette"], "outline": {"color": style["outline"]["color"], "width": style["outline"]["width"]},
-        "fonts": {"title": t["title"]["family"], "subtitle": t["subtitle"]["family"],
-                  "urls": {t["title"]["family"]: f"asset://{t['title']['file']}", t["subtitle"]["family"]: f"asset://{t['subtitle']['file']}"}},
+        "fonts": {"title": t["title"]["family"], "subtitle": t["subtitle"]["family"], "kicker": t.get("kicker", t["title"])["family"],
+                  "urls": {v["family"]: f"asset://{v['file']}" for k, v in t.items() if isinstance(v, dict) and "file" in v}},
         "grain": tex["grain"], "boil": tex["boil"], "dof": tex.get("dof", 0), "boilFps": tex["boil_fps"], "vignette": tex["vignette"],
         **({"grade": {"top": tex["grade"]["top"], "topOpacity": tex["grade"]["top_opacity"], "bottom": tex["grade"]["bottom"],
                       "bottomOpacity": tex["grade"]["bottom_opacity"]}} if tex.get("grade") else {}),
@@ -132,6 +132,7 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
 
     # cartela de título (identidad de la serie)
     tdur = int(TITLE_S * fps)
+    tdur += tdur % 2
     shots.append({"id": "title", "start": 0, "dur": tdur, "kind": "title", "bgColor": style["title_card"]["bg"],
                   "title": {"kicker": style["title_card"]["kicker"], "text": title_text(ep["question"])}})
     sfx.append({"tag": "sting", "at": 0.0, "gain": -6})
@@ -147,6 +148,7 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
             t += la["duration"] + gap
         dur_s = max(s["seconds"], t + 0.35)
         dur = int(round(dur_s * fps))
+        dur += dur % 2  # par: render en dobles sin deriva
         sc, floor_y = FRAMING[s["framing"]]
         speakers_here = {lines[l]["speaker"] for l in s["lines"]}
         actors = []
@@ -219,6 +221,7 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
         frame += dur
 
     edur = int(END_S * fps)
+    edur += edur % 2
     shots.append({"id": "end", "start": frame, "dur": edur, "kind": "end", "bgColor": style["title_card"]["bg"],
                   "title": {"kicker": style["title_card"]["kicker"], "text": "", "sub": ep.get("title", "")},
                   "transitionIn": {"type": "fade", "dur": 8}})

@@ -135,6 +135,7 @@ def still(props: dict, composition: str, out: Path, frame: int = 0) -> Path:
 
 
 def segment_key(spec: dict, i: int) -> str:
+    on_twos = bool(load_config()["render"].get("on_twos", False))
     shot = spec["shots"][i]
     prev = spec["shots"][i - 1] if i > 0 and shot.get("transitionIn", {}).get("type", "cut") != "cut" else None
     used_rigs = sorted({a["rig"] for s in (shot, prev) if s for a in s.get("actors", [])})
@@ -142,48 +143,95 @@ def segment_key(spec: dict, i: int) -> str:
     subs = [s for s in spec["subtitles"] if s["end"] > shot["start"] and s["start"] < shot["start"] + shot["dur"]]
     return hash_obj({"shot": shot, "prev": prev, "style": spec["style"], "meta": spec["meta"], "subs": subs,
                      "rigs": [spec["rigs"][r] for r in used_rigs], "bgs": [spec["backgrounds"][b] for b in used_bgs],
-                     "engine": _engine_hash()})
+                     "engine": _engine_hash(), "twos": on_twos, "scale": load_config()["render"].get("scale", 1.0)})
 
 
 def render_video(spec: dict, out: Path, on_progress=None) -> dict:
-    """Render incremental por planos. Devuelve métricas reales (segundos de render, caché)."""
+    """Render incremental y por lotes:
+    - Caché por plano = secuencia de fotogramas JPEG (data/cache/frames/<hash>/). Un plano sin cambios no se vuelve a pintar.
+    - Los planos seguidos pendientes se pintan en UNA sola llamada al motor (sin arranques repetidos de navegador).
+    - 'En dobles' (render.on_twos): se pinta 1 de cada 2 fotogramas y se duplica al codificar (mitad de trabajo).
+    - Una única codificación final H.264 a la cadencia de entrega."""
     if not spec["shots"]:
         raise StudioError("Spec sin planos")
     P = paths()
     b = bundle()
-    seg_dir = P.cache / "segments"
-    seg_dir.mkdir(parents=True, exist_ok=True)
-    use_cache = load_config()["render"].get("segment_cache", True)
+    cfg = load_config()
+    step = 2 if cfg["render"].get("on_twos", False) else 1
+    scale = float(cfg["render"].get("scale", 1.0))
+    use_cache = cfg["render"].get("segment_cache", True)
+    fdir = P.cache / "frames"
+    fdir.mkdir(parents=True, exist_ok=True)
+    shots = spec["shots"]
+    keys = [segment_key(spec, i) for i in range(len(shots))]
+    done = lambda k: use_cache and (fdir / k / ".done").exists()  # noqa: E731
     t0 = time.time()
-    stats = {"segments": len(spec["shots"]), "cached": 0, "rendered": 0}
-    files = []
+    stats = {"segments": len(shots), "cached": sum(1 for k in keys if done(k)), "rendered": 0, "batches": 0}
+    runs, cur = [], []
+    for i, k in enumerate(keys):
+        if done(k):
+            if cur:
+                runs.append(cur)
+                cur = []
+        else:
+            cur.append(i)
+    if cur:
+        runs.append(cur)
     with asset_server(P.root) as base:
         pf = P.cache / "props" / f"{hash_obj(spec)}.json"
         write_json(pf, {"spec": resolve_urls(spec, base)})
-        for i, shot in enumerate(spec["shots"]):
-            key = segment_key(spec, i)
-            seg = seg_dir / f"{key}.mp4"
-            if use_cache and seg.exists() and seg.stat().st_size > 0:
-                stats["cached"] += 1
-            else:
-                a, z = shot["start"], shot["start"] + shot["dur"] - 1
-                tmp = seg.with_suffix(".part.mp4")
-                _remotion(["render", str(b), "Episode", str(tmp), f"--props={pf}", f"--frames={a}-{z}", "--codec=h264", "--crf=18",
-                           "--pixel-format=yuv420p", f"--concurrency={_concurrency()}", "--muted", "--image-format=jpeg", "--jpeg-quality=92"])
-                tmp.rename(seg)
+        for run in runs:
+            a = shots[run[0]]["start"]
+            z = shots[run[-1]]["start"] + shots[run[-1]]["dur"] - 1
+            tmp = P.cache / "frames" / f"_run_{keys[run[0]]}"
+            shutil.rmtree(tmp, ignore_errors=True)
+            tmp.mkdir(parents=True)
+            _remotion(["render", str(b), "Episode", str(tmp), f"--props={pf}", f"--frames={a}-{z}", "--sequence", "--image-format=jpeg",
+                       "--jpeg-quality=92", f"--concurrency={_concurrency()}", *([f"--every-nth-frame={step}"] if step > 1 else []),
+                       *([f"--scale={scale}"] if scale != 1 else [])])
+            files = sorted(tmp.glob("element-*.jpeg"), key=lambda f: int(f.stem.split("-")[1]))
+            pos = 0
+            for i in run:
+                n = len(range(shots[i]["start"], shots[i]["start"] + shots[i]["dur"], step))
+                d = fdir / keys[i]
+                shutil.rmtree(d, ignore_errors=True)
+                d.mkdir(parents=True)
+                for j, f in enumerate(files[pos:pos + n]):
+                    f.rename(d / f"{j:05d}.jpg")
+                if len(files[pos:pos + n]) != n:
+                    raise StudioError(f"Render incompleto en el plano {shots[i]['id']}")
+                (d / ".done").write_text(str(n))
+                pos += n
                 stats["rendered"] += 1
-            files.append(seg)
-            if on_progress:
-                on_progress(i + 1, len(spec["shots"]))
-    lst = out.with_suffix(".concat.txt")
+                if on_progress:
+                    on_progress(stats["rendered"] + stats["cached"], len(shots))
+            shutil.rmtree(tmp, ignore_errors=True)
+            stats["batches"] += 1
+    # codificación única: secuencia ordenada (enlaces) → H.264 a la cadencia final
+    seq = P.cache / "frames" / f"_seq_{hash_obj(keys)}"
+    shutil.rmtree(seq, ignore_errors=True)
+    seq.mkdir(parents=True)
+    n = 0
+    for k in keys:
+        for f in sorted((fdir / k).glob("*.jpg")):
+            os.symlink(f, seq / f"{n:06d}.jpg")
+            n += 1
+    fps = spec["meta"]["fps"]
     out.parent.mkdir(parents=True, exist_ok=True)
-    lst.write_text("".join(f"file '{f}'\n" for f in files))
-    r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(out)], capture_output=True, text=True)
-    lst.unlink(missing_ok=True)
+    cmd = ["ffmpeg", "-y", "-v", "error", "-framerate", f"{fps / step:g}", "-i", str(seq / "%06d.jpg")]
+    W, H = spec["meta"]["width"], spec["meta"]["height"]
+    vf = [f"scale={W}:{H}:flags=lanczos"] if scale != 1 else []
+    if step > 1:
+        vf.append(f"fps={fps}")
+    if vf:
+        cmd += ["-vf", ",".join(vf)]
+    cmd += ["-c:v", "libx264", "-crf", str(cfg["video"]["primary"].get("crf", 18)), "-preset", "veryfast", "-pix_fmt", "yuv420p", "-r", str(fps), str(out)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    shutil.rmtree(seq, ignore_errors=True)
     if r.returncode != 0:
-        raise StudioError(f"Fallo al concatenar segmentos: {r.stderr[-800:]}")
+        raise StudioError(f"Fallo al codificar: {r.stderr[-800:]}")
     stats["render_seconds"] = round(time.time() - t0, 2)
-    stats["video_seconds"] = round(spec["meta"]["durationInFrames"] / spec["meta"]["fps"], 2)
+    stats["video_seconds"] = round(spec["meta"]["durationInFrames"] / fps, 2)
     stats["realtime_factor"] = round(stats["render_seconds"] / max(0.01, stats["video_seconds"]), 2)
     log("render.video", **stats)
     return stats
@@ -194,7 +242,8 @@ def mux(video: Path, audio_wav: Path | None, out: Path, total_s: float) -> Path:
     cmd = ["ffmpeg", "-y", "-v", "error", "-i", str(video)]
     if audio_wav:
         cmd += ["-i", str(audio_wav), "-map", "0:v:0", "-map", "1:a:0", "-c:a", "aac", "-b:a", v["audio_bitrate"], "-ar", "48000"]
-    cmd += ["-c:v", "copy", "-t", f"{total_s:.3f}", "-movflags", "+faststart", str(out)]
+    cmd += ["-c:v", "copy"]
+    cmd += ["-t", f"{total_s:.3f}", "-movflags", "+faststart", str(out)]
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode != 0:
         raise StudioError(f"Fallo en mux: {r.stderr[-800:]}")
@@ -230,7 +279,7 @@ def prune_cache(days: float = 14) -> dict:
     P = paths()
     limit = time.time() - days * 86400
     freed, n = 0, 0
-    for sub in ("segments", "props", "selftest"):
+    for sub in ("segments", "frames", "props", "selftest"):
         d = P.cache / sub
         if not d.exists():
             continue

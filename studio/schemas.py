@@ -27,12 +27,13 @@ CHAR_ENUMS = {
     "hair": ["none", "spiky", "bob", "mohawk", "bald_ring", "curly", "long", "slick", "bun"],
     "eyes": ["dots", "big", "tired", "wild"],
     "nose": ["round", "long", "pointy", "none", "pig"],
-    "outfit": ["suit", "tshirt", "dress", "robe", "uniform", "tank", "lab"],
+    "outfit": ["hoodie", "tshirt", "tracksuit", "jacket", "suit", "dress", "robe", "uniform", "tank", "lab"],
     "species": ["human", "creature", "robot", "object"],
 }
-ACCESSORIES = ["glasses", "sunglasses", "hat", "tie", "mustache", "beard", "earring", "eyepatch", "horns", "antenna", "crown", "bandage", "cigar"]
+ACCESSORIES = ["cap", "beanie", "chain", "headphones", "glasses", "sunglasses", "hat", "tie", "mustache", "beard", "earring", "eyepatch",
+               "horns", "antenna", "crown", "bandage", "cigar"]
 BG_TYPES = ["interior", "exterior", "city", "nature", "space", "void", "underground", "office"]
-BG_ELEMENTS = ["building", "tree", "window", "door", "table", "lamp", "cloud", "sun", "moon", "mountain", "star", "sign",
+BG_ELEMENTS = ["graffiti", "shutter", "poster", "neon", "dumpster", "building", "tree", "window", "door", "table", "lamp", "cloud", "sun", "moon", "mountain", "star", "sign",
                "plant", "chair", "screen", "rock", "planet", "car", "bush", "shelf", "frame", "column"]
 
 HEX = re.compile(r"^#[0-9a-fA-F]{6}$")

@@ -89,7 +89,7 @@ const TitleCard: React.FC<{shot: Shot; f: number; style: Style; w: number; h: nu
         <path d={rays} fill={acc} opacity={0.09} />
       </svg>
       {t.kicker ? (
-        <div style={{fontFamily: style.fonts.title, fontSize: 92, color: acc, transform: `scale(${s1}) rotate(${-4 + wob}deg)`, textAlign: 'center',
+        <div style={{fontFamily: style.fonts.kicker ?? style.fonts.title, fontSize: 74, whiteSpace: 'nowrap', color: acc, transform: `scale(${s1}) rotate(${-4 + wob}deg)`, textAlign: 'center',
           WebkitTextStroke: `6px ${style.palette.ink ?? '#1d1a17'}`, paintOrder: 'stroke fill', textShadow: `8px 8px 0 ${style.palette.shadow ?? '#000'}`}}>
           {t.kicker}
         </div>

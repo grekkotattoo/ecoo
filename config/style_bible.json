@@ -1,80 +1,78 @@
 {
   "_doc": "Biblia visual PERMANENTE de la serie. Todo episodio la hereda. Cambios = nueva versión (version++) y quedan en CHANGELOG.",
-  "version": 3,
-  "name": "Semirrealista Premium + Actuación Caricaturesca",
+  "version": 4,
+  "name": "Urbano Gráfico — Caricatura Extrema",
   "illustration": {
-    "description": "Ilustración 2D semirrealista de animación adulta premium: sombreado pictórico suave con volumen (sombras difuminadas, oclusión, luz de rebote, luz de borde cálida), línea fina del color de cada forma, piel con sombras cálidas, ojos almendrados con iris detallado, cejas y pelo por trazos, proporciones creíbles. Actuación y cámara exageradas: squash & stretch, takes, gestos amplios, cámara 2.5D con perspectiva, órbitas, grúas, vértigo y desenfoque de profundidad. Solo 2D (planos dibujados).",
+    "description": "Animación 2D urbana y joven para adultos: color plano con UNA sombra dura, contorno negro grueso uniforme, personajes caricaturescos extremos y básicos (formas geométricas brutas, cabezas desproporcionadas, extremidades fideo, manos y zapatillas enormes, caras mínimas de mirada cínica), escenarios callejeros nocturnos con ladrillo, grafitis, persianas y neones. Nada infantil: paleta oscura con acentos neón, sin rubores ni brillos, sin degradados. Actuación exagerada y cámara 2.5D llamativa. Animado en dobles (12-15 dibujos/s).",
     "forbidden": [
       "3D",
       "fotografía",
       "metraje real",
       "fotorrealismo",
-      "estética infantil",
+      "estética infantil o 'mona'",
+      "colores pastel dulces",
+      "degradados",
+      "desenfoques",
       "zoom sobre imagen fija como sustituto de animación"
     ]
   },
   "palette": {
-    "paper": "#fff4e0",
-    "ink": "#1b1424",
-    "shadow": "#2a1d4f",
-    "accent": "#ffb703",
-    "acid": "#9ef01a",
-    "blood": "#e63946",
-    "night": "#1d3557",
-    "teal": "#2ec4b6",
-    "sky": "#8ecae6",
-    "warm": "#fb8500",
-    "pink": "#ff5d8f",
-    "purple": "#7b2cbf",
-    "skin_light": "#f6c49d",
-    "skin_mid": "#d99a6c",
-    "skin_dark": "#8d5524",
-    "creature": "#80ed99"
+    "paper": "#f4f1ea",
+    "ink": "#0d0d0d",
+    "shadow": "#1a1b24",
+    "accent": "#c6ff00",
+    "acid": "#c6ff00",
+    "pink": "#ff2e88",
+    "blue": "#00d1ff",
+    "orange": "#ff6b00",
+    "purple": "#b388ff",
+    "night": "#1c1f33",
+    "concrete": "#4a4d55",
+    "asphalt": "#2b2d3a",
+    "brick": "#7a3b2e",
+    "skin_1": "#f1c7a3",
+    "skin_2": "#c68a5e",
+    "skin_3": "#7a4a2e",
+    "skin_alt": "#9aa0aa"
   },
   "outline": {
-    "color": "#2a1b1e",
-    "width": 5,
-    "jitter": 0.4,
-    "join": "round",
-    "variable_weight": true
+    "color": "#0d0d0d",
+    "width": 9,
+    "jitter": 0,
+    "join": "round"
   },
   "shading": {
-    "type": "cel-3-tonos",
-    "shadow_tint": "#3b2a6b",
-    "core_tint": "#2a1d4f",
-    "rim_light": "#ffe9b8",
-    "light_dir": "arriba-izquierda"
+    "type": "plano + 1 sombra dura"
   },
   "texture": {
-    "grain": 0.28,
-    "boil": 0.0,
+    "grain": 0,
+    "boil": 0,
     "boil_fps": 8,
-    "vignette": 0.2,
-    "grade": {
-      "top": "#ffcf8b",
-      "top_opacity": 0.1,
-      "bottom": "#5a3d9a",
-      "bottom_opacity": 0.1
-    },
-    "dof": 2.2
+    "vignette": 0.12,
+    "dof": 0
   },
   "typography": {
     "title": {
-      "family": "Bangers",
-      "file": "library/fonts/Bangers.woff",
+      "family": "Anton",
+      "file": "library/fonts/Anton.woff",
       "license": "OFL-1.1"
     },
-    "subtitle": {
-      "family": "Luckiest Guy",
-      "file": "library/fonts/LuckiestGuy.woff",
+    "kicker": {
+      "family": "Permanent Marker",
+      "file": "library/fonts/PermanentMarker.woff",
       "license": "Apache-2.0"
     },
+    "subtitle": {
+      "family": "Anton",
+      "file": "library/fonts/Anton.woff",
+      "license": "OFL-1.1"
+    },
     "subtitle_style": {
-      "size": 66,
-      "y": 0.7,
+      "size": 76,
+      "y": 0.76,
       "color": "#ffffff",
-      "stroke": "#1b1424",
-      "max_chars": 30
+      "stroke": "#0d0d0d",
+      "max_chars": 24
     }
   },
   "composition": {
@@ -92,13 +90,13 @@
     ]
   },
   "lighting": {
-    "default": "cálida cinematográfica",
+    "default": "noche urbana con neón",
     "moods": {
       "normal": "#ffffff00",
-      "noche": "#1d355766",
-      "infierno": "#e6394644",
-      "absurdo": "#9ef01a2a",
-      "dorado": "#ffb70333"
+      "noche": "#0b0e2a55",
+      "neon": "#ff2e8822",
+      "infierno": "#ff3b0033",
+      "absurdo": "#c6ff0022"
     }
   },
   "expressiveness": {
@@ -113,25 +111,26 @@
   },
   "proportions": {
     "head_to_body": [
-      0.35,
-      0.6
+      0.3,
+      0.8
     ],
-    "height_range": [
-      0.75,
-      1.35
-    ],
-    "hands": "manoplas de 4 dedos",
-    "eyes": "grandes y separados, pupila pequeña"
+    "rule": "caricatura extrema: exagerar 1 rasgo por personaje (cabeza, nariz, cuerpo o altura)",
+    "hands": "manoplas grandes",
+    "shoes": "zapatillas enormes"
   },
   "title_card": {
     "kicker": "¿QUÉ PASARÍA SI...?",
-    "bg": "#1b1424",
-    "accent": "#ffb703"
+    "bg": "#0d0d0d",
+    "accent": "#c6ff00"
   },
   "camera": {
     "mode": "2.5D",
     "perspective": 1600,
-    "default_dof": 2.2,
+    "default_dof": 0,
     "never_static": true
+  },
+  "builder": "urban",
+  "animation": {
+    "on_twos": true
   }
 }

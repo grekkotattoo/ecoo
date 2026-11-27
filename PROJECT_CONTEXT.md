@@ -5,7 +5,7 @@
 **Qué es:** estudio autónomo de animación 2D que convierte una pregunta hipotética en un corto vertical terminado.
 **Serie:** cortos 2D para ADULTOS, español de España, 20–45 s, 1080×1920, 30 fps, H.264.
 **Tono:** absurdo, surrealista, retorcido, sátira, ironía, giro inesperado, remate inteligente. Nunca infantil.
-**Estética:** cartoon adulto PREMIUM (calidad streaming): colores saturados, luz cinematográfica cálida con sombras de color frías, luz de borde, línea de grosor variable, caras muy expresivas, fondos con profundidad atmosférica. Solo 2D (prohibido 3D, foto, metraje real, fotorrealismo). Biblia visual: `config/style_bible.json`.
+**Estética:** URBANA y joven (biblia v4): color plano + una sombra dura, contorno negro grueso, caricatura extrema y básica, escenarios callejeros nocturnos con neón y pintadas, animación en dobles, cámara 2.5D. Solo 2D (prohibido 3D, foto, metraje real, fotorrealismo). Biblia visual: `config/style_bible.json`.
 
 ## Reglas inquebrantables
 1. **Aprobación humana obligatoria** antes de animar/renderizar cada episodio. Silencio ≠ aprobación.
@@ -33,6 +33,7 @@
 - D5 Voz: importación de ElevenLabs (por defecto) o API ElevenLabs (desactivada, con guardas).
 - D6 Lip-sync: Rhubarb si está instalado; si no, aproximación por energía/ZCR (honesta).
 - D7 Render incremental por planos con caché por hash; bundle del motor cacheado.
+- D11 Estilo v4 urbano + render rápido (en dobles, 75 % reescalado, lotes, caché de fotogramas) por decisión del usuario.
 - D10 Estilo v3 (decisión del usuario): acabado semirrealista + actuación caricaturesca exagerada + cámara 2.5D con DOF.
 - D9 Estilo v2 "cartoon adulto premium" (decisión del usuario): vectorial pro con techo de calidad asumido; para nivel ilustrador humano habría que importar arte por capas.
 - D8 Fuentes libres: Bangers (OFL-1.1) y Luckiest Guy (Apache-2.0), locales.

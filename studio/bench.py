@@ -65,6 +65,39 @@ def engine_selftest(out_dir: Path | None = None, seconds_per_shot: float = 1.5) 
     return res
 
 
+SAMPLE_CHARS = [  # personajes GENÉRICOS de muestra (no son de la serie)
+    ("muestra_a", "Muestra A", {"body": "skinny", "head": "round", "head_scale": 1.6, "hair": "spiky", "eyes": "tired", "nose": "long", "outfit": "hoodie",
+                                "skin": "#c68a5e", "hair_color": "#0d0d0d", "top_color": "#ff2e88", "bottom_color": "#1c1f33", "accent_color": "#c6ff00",
+                                "height": 0.9, "accessories": ["headphones"], "seed": 4}),
+    ("muestra_b", "Muestra B", {"body": "tall", "head": "square", "head_scale": 0.8, "hair": "none", "eyes": "big", "nose": "pointy", "outfit": "tracksuit",
+                                "skin": "#f1c7a3", "hair_color": "#0d0d0d", "top_color": "#00d1ff", "bottom_color": "#00d1ff", "accent_color": "#0d0d0d",
+                                "height": 1.35, "accessories": ["cap", "chain", "sunglasses"], "seed": 9}),
+    ("muestra_c", "Muestra C", {"body": "blob", "head": "egg", "head_scale": 1.2, "hair": "curly", "eyes": "big", "nose": "round", "outfit": "tshirt",
+                                "skin": "#7a4a2e", "hair_color": "#1a1a1a", "top_color": "#c6ff00", "bottom_color": "#2b2d3a", "accent_color": "#ff6b00",
+                                "height": 0.8, "accessories": ["earring", "beard"], "seed": 21}),
+]
+SAMPLE_LOCS = [
+    {"id": "muestra_calle", "name": "Calle", "description": "x", "type": "city", "sky": "#1c1f33", "ground": "#4a4d55", "accent": "#7a3b2e", "horizon": 0.7,
+     "elements": [{"kind": "neon", "x": 0.72, "y": 0.3, "scale": 0.9, "color": "#ff2e88", "text": "24H", "depth": 0.62},
+                  {"kind": "shutter", "x": 0.25, "y": 0.6, "scale": 1.1, "depth": 0.62}, {"kind": "poster", "x": 0.55, "y": 0.45, "scale": 0.9, "depth": 0.62},
+                  {"kind": "lamp", "x": 0.95, "y": 0.18, "scale": 1.0, "depth": 0.8}, {"kind": "dumpster", "x": 0.05, "y": 0.7, "scale": 0.9, "depth": 0.95},
+                  {"kind": "moon", "x": 0.2, "y": 0.1, "scale": 0.6, "depth": 0.1}]},
+    {"id": "muestra_piso", "name": "Piso", "description": "x", "type": "interior", "sky": "#3a3d5c", "ground": "#5a3e2b", "accent": "#ff2e88", "horizon": 0.68,
+     "elements": [{"kind": "window", "x": 0.25, "y": 0.32, "scale": 1.0, "depth": 0.5}, {"kind": "poster", "x": 0.7, "y": 0.3, "scale": 1.0, "color": "#c6ff00", "depth": 0.5},
+                  {"kind": "screen", "x": 0.75, "y": 0.52, "scale": 0.8, "depth": 0.6}, {"kind": "graffiti", "x": 0.4, "y": 0.5, "scale": 0.7, "color": "#00d1ff", "depth": 0.55},
+                  {"kind": "chair", "x": 0.08, "y": 0.6, "scale": 1.0, "depth": 1.2}]},
+]
+
+
+def _samples(st):
+    from . import schemas
+    from .backgrounds import build_background
+    from .rigs import build_rig
+    rigs = {cid: build_rig(cid, name, schemas.character_params(p, cid), st) for cid, name, p in SAMPLE_CHARS}
+    locs = schemas.art_direction({"locations": SAMPLE_LOCS})["locations"]
+    return rigs, {l["id"]: build_background(l, st, seed=5) for l in locs}
+
+
 def style_sample(out_dir: Path | None = None) -> dict:
     """Muestra del acabado visual con personajes y escenarios GENÉRICOS (no son contenido de la serie).
     Sirve para evaluar/ajustar la biblia visual. Salida: data/cache/style_sample/."""
@@ -76,39 +109,17 @@ def style_sample(out_dir: Path | None = None) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     st = read_json(P.config / "style_bible.json")
     v = load_config()["video"]["primary"]
-    specs = [
-        ("muestra_a", "Muestra A", {"body": "pear", "head": "egg", "hair": "bald_ring", "eyes": "big", "nose": "long", "outfit": "suit", "skin": "#f6c49d",
-                                    "hair_color": "#3d2c2e", "top_color": "#2b59c3", "bottom_color": "#1d3557", "accent_color": "#ffb703", "eye_color": "#2a9d8f",
-                                    "head_scale": 1.3, "accessories": ["tie", "mustache", "glasses"], "seed": 4}),
-        ("muestra_b", "Muestra B", {"body": "skinny", "head": "oval", "hair": "bob", "eyes": "big", "nose": "pointy", "outfit": "dress", "skin": "#d99a6c",
-                                    "hair_color": "#e63946", "top_color": "#7b2cbf", "bottom_color": "#3c096c", "accent_color": "#9ef01a", "eye_color": "#7b2cbf",
-                                    "height": 1.15, "head_scale": 1.25, "accessories": ["earring"], "seed": 9}),
-        ("muestra_c", "Muestra C", {"body": "round", "head": "square", "hair": "spiky", "eyes": "wild", "nose": "round", "outfit": "tank", "skin": "#80ed99",
-                                    "hair_color": "#fb8500", "top_color": "#ff5d8f", "bottom_color": "#264653", "accent_color": "#ffb703", "eye_color": "#e63946",
-                                    "species": "creature", "height": 0.9, "head_scale": 1.45, "accessories": ["horns"], "seed": 21}),
-    ]
-    rigs = {cid: build_rig(cid, name, schemas.character_params(p, cid), st) for cid, name, p in specs}
-    locs = schemas.art_direction({"locations": [
-        {"id": "muestra_interior", "name": "Interior", "description": "x", "type": "interior", "sky": "#2ec4b6", "ground": "#8a5a44", "accent": "#ffb703", "horizon": 0.66,
-         "elements": [{"kind": "window", "x": 0.25, "y": 0.33, "scale": 1.0, "depth": 0.5}, {"kind": "frame", "x": 0.72, "y": 0.3, "scale": 0.9, "color": "#e63946", "depth": 0.5},
-                      {"kind": "lamp", "x": 0.55, "y": 0.12, "scale": 1.1, "depth": 0.6}, {"kind": "shelf", "x": 0.85, "y": 0.45, "scale": 0.9, "depth": 0.55},
-                      {"kind": "plant", "x": 0.06, "y": 0.6, "scale": 1.1, "color": "#2d6a4f", "depth": 0.9}, {"kind": "table", "x": 0.82, "y": 0.6, "scale": 0.9, "color": "#b5651d", "depth": 0.95}]},
-        {"id": "muestra_exterior", "name": "Exterior", "description": "x", "type": "city", "sky": "#ff9e6d", "ground": "#6a994e", "accent": "#ffb703", "horizon": 0.7,
-         "elements": [{"kind": "sun", "x": 0.7, "y": 0.22, "scale": 1.1, "color": "#ffd166", "depth": 0.1}, {"kind": "mountain", "x": 0.2, "y": 0.6, "scale": 1.2, "color": "#7b5ea7", "depth": 0.15},
-                      {"kind": "building", "x": 0.1, "y": 0.6, "scale": 1.0, "color": "#457b9d", "depth": 0.3}, {"kind": "building", "x": 0.9, "y": 0.6, "scale": 0.8, "color": "#e76f51", "depth": 0.3},
-                      {"kind": "cloud", "x": 0.35, "y": 0.15, "depth": 0.2}, {"kind": "tree", "x": 0.85, "y": 0.6, "scale": 1.1, "color": "#2d6a4f", "depth": 0.6},
-                      {"kind": "sign", "x": 0.15, "y": 0.58, "scale": 0.8, "color": "#ffb703", "text": "BAR", "depth": 0.8}, {"kind": "bush", "x": 0.5, "y": 0.7, "scale": 1.0, "color": "#40916c", "depth": 1.1}]}]})["locations"]
-    bgs = {l["id"]: build_background(l, st, seed=5) for l in locs}
+    rigs, bgs = _samples(st)
     ep = {"id": "EP000", "title": "MUESTRA DE ESTILO", "question": "¿Qué pasaría si esto fuera una muestra de estilo?", "test": True}
     sb = {"shots": [
-        {"id": "s01", "location": "muestra_interior", "framing": "medium", "camera": "static", "transition": "cut", "effects": [], "text_pop": "",
+        {"id": "s01", "location": "muestra_calle", "framing": "medium", "camera": "static", "transition": "cut", "effects": [], "text_pop": "",
          "actors": [{"character": "muestra_a", "position": "left", "facing": "right", "actions": [], "expression": "smug"},
                     {"character": "muestra_b", "position": "right", "facing": "left", "actions": [], "expression": "surprised"}],
          "lines": ["l01"], "seconds": 2, "description": "x", "key_image": True},
-        {"id": "s02", "location": "muestra_exterior", "framing": "medium", "camera": "static", "transition": "cut", "effects": [], "text_pop": "",
+        {"id": "s02", "location": "muestra_piso", "framing": "medium", "camera": "static", "transition": "cut", "effects": [], "text_pop": "",
          "actors": [{"character": "muestra_c", "position": "center", "facing": "right", "actions": ["point"], "expression": "crazy"}],
          "lines": ["l02"], "seconds": 2, "description": "x", "key_image": True}]}
-    script = {"beats": [{"id": "b1", "location": "muestra_interior", "action": "", "lines": [
+    script = {"beats": [{"id": "b1", "location": "muestra_calle", "action": "", "lines": [
         {"id": "l01", "speaker": "muestra_b", "text": "Muestra de subtítulo", "emotion": "surprised"},
         {"id": "l02", "speaker": "muestra_c", "text": "Otra línea de muestra", "emotion": "crazy"}]}]}
     la = {"l01": {"duration": 1.5, "file": None, "visemes": [{"f": 0, "v": "D"}]}, "l02": {"duration": 1.5, "file": None, "visemes": [{"f": 0, "v": "C"}]}}
@@ -144,31 +155,20 @@ def motion_sample(out_dir: Path | None = None) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     st = read_json(P.config / "style_bible.json")
     v = load_config()["video"]["primary"]
-    base = style_sample.__wrapped__ if hasattr(style_sample, "__wrapped__") else None  # noqa: F841
-    a = build_rig("muestra_a", "A", schemas.character_params({"body": "pear", "head": "egg", "hair": "bald_ring", "nose": "long", "outfit": "suit", "skin": "#f2c29b",
-                                                              "hair_color": "#3d2c2e", "top_color": "#2b59c3", "bottom_color": "#1d3557", "accent_color": "#ffb703",
-                                                              "accessories": ["tie", "mustache", "glasses"], "seed": 4}, "a"), st)
-    b = build_rig("muestra_b", "B", schemas.character_params({"body": "skinny", "head": "oval", "hair": "bob", "nose": "pointy", "outfit": "dress", "skin": "#c98b62",
-                                                              "hair_color": "#b5172f", "top_color": "#7b2cbf", "bottom_color": "#3c096c", "eye_color": "#6a4c93",
-                                                              "height": 1.12, "accessories": ["earring"], "seed": 9}, "b"), st)
-    loc = schemas.art_direction({"locations": [{"id": "muestra_interior", "name": "Interior", "description": "x", "type": "interior", "sky": "#2ec4b6", "ground": "#8a5a44",
-                                                "horizon": 0.66, "elements": [{"kind": "window", "x": 0.25, "y": 0.33, "depth": 0.3}, {"kind": "frame", "x": 0.72, "y": 0.3, "color": "#e63946", "depth": 0.5},
-                                                                              {"kind": "lamp", "x": 0.55, "y": 0.12, "scale": 1.1, "depth": 0.6}, {"kind": "plant", "x": 0.06, "y": 0.6, "color": "#2d6a4f", "depth": 0.9},
-                                                                              {"kind": "chair", "x": 0.9, "y": 0.6, "depth": 1.2}]}]})["locations"][0]
-    bg = build_background(loc, st, seed=5)
+    rigs, bgs = _samples(st)
     ep = {"id": "EP000", "title": "MUESTRA", "question": "¿Qué pasaría si esto fuera una muestra de movimiento?", "test": True}
     shots = []
     for i, (cam, acts_a, acts_b, ea, eb) in enumerate([("swoop", ["talk"], ["take"], "smug", "surprised"), ("orbit_left", ["rage"], ["cower"], "angry", "scared"),
                                                        ("vertigo", ["faint"], ["laugh"], "scared", "crazy")]):
-        shots.append({"id": f"s{i+1:02d}", "location": "muestra_interior", "framing": "medium", "camera": cam, "transition": "whip" if i else "cut",
+        shots.append({"id": f"s{i+1:02d}", "location": "muestra_calle" if i != 1 else "muestra_piso", "framing": "medium", "camera": cam, "transition": "whip" if i else "cut",
                       "effects": ["speedlines"] if cam == "vertigo" else [], "text_pop": "",
                       "actors": [{"character": "muestra_a", "position": "left", "facing": "right", "actions": acts_a, "expression": ea},
                                  {"character": "muestra_b", "position": "right", "facing": "left", "actions": acts_b, "expression": eb}],
                       "lines": [f"l0{i+1}"], "seconds": 2.2, "description": "x", "key_image": True})
-    script = {"beats": [{"id": "b1", "location": "muestra_interior", "action": "", "lines": [
+    script = {"beats": [{"id": "b1", "location": "muestra_calle", "action": "", "lines": [
         {"id": f"l0{i+1}", "speaker": "muestra_a" if i != 1 else "muestra_b", "text": "Muestra", "emotion": "neutral"} for i in range(3)]}]}
     la = {f"l0{i+1}": {"duration": 1.6, "file": None, "visemes": [{"f": k * 3, "v": "CDBEHA"[k % 6]} for k in range(16)]} for i in range(3)}
-    spec, _ = timeline.build_spec(ep, {"shots": shots}, script, {"muestra_a": a, "muestra_b": b}, {"muestra_interior": bg}, st, la, v["fps"], v["width"], v["height"])
+    spec, _ = timeline.build_spec(ep, {"shots": shots}, script, rigs, bgs, st, la, v["fps"], v["width"], v["height"])
     spec["shots"] = spec["shots"][1:-1]  # sin cartelas
     t = 0
     for s in spec["shots"]:

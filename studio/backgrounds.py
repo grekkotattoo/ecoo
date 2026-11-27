@@ -130,6 +130,13 @@ def _grad(pen: Pen, stops: list[tuple[float, str, float]], vertical=True) -> tup
 
 
 def build_background(loc: dict, style: dict, seed: int = 11) -> dict:
+    if style.get("builder") == "urban":
+        from .backgrounds_urban import build_background as urban
+        return urban(loc, style, seed)
+    return _build_premium(loc, style, seed)
+
+
+def _build_premium(loc: dict, style: dict, seed: int = 11) -> dict:
     """Escenario premium por capas: cielo/pared con degradado y textura, suelo en perspectiva,
     neblina atmosférica entre capas (profundidad), resplandores y haces de luz, AO en el rodapié."""
     import hashlib

@@ -233,6 +233,14 @@ def _uid(char_id: str, seed) -> str:
 # ------------------------------------------------------------------ personaje
 
 def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -> dict:
+    """Despacha al constructor de la biblia visual activa (urban = v4 por defecto; premium = v3)."""
+    if style.get("builder") == "urban":
+        from .rigs_urban import build_rig as urban
+        return urban(char_id, name, p, style, version)
+    return _build_premium(char_id, name, p, style, version)
+
+
+def _build_premium(char_id: str, name: str, p: dict, style: dict, version: int = 1) -> dict:
     ink = style["outline"]["color"]
     lw = style["outline"]["width"]
     pen = Pen(p.get("seed", 7), style["outline"].get("jitter", 1.0), ink, lw, _uid(char_id, p.get("seed", 7)))

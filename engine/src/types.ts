@@ -98,7 +98,7 @@ export type Subtitle = {start: number; end: number; text: string; speaker?: stri
 export type Style = {
   palette: Record<string, string>;
   outline: {color: string; width: number};
-  fonts: {title: string; subtitle: string; urls?: Record<string, string>};
+  fonts: {title: string; subtitle: string; kicker?: string; urls?: Record<string, string>};
   grain: number; // 0..1
   boil: number; // 0..1 temblor de línea dibujada a mano
   boilFps: number;
