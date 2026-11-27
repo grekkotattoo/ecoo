@@ -38,7 +38,7 @@
 |---|---|
 | Compilación del motor (una vez por versión) | 21,8 s |
 | Still 1080×1920 | 2,8 s |
-| Render completo (estilo urbano v4, en dobles, 75 % reescalado) | 3,2× tiempo real (7,4 s en 23 s) → ≈2 min por episodio de 40 s |
+| Render completo (estilo urbano v4, en dobles, 75 % reescalado) | 2,8–3,2× tiempo real sin luces/FX 3D; ≈9× en planos con luces de neón three.js → ≈2–5 min por episodio de 40 s según cuántos planos usen three.js |
 | Re-render sin cambios (caché de fotogramas por plano) | <4 s |
 | Episodio TEST completo de 11,6 s, de idea a entrega (máquina) | ≈2,5 min |
 | Tamaño de entrega | ≈0,45 MB/s de vídeo |

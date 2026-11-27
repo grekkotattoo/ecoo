@@ -91,6 +91,7 @@ export type Shot = {
   effects?: Effect[];
   transitionIn?: Transition;
   title?: {kicker?: string; text: string; sub?: string};
+  lighting?: boolean; // luces de neón reales (three.js) en este plano
 };
 
 export type Subtitle = {start: number; end: number; text: string; speaker?: string};
@@ -103,6 +104,8 @@ export type Style = {
   boil: number; // 0..1 temblor de línea dibujada a mano
   boilFps: number;
   vignette: number;
+  engine?: 'css' | 'r3f' | 'auto'; // motor de escena: CSS 2.5D o @react-three/fiber (híbrido)
+  three?: {lights?: boolean; ambient?: number; key?: number; neon?: string[]; neonIntensity?: number; actorScale?: number; bgScale?: number};
   dof?: number; // desenfoque por profundidad (px por cada 1000 de distancia al foco)
   grade?: {top: string; topOpacity: number; bottom: string; bottomOpacity: number};
   subtitle: {size: number; y: number; color: string; stroke: string; maxChars: number};

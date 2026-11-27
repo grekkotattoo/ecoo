@@ -68,7 +68,7 @@ def art_prompt(script: dict, style_summary: str, keep_ids: list[str] | None, fee
             f"{_fb(feedback)}"
             f"Tipos: {_j(S.BG_TYPES)}. Elementos: {_j(S.BG_ELEMENTS)} (x,y en 0-1 del encuadre; depth 0.1 lejos - 1.0 cerca; >1 = primer plano que asoma por el borde inferior, úsalo con moderación).\n"
             'Formato: {"mood":"","locations":[{"id":"","name":"","description":"","type":"","sky":"#hex","ground":"#hex","accent":"#hex",'
-            '"horizon":0.68,"mood":"normal|noche|infierno|absurdo","elements":[{"kind":"","x":0.5,"y":0.6,"scale":1,"color":"#hex","depth":0.5,"text":""}],'
+            '"horizon":0.68,"mood":"normal|noche|neon|infierno|absurdo (noche y neon activan luces de neón reales)","elements":[{"kind":"","x":0.5,"y":0.6,"scale":1,"color":"#hex","depth":0.5,"text":""}],'
             '"ai_prompt":"descripción para generador de imagen opcional"}]}')
 
 

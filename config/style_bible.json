@@ -1,6 +1,6 @@
 {
   "_doc": "Biblia visual PERMANENTE de la serie. Todo episodio la hereda. Cambios = nueva versión (version++) y quedan en CHANGELOG.",
-  "version": 4,
+  "version": 5,
   "name": "Urbano Gráfico — Caricatura Extrema",
   "illustration": {
     "description": "Animación 2D urbana y joven para adultos: color plano con UNA sombra dura, contorno negro grueso uniforme, personajes caricaturescos extremos y básicos (formas geométricas brutas, cabezas desproporcionadas, extremidades fideo, manos y zapatillas enormes, caras mínimas de mirada cínica), escenarios callejeros nocturnos con ladrillo, grafitis, persianas y neones. Nada infantil: paleta oscura con acentos neón, sin rubores ni brillos, sin degradados. Actuación exagerada y cámara 2.5D llamativa. Animado en dobles (12-15 dibujos/s).",
@@ -132,5 +132,22 @@
   "builder": "urban",
   "animation": {
     "on_twos": true
+  },
+  "engine": "auto",
+  "three": {
+    "lights": true,
+    "ambient": 2.4,
+    "key": 0.9,
+    "neon": [
+      "#ff2e88",
+      "#00d1ff"
+    ],
+    "neonIntensity": 40,
+    "actorScale": 0.75,
+    "bgScale": 0.85,
+    "lit_moods": [
+      "neon",
+      "noche"
+    ]
   }
 }

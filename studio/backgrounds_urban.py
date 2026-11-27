@@ -205,4 +205,4 @@ def build_background(loc: dict, style: dict, seed: int = 11) -> dict:
     if mood and not mood.endswith("00"):
         layers.append({"id": "mood", "svg": f'<rect x="{BX0}" y="-1800" width="{BX1-BX0}" height="{H+3600}" fill="{mood[:7]}" opacity="{int(mood[7:9] or "33",16)/255:.2f}"/>', "depth": 1.2})
     layers.sort(key=lambda l: l["depth"])
-    return {"id": loc["id"], "width": W, "height": H, "layers": layers, "meta": {"name": loc["name"], "type": loc["type"], "horizon": loc["horizon"]}}
+    return {"id": loc["id"], "width": W, "height": H, "layers": layers, "meta": {"name": loc["name"], "type": loc["type"], "horizon": loc["horizon"], "mood": loc.get("mood", "normal")}}

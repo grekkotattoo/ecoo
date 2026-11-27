@@ -26,7 +26,8 @@ def style_props(style: dict) -> dict:
         "palette": style["palette"], "outline": {"color": style["outline"]["color"], "width": style["outline"]["width"]},
         "fonts": {"title": t["title"]["family"], "subtitle": t["subtitle"]["family"], "kicker": t.get("kicker", t["title"])["family"],
                   "urls": {v["family"]: f"asset://{v['file']}" for k, v in t.items() if isinstance(v, dict) and "file" in v}},
-        "grain": tex["grain"], "boil": tex["boil"], "dof": tex.get("dof", 0), "boilFps": tex["boil_fps"], "vignette": tex["vignette"],
+        "grain": tex["grain"], "boil": tex["boil"], "dof": tex.get("dof", 0),
+        "engine": style.get("engine", "css"), "three": style.get("three", {}), "boilFps": tex["boil_fps"], "vignette": tex["vignette"],
         **({"grade": {"top": tex["grade"]["top"], "topOpacity": tex["grade"]["top_opacity"], "bottom": tex["grade"]["bottom"],
                       "bottomOpacity": tex["grade"]["bottom_opacity"]}} if tex.get("grade") else {}),
         "subtitle": {"size": t["subtitle_style"]["size"], "y": t["subtitle_style"]["y"], "color": t["subtitle_style"]["color"],
@@ -202,7 +203,9 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
         tr = s["transition"] if si > 0 else "fade"
         if tr == "whip":
             sfx.append({"tag": "whoosh", "at": frame / fps, "gain": -8})
-        shot = {"id": s["id"], "start": frame, "dur": dur, "kind": "scene", "background": s["location"],
+        lit_moods = set(style.get("three", {}).get("lit_moods", []))
+        lighting = backgrounds.get(s["location"], {}).get("meta", {}).get("mood") in lit_moods
+        shot = {"id": s["id"], "start": frame, "dur": dur, "kind": "scene", "background": s["location"], "lighting": lighting,
                 "camera": _camera(s["camera"], dur, si), "actors": actors, "effects": effects,
                 "transitionIn": {"type": tr, "dur": TRANSITION_FRAMES[tr]}}
         shots.append(shot)

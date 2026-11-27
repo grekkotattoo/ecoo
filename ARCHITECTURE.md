@@ -31,7 +31,7 @@
 | E | Storyboard | `schemas.storyboard` | Planos validados contra vocabularios animables |
 | F | Gestor de personajes | `rigs.py`, `library.py` | Rigs paramétricos, versionado, congelado al aprobar |
 | G | Recursos visuales | `backgrounds.py`, `imagegen.py` | Escenarios multicapa (parallax), IA opcional de pago |
-| H | Motor de animación 2D | `engine/src/**`, `timeline.py` | Rigs jerárquicos, 17 acciones, expresiones, visemas, cámara, efectos, transiciones |
+| H | Motor de animación 2D (+ escena híbrida three.js) | `engine/src/**` (`three/Scene3D.tsx`), `timeline.py` | Rigs jerárquicos, 17 acciones, expresiones, visemas, cámara, efectos, transiciones |
 | I | Audio | `audio.py` | WAV/MP3, versiones por línea, pausas, mezcla con ducking, -14 LUFS |
 | J | Sincronizador de voz | `audio.visemes`, `timeline.build_spec` | Visemas A–H/X + subtítulos alineados al audio |
 | K | Editor | `timeline.py`, `ph_edit` | Timeline, transiciones, SRT, EDL |
@@ -59,5 +59,5 @@ data/cache   llm/ · visemes/ · segments/ · bundles/ · props/ · images/
 ```
 
 ## Tecnologías (auditoría del entorno, ver `python -m studio doctor`)
-Python 3.11+ (stdlib + numpy) · Node 20+ · Remotion 4.0.547 · React 18 · ffmpeg/ffprobe 6 · Chromium headless (Playwright) · pytest.
+Python 3.11+ (stdlib + numpy) · Node 20+ · Remotion 4.0.547 · React 18 · @react-three/fiber 8 + three.js 0.169 (@remotion/three) · ffmpeg/ffprobe 6 · Chromium headless (Playwright) · pytest.
 Descartado: 3D/Blender (prohibido), bases de datos (innecesario), frameworks web (stdlib basta), MoviePy (ffmpeg directo es más rápido).

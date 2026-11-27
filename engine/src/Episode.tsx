@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill, continueRender, delayRender, useCurrentFrame} from 'remotion';
 import {ease} from './lib/anim';
 import {SceneView} from './Scene';
+import {SceneView3D} from './three/Scene3D';
 import type {EpisodeSpec, Shot, Style, Subtitle} from './types';
 
 /** Carga fuentes locales servidas por el orquestador. Bloquea el render hasta tenerlas. */
@@ -139,6 +140,15 @@ const Captions: React.FC<{subs: Subtitle[]; f: number; style: Style; w: number; 
   );
 };
 
+// motor de escena por plano: 'auto' usa @react-three/fiber solo donde aporta (efectos 3D o luces de neón)
+const FX3D = new Set(['impact', 'sparks', 'confetti']);
+const use3D = (spec: EpisodeSpec, s: Shot) => {
+  const e = spec.style.engine ?? 'css';
+  if (e === 'r3f') return true;
+  if (e !== 'auto') return false;
+  return !!s.lighting || (s.effects ?? []).some((x) => FX3D.has(x.type));
+};
+
 export const Episode: React.FC<{spec: EpisodeSpec}> = ({spec}) => {
   const frame = useCurrentFrame();
   useFonts(spec.style);
@@ -161,7 +171,7 @@ export const Episode: React.FC<{spec: EpisodeSpec}> = ({spec}) => {
         const isIncoming = i === visible.length - 1;
         return (
           <AbsoluteFill key={s.id} style={isIncoming ? transitionStyle(s, local, W, H) : {}}>
-            {s.kind === 'title' || s.kind === 'end' ? <TitleCard shot={s} f={local} style={spec.style} w={W} h={H} /> : <SceneView spec={spec} shot={s} f={local} />}
+            {s.kind === 'title' || s.kind === 'end' ? <TitleCard shot={s} f={local} style={spec.style} w={W} h={H} /> : use3D(spec, s) ? <SceneView3D spec={spec} shot={s} f={local} /> : <SceneView spec={spec} shot={s} f={local} />}
           </AbsoluteFill>
         );
       })}

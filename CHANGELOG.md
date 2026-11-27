@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.4.0 — 2026-11-27 · @react-three/fiber (híbrido 2.5D)
+- Instalados @react-three/fiber 8.17.10, three 0.169.0 y @remotion/three 4.0.547 (versiones fijas; R3F 8 = compatible con React 18).
+- Motor de escena `auto` (por defecto): usa three.js SOLO donde aporta, con la misma cámara 3D que la capa vectorial:
+  · escenarios con ambiente `neon`/`noche` → fondos como planos 3D iluminados con luces de neón reales (texturas generadas una vez y cacheadas);
+  · efectos `impact`, `sparks`, `confetti` → escombros/chispas/confeti 3D con profundidad real, por delante de los personajes.
+  Personajes y resto de planos siguen en la capa vectorial (sin raster por fotograma). `engine: "r3f"` fuerza three.js en todo; `"css"` lo desactiva.
+- Medido (clip 7,4 s, 4 vCPU): CSS 21 s · auto con 2/3 planos iluminados + FX 3D 66 s · r3f total 75 s. Un plano sin luces ni FX cuesta lo mismo que antes.
+
 ## 1.3.0 — 2026-11-27 · Estilo urbano + render rápido
 - Biblia visual v4 "Urbano gráfico — caricatura extrema" (por defecto): color plano + 1 sombra dura, contorno negro grueso,
   personajes geométricos extremos (cabezas desproporcionadas, extremidades fideo, manos y zapatillas enormes, caras cínicas),

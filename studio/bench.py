@@ -77,7 +77,7 @@ SAMPLE_CHARS = [  # personajes GENÉRICOS de muestra (no son de la serie)
                                 "height": 0.8, "accessories": ["earring", "beard"], "seed": 21}),
 ]
 SAMPLE_LOCS = [
-    {"id": "muestra_calle", "name": "Calle", "description": "x", "type": "city", "sky": "#1c1f33", "ground": "#4a4d55", "accent": "#7a3b2e", "horizon": 0.7,
+    {"id": "muestra_calle", "name": "Calle", "description": "x", "type": "city", "mood": "neon", "sky": "#1c1f33", "ground": "#4a4d55", "accent": "#7a3b2e", "horizon": 0.7,
      "elements": [{"kind": "neon", "x": 0.72, "y": 0.3, "scale": 0.9, "color": "#ff2e88", "text": "24H", "depth": 0.62},
                   {"kind": "shutter", "x": 0.25, "y": 0.6, "scale": 1.1, "depth": 0.62}, {"kind": "poster", "x": 0.55, "y": 0.45, "scale": 0.9, "depth": 0.62},
                   {"kind": "lamp", "x": 0.95, "y": 0.18, "scale": 1.0, "depth": 0.8}, {"kind": "dumpster", "x": 0.05, "y": 0.7, "scale": 0.9, "depth": 0.95},
@@ -161,7 +161,7 @@ def motion_sample(out_dir: Path | None = None) -> dict:
     for i, (cam, acts_a, acts_b, ea, eb) in enumerate([("swoop", ["talk"], ["take"], "smug", "surprised"), ("orbit_left", ["rage"], ["cower"], "angry", "scared"),
                                                        ("vertigo", ["faint"], ["laugh"], "scared", "crazy")]):
         shots.append({"id": f"s{i+1:02d}", "location": "muestra_calle" if i != 1 else "muestra_piso", "framing": "medium", "camera": cam, "transition": "whip" if i else "cut",
-                      "effects": ["speedlines"] if cam == "vertigo" else [], "text_pop": "",
+                      "effects": ["speedlines", "confetti"] if cam == "vertigo" else ["impact"] if cam == "swoop" else [], "text_pop": "",
                       "actors": [{"character": "muestra_a", "position": "left", "facing": "right", "actions": acts_a, "expression": ea},
                                  {"character": "muestra_b", "position": "right", "facing": "left", "actions": acts_b, "expression": eb}],
                       "lines": [f"l0{i+1}"], "seconds": 2.2, "description": "x", "key_image": True})
