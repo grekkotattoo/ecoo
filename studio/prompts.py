@@ -66,7 +66,7 @@ def art_prompt(script: dict, style_summary: str, keep_ids: list[str] | None, fee
     return (f"Dirección artística de escenarios. Estilo permanente: {style_summary}.\n"
             f"Localizaciones del guion: {_j(locs)}. {('Conserva exactamente estos ids: ' + _j(keep_ids)) if keep_ids else ''}\n"
             f"{_fb(feedback)}"
-            f"Tipos: {_j(S.BG_TYPES)}. Elementos: {_j(S.BG_ELEMENTS)} (x,y en 0-1 del encuadre; depth 0.1 lejos - 1.0 cerca, >1 primer plano).\n"
+            f"Tipos: {_j(S.BG_TYPES)}. Elementos: {_j(S.BG_ELEMENTS)} (x,y en 0-1 del encuadre; depth 0.1 lejos - 1.0 cerca; >1 = primer plano que asoma por el borde inferior, úsalo con moderación).\n"
             'Formato: {"mood":"","locations":[{"id":"","name":"","description":"","type":"","sky":"#hex","ground":"#hex","accent":"#hex",'
             '"horizon":0.68,"mood":"normal|noche|infierno|absurdo","elements":[{"kind":"","x":0.5,"y":0.6,"scale":1,"color":"#hex","depth":0.5,"text":""}],'
             '"ai_prompt":"descripción para generador de imagen opcional"}]}')
@@ -74,14 +74,14 @@ def art_prompt(script: dict, style_summary: str, keep_ids: list[str] | None, fee
 
 def characters_prompt(script: dict, existing: list[dict], keep_ids: list[str] | None, feedback: list[str]) -> str:
     speakers = sorted({l["speaker"] for b in script["beats"] for l in b["lines"]} - {"narrador"})
-    return (f"Diseña los personajes (caricatura adulta underground, expresivos, reconocibles en silueta). Personajes del guion: {_j(speakers)}. "
+    return (f"Diseña los personajes (cartoon adulto premium: siluetas reconocibles, colores saturados y armónicos con buen contraste piel/ropa/fondo, expresivos). Personajes del guion: {_j(speakers)}. "
             f"Contexto: {script['title']} — {_j([b['action'] for b in script['beats']])[:900]}.\n"
             f"Personajes recurrentes en biblioteca (reutiliza con 'reuse':'id' si encaja; continuidad): {_j(existing[:20])}.\n"
             f"{('Mantén estos ids: ' + _j(keep_ids)) if keep_ids else ''}{_fb(feedback)}"
             f"Parámetros: {_j(S.CHAR_ENUMS)}; accessories ⊂ {_j(S.ACCESSORIES)}; colores #hex; height 0.75-1.35; head_scale 0.8-1.6; width 0.7-1.5.\n"
             'Formato: {"characters":[{"id":"","name":"","role":"","description":"","voice_hint":"tipo de voz para ElevenLabs","reuse":null,'
             '"params":{"body":"","head":"","hair":"","eyes":"","nose":"","outfit":"","species":"","skin":"#hex","hair_color":"#hex",'
-            '"top_color":"#hex","bottom_color":"#hex","accent_color":"#hex","height":1,"head_scale":1.2,"width":1,"accessories":[],"seed":1}}]}')
+            '"top_color":"#hex","bottom_color":"#hex","accent_color":"#hex","eye_color":"#hex","height":1,"head_scale":1.2,"width":1,"accessories":[],"seed":1}}]}')
 
 
 def storyboard_prompt(script: dict, chars: list[str], locs: list[str], feedback: list[str]) -> str:

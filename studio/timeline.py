@@ -12,7 +12,7 @@ from .rigs import EXPRESSION_PRESETS
 
 POS_X = {"far_left": 170, "left": 330, "center": 540, "right": 750, "far_right": 910}
 FRAMING = {  # escala del rig y suelo (y de los pies)
-    "wide": (0.72, 1560), "medium": (1.0, 1700), "close": (1.55, 2150), "extreme_close": (2.3, 2750),
+    "wide": (0.8, 1580), "medium": (1.15, 1760), "close": (1.6, 2180), "extreme_close": (2.3, 2750),
 }
 TITLE_S = 2.2
 END_S = 1.4
@@ -27,6 +27,8 @@ def style_props(style: dict) -> dict:
         "fonts": {"title": t["title"]["family"], "subtitle": t["subtitle"]["family"],
                   "urls": {t["title"]["family"]: f"asset://{t['title']['file']}", t["subtitle"]["family"]: f"asset://{t['subtitle']['file']}"}},
         "grain": tex["grain"], "boil": tex["boil"], "boilFps": tex["boil_fps"], "vignette": tex["vignette"],
+        **({"grade": {"top": tex["grade"]["top"], "topOpacity": tex["grade"]["top_opacity"], "bottom": tex["grade"]["bottom"],
+                      "bottomOpacity": tex["grade"]["bottom_opacity"]}} if tex.get("grade") else {}),
         "subtitle": {"size": t["subtitle_style"]["size"], "y": t["subtitle_style"]["y"], "color": t["subtitle_style"]["color"],
                      "stroke": t["subtitle_style"]["stroke"], "maxChars": t["subtitle_style"]["max_chars"]},
     }

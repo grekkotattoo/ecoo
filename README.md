@@ -12,6 +12,7 @@ cd engine && npm ci && cd ..               # motor 2D (Remotion)
 python -m studio init                      # carpetas de datos
 python -m studio doctor                    # auditoría del entorno
 python -m studio selftest                  # prueba técnica del motor (formas grises) → data/cache/selftest/
+python -m studio stylesample               # muestra del acabado visual (personajes genéricos) → data/cache/style_sample/
 ```
 Si no tienes Chromium en la ruta de `render.browser_executable`, bórrala en `config/studio.local.json` y Remotion usará el suyo:
 `python -m studio config set render.browser_executable ""`

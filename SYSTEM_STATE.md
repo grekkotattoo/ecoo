@@ -9,7 +9,7 @@
 |---|---|---|
 | Arquitectura modular (16 módulos A–P) | INSTALADO | `ARCHITECTURE.md` |
 | Motor de animación 2D (Remotion) | INSTALADO | rigs, 17 acciones, expresiones, visemas, cámara/parallax, efectos, transiciones |
-| Rigs paramétricos + hojas de personaje | INSTALADO | |
+| Rigs paramétricos + hojas de personaje | INSTALADO | acabado premium v2 (`studio stylesample` para verlo) |
 | Escenarios multicapa + animación ambiental | INSTALADO | |
 | Pipeline 17 fases + recuperación | INSTALADO | probado end-to-end con render real |
 | Sistema de aprobación (7 acciones, persistente) | INSTALADO | invalidación selectiva probada |
@@ -43,6 +43,9 @@
 | Episodio TEST completo de 11,6 s, de idea a entrega (máquina) | ≈2,5 min |
 | Tamaño de entrega | ≈0,45 MB/s de vídeo |
 Multiplicador "200×" respecto a un flujo manual: **no demostrado** (no hay línea base manual medida). Lo medido es lo de esta tabla.
+
+## Límite honesto de calidad visual
+Vectorial generado por código: nivel cartoon profesional limpio, por debajo de un ilustrador humano en detalle y personalidad del trazo. Para ese nivel: importar personajes dibujados por capas (no implementado).
 
 ## Errores conocidos
 Ninguno crítico. Avisos: el line-boil y el grano añaden coste de render (desactivables en `style_bible.json → texture`).

@@ -103,6 +103,7 @@ export type Style = {
   boil: number; // 0..1 temblor de línea dibujada a mano
   boilFps: number;
   vignette: number;
+  grade?: {top: string; topOpacity: number; bottom: string; bottomOpacity: number};
   subtitle: {size: number; y: number; color: string; stroke: string; maxChars: number};
 };
 

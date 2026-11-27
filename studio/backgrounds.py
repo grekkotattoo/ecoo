@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import math
 
-from .rigs import Pen, _shade
+from .rigs import Pen, _shade, light_of, mix, shadow_of
 
 W, H = 1080, 1920
 X0, X1 = -400, 1480  # margen para paneos de cámara
@@ -38,7 +38,9 @@ def _el(pen: Pen, e: dict, loc: dict, ink: str) -> tuple[str, dict | None]:
     elif k == "window":
         w, hh = 260 * s, 320 * s
         svg = pen.shape([(x - w / 2, y - hh / 2), (x + w / 2, y - hh / 2), (x + w / 2, y + hh / 2), (x - w / 2, y + hh / 2)], col or "#7fb3d5")
+        svg += f'<path d="M{x - w/2:.0f},{y - hh/2:.0f} L{x + w*0.1:.0f},{y - hh/2:.0f} L{x - w*0.35:.0f},{y + hh/2:.0f} L{x - w/2:.0f},{y + hh/2:.0f} Z" fill="#ffffff" opacity="0.28"/>'
         svg += pen.line([(x, y - hh / 2), (x, y + hh / 2)], sw=8) + pen.line([(x - w / 2, y), (x + w / 2, y)], sw=8)
+        svg += f'<path d="M{x - w/2:.0f},{y + hh/2:.0f} L{x + w/2:.0f},{y + hh/2:.0f} L{x + w*1.3:.0f},{gy + 380:.0f} L{x - w*0.2:.0f},{gy + 380:.0f} Z" fill="#fff3c4" opacity="0.13"/>' 
     elif k == "door":
         w, hh = 200 * s, 420 * s
         svg = pen.shape([(x - w / 2, gy), (x - w / 2, gy - hh), (x + w / 2, gy - hh), (x + w / 2, gy)], col or "#7b4a2a")
@@ -51,22 +53,32 @@ def _el(pen: Pen, e: dict, loc: dict, ink: str) -> tuple[str, dict | None]:
         svg += pen.line([(x - 55 * s, gy + 100), (x - 55 * s, gy - 60 * s)], sw=12) + pen.line([(x - 50 * s, gy + 120), (x - 50 * s, gy + 230 * s)], sw=10) + pen.line([(x + 50 * s, gy + 120), (x + 50 * s, gy + 230 * s)], sw=10)
     elif k == "lamp":
         svg = pen.line([(x, y), (x, y - 120 * s)], sw=5) + pen.shape([(x - 70 * s, y + 50 * s), (x - 35 * s, y), (x + 35 * s, y), (x + 70 * s, y + 50 * s)], col or "#ffd23f")
-        svg += f'<path d="M{x-70*s:.0f},{y+50*s:.0f} L{x-260*s:.0f},{gy+60:.0f} L{x+260*s:.0f},{gy+60:.0f} L{x+70*s:.0f},{y+50*s:.0f} Z" fill="#ffd23f" opacity="0.13"/>'
+        gid = pen.nid("lg")
+        svg = (f'<defs><radialGradient id="{gid}"><stop offset="0" stop-color="#fff1b8" stop-opacity="0.85"/><stop offset="1" stop-color="#ffb703" stop-opacity="0"/></radialGradient></defs>'
+               f'<circle cx="{x:.0f}" cy="{y + 40*s:.0f}" r="{220*s:.0f}" fill="url(#{gid})"/>') + svg
+        svg += f'<path d="M{x-70*s:.0f},{y+50*s:.0f} L{x-300*s:.0f},{gy+80:.0f} L{x+300*s:.0f},{gy+80:.0f} L{x+70*s:.0f},{y+50*s:.0f} Z" fill="#ffe08a" opacity="0.16"/>'
         anim = {"type": "flicker", "speed": 0.5}
     elif k == "cloud":
-        svg = "".join(pen.shape(pen.blob(x + dx * s, y + dy * s, r * s, r * 0.8 * s, n=10), col or "#efe3c8", shadow=False) for dx, dy, r in ((-80, 10, 70), (0, -20, 95), (90, 10, 70)))
+        svg = "".join(pen.shape(pen.blob(x + dx * s, y + dy * s, r * s, r * 0.8 * s, n=12), col or "#fff6e8", weight=False) for dx, dy, r in ((-80, 10, 70), (0, -20, 95), (90, 10, 70)))
         anim = {"type": "drift", "amount": 0.4 + e["depth"]}
     elif k in ("sun", "moon", "planet"):
         r = 120 * s
-        svg = pen.shape(pen.blob(x, y, r, r, n=14), col or ("#ffd23f" if k == "sun" else "#efe3c8"))
+        base = col or ("#ffd23f" if k == "sun" else "#efe3c8")
+        if k == "planet":
+            svg = pen.shape(pen.blob(x, y, r, r, n=14), base)
+        else:  # emisivo: resplandor y sin sombra
+            gid = pen.nid("sun")
+            svg = (f'<defs><radialGradient id="{gid}"><stop offset="0.45" stop-color="{base}" stop-opacity="0.9"/><stop offset="1" stop-color="{base}" stop-opacity="0"/></radialGradient></defs>'
+                   f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r * 2.4:.0f}" fill="url(#{gid})" opacity="0.55"/>')
+            svg += pen.shape(pen.blob(x, y, r, r, n=16), light_of(base), flat=True, sw=0)
         if k == "moon":
             svg += "".join(f'<circle cx="{x + dx:.0f}" cy="{y + dy:.0f}" r="{rr:.0f}" fill="{_shade(col or "#efe3c8", 0.8)}"/>' for dx, dy, rr in ((-30, -20, 18), (35, 25, 12), (10, 50, 9)))
         if k == "planet":
             svg += f'<ellipse cx="{x:.0f}" cy="{y:.0f}" rx="{r*1.7:.0f}" ry="{r*0.35:.0f}" fill="none" stroke="{ink}" stroke-width="8"/>'
         if k == "sun":
             anim = {"type": "spin", "amount": 0.2, "cx": x, "cy": y}
-            svg += "".join(pen.line([(x + math.cos(a) * r * 1.2, y + math.sin(a) * r * 1.2), (x + math.cos(a) * r * 1.55, y + math.sin(a) * r * 1.55)], sw=8)
-                           for a in [i * math.tau / 10 for i in range(10)])
+            svg += "".join(pen.brush([(x + math.cos(a) * r * 1.18, y + math.sin(a) * r * 1.18), (x + math.cos(a) * r * 1.6, y + math.sin(a) * r * 1.6)], 14, light_of(base), opacity=0.8)
+                           for a in [i * math.tau / 12 for i in range(12)])
     elif k == "mountain":
         w = 600 * s
         svg = pen.shape([(x - w / 2, gy), (x - w * 0.1, gy - 520 * s), (x + w * 0.05, gy - 470 * s), (x + w / 2, gy)], col or "#5a6b8c")
@@ -109,49 +121,100 @@ def _esc(t: str) -> str:
     return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def _grad(pen: Pen, stops: list[tuple[float, str, float]], vertical=True) -> tuple[str, str]:
+    gid = pen.nid("bg")
+    x2, y2 = ("0", "1") if vertical else ("1", "0")
+    st = "".join(f'<stop offset="{o}" stop-color="{c}" stop-opacity="{a}"/>' for o, c, a in stops)
+    return gid, f'<defs><linearGradient id="{gid}" x1="0" y1="0" x2="{x2}" y2="{y2}">{st}</linearGradient></defs>'
+
+
 def build_background(loc: dict, style: dict, seed: int = 11) -> dict:
+    """Escenario premium por capas: cielo/pared con degradado y textura, suelo en perspectiva,
+    neblina atmosférica entre capas (profundidad), resplandores y haces de luz, AO en el rodapié."""
+    import hashlib
     ink = style["outline"]["color"]
-    pen = Pen(seed, style["outline"].get("jitter", 1.5), ink, style["outline"]["width"])
+    uid = "b" + hashlib.sha1(f"{loc['id']}:{seed}".encode()).hexdigest()[:6]
+    pen = Pen(seed, style["outline"].get("jitter", 0.6), ink, style["outline"]["width"], uid)
     gy = loc["horizon"] * H
-    sky = loc["sky"]
-    ground = loc["ground"]
+    sky, ground, accent = loc["sky"], loc["ground"], loc["accent"]
     t = loc["type"]
+    interior = t in ("interior", "office", "underground")
+    horizon_c = mix(light_of(sky), "#ffd9a8", 0.35)
     layers = []
-    # cielo / pared con trama de puntos (textura dibujada)
-    sky_svg = f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 400:.0f}" fill="{sky}"/>'
-    sky_svg += "".join(f'<circle cx="{X0 + (i * 53) % (X1 - X0)}" cy="{(i * 97) % int(gy + 200) - 200}" r="3" fill="{_shade(sky, 1.12)}" opacity="0.5"/>' for i in range(160))
-    if t in ("interior", "office", "underground"):
-        sky_svg += "".join(pen.line([(xx, -300), (xx + 6, gy)], sw=3, color=_shade(sky, 0.85)) for xx in range(X0, X1, 160))
-    layers.append({"id": "sky", "svg": sky_svg, "depth": 0.05})
+    # ---- cielo / pared
+    if interior:
+        gid, defs = _grad(pen, [(0, _shade(sky, 0.72), 1), (0.55, sky, 1), (1, light_of(sky), 1)])
+        svg = defs + f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 400:.0f}" fill="url(#{gid})"/>'
+        pid = pen.nid("pt")
+        svg += (f'<defs><pattern id="{pid}" width="90" height="90" patternUnits="userSpaceOnUse">'
+                f'<path d="M45,8 L60,45 L45,82 L30,45 Z" fill="{light_of(sky)}" opacity="0.22"/><circle cx="0" cy="0" r="5" fill="{_shade(sky, 0.85)}" opacity="0.5"/></pattern></defs>'
+                f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 300:.0f}" fill="url(#{pid})"/>')
+        gid2, d2 = _grad(pen, [(0, "#1b1030", 0.55), (1, "#1b1030", 0)])
+        svg += d2 + f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="520" fill="url(#{gid2})"/>'  # sombra de techo
+        svg += pen.shape([(X0, gy - 70), (X1, gy - 70), (X1, gy), (X0, gy)], _shade(sky, 0.8), rim=False, weight=False)  # zócalo
+    else:
+        gid, defs = _grad(pen, [(0, mix(_shade(sky, 0.7), "#5a3d9a", 0.25), 1), (0.6, sky, 1), (1, horizon_c, 1)])
+        svg = defs + f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 400:.0f}" fill="url(#{gid})"/>'
+        rg = pen.nid("sg")
+        svg += (f'<defs><radialGradient id="{rg}"><stop offset="0" stop-color="#fff2c2" stop-opacity="0.8"/><stop offset="1" stop-color="#ffd9a8" stop-opacity="0"/></radialGradient></defs>'
+                f'<ellipse cx="760" cy="{gy * 0.45:.0f}" rx="900" ry="{gy * 0.7:.0f}" fill="url(#{rg})"/>')
+    layers.append({"id": "sky", "svg": svg, "depth": 0.05})
     buckets: dict[str, list] = {"far": [], "mid": [], "near": [], "fg": []}
     for e in sorted(loc["elements"], key=lambda e: e["depth"]):
         b = "far" if e["depth"] < 0.35 else "mid" if e["depth"] < 0.7 else "near" if e["depth"] <= 1.0 else "fg"
         buckets[b].append(e)
     depth_of = {"far": 0.25, "mid": 0.55, "near": 0.9, "fg": 1.15}
-    ground_svg = pen.shape([(X0, gy), (X1, gy - 6), (X1, H + 300), (X0, H + 300)], ground, shadow=False)
-    ground_svg += "".join(pen.line([(X0 + i * 120, gy + 40 + (i % 3) * 60), (X0 + i * 120 + 70, gy + 44 + (i % 3) * 60)], sw=3, color=_shade(ground, 0.75)) for i in range(16))
+    # ---- suelo en perspectiva
+    gid, defs = _grad(pen, [(0, light_of(ground), 1), (0.4, ground, 1), (1, _shade(ground, 0.62), 1)])
+    ground_svg = defs + f'<path d="M{X0},{gy:.0f} L{X1},{gy - 4:.0f} L{X1},{H + 300} L{X0},{H + 300} Z" fill="url(#{gid})"/>'
+    vx, vy = 540, gy - 520
+    for i in range(-9, 10):
+        bx = 540 + i * 170
+        ex_ = vx + (bx - vx) * ((H + 300 - vy) / (gy - vy))
+        ground_svg += f'<line x1="{vx + (bx - vx) * 1.0:.0f}" y1="{gy:.0f}" x2="{ex_:.0f}" y2="{H + 300}" stroke="{shadow_of(ground)}" stroke-width="{3 if interior else 2}" opacity="{0.55 if interior else 0.25}"/>'
+    for k, yy in enumerate((gy + 60, gy + 150, gy + 290, gy + 480)):
+        ground_svg += f'<line x1="{X0}" y1="{yy:.0f}" x2="{X1}" y2="{yy:.0f}" stroke="{shadow_of(ground)}" stroke-width="2.5" opacity="{0.35 if interior else 0.12}"/>'
+    if not interior:
+        for i in range(26):
+            gx = X0 + (i * 97) % (X1 - X0)
+            gyy = gy + 40 + (i * 61) % 600
+            ground_svg += pen.brush([(gx, gyy), (gx - 6, gyy - 22)], 4, light_of(ground), opacity=0.8) + pen.brush([(gx + 8, gyy), (gx + 12, gyy - 18)], 4, shadow_of(ground), opacity=0.7)
+    gid3, d3 = _grad(pen, [(0, "#1b1030", 0.45), (1, "#1b1030", 0)])
+    ground_svg += d3 + f'<rect x="{X0}" y="{gy:.0f}" width="{X1 - X0}" height="60" fill="url(#{gid3})"/>'  # oclusión ambiental
+    ground_svg += f'<line x1="{X0}" y1="{gy:.0f}" x2="{X1}" y2="{gy - 4:.0f}" stroke="{ink}" stroke-width="5"/>'
+    far_pen = Pen(seed + 1, 0.4, mix(ink, horizon_c, 0.55), style["outline"]["width"] * 0.6, uid + "f")
     for b in ("far", "mid", "near", "fg"):
         static, animated = "", []
         if b == "near":
             static += ground_svg
+        use = far_pen if b == "far" else pen
         for i, e in enumerate(buckets[b]):
-            svg, anim = _el(pen, e, loc, ink)
+            svg_e, anim = _el(use, e, loc, use.ink)
+            if b == "fg":  # primer plano: pegado al borde inferior, más grande y oscuro (encuadre cinematográfico)
+                xx = X0 + 200 + e["x"] * (X1 - X0 - 400)
+                svg_e = (f'<g transform="translate({xx:.0f} {H + 40:.0f}) scale(1.7) translate({-xx:.0f} {-gy:.0f})">{svg_e}</g>')
+            if b in ("near", "fg") and e["kind"] in ("table", "chair", "plant", "rock", "car", "bush", "column", "door"):
+                xx = X0 + 200 + e["x"] * (X1 - X0 - 400)
+                svg_e = f'<ellipse cx="{xx:.0f}" cy="{gy + (250 if e["kind"] in ("table", "chair") else 10) * e["scale"]:.0f}" rx="{170 * e["scale"]:.0f}" ry="{24 * e["scale"]:.0f}" fill="#1b1030" opacity="0.22"/>' + svg_e
             if anim:
-                animated.append({"id": f"{b}_{i}_{e['kind']}", "svg": svg, "depth": depth_of[b], "anim": anim})
+                animated.append({"id": f"{b}_{i}_{e['kind']}", "svg": svg_e, "depth": depth_of[b], "anim": anim})
             else:
-                static += svg
+                static += svg_e
         if static:
             layers.append({"id": b, "svg": static, "depth": depth_of[b]})
         layers.extend(animated)
-    if not buckets["near"]:  # garantizar suelo
+        if b in ("far", "mid"):  # neblina atmosférica → profundidad
+            op = 0.42 if b == "far" else 0.16
+            hid, hd = _grad(pen, [(0, horizon_c, 0), (0.7, horizon_c, op), (1, horizon_c, op * 0.6)])
+            layers.append({"id": f"haze_{b}", "svg": hd + f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 340:.0f}" fill="url(#{hid})"/>', "depth": depth_of[b] + 0.01})
+    if not buckets["near"]:
         layers.append({"id": "near", "svg": ground_svg, "depth": 0.9})
-    layers.sort(key=lambda l: l["depth"])
     if loc.get("custom_svg"):
         layers.append({"id": "custom", "svg": loc["custom_svg"], "depth": 0.6})
-        layers.sort(key=lambda l: l["depth"])
     mood = style.get("lighting", {}).get("moods", {}).get(loc.get("mood", "normal"))
     if mood and not mood.endswith("00"):
         layers.append({"id": "mood", "svg": f'<rect x="{X0}" y="-300" width="{X1-X0}" height="{H+600}" fill="{mood[:7]}" opacity="{int(mood[7:9] or "33",16)/255:.2f}"/>', "depth": 1.2})
+    layers.sort(key=lambda l: l["depth"])
     return {"id": loc["id"], "width": W, "height": H, "layers": layers, "meta": {"name": loc["name"], "type": t, "horizon": loc["horizon"]}}
 
 

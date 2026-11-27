@@ -118,9 +118,17 @@ export const ActorView: React.FC<{actor: Actor; rig: Rig; frame: number; fps: nu
   const sy = sc * (root.sy ?? 1);
   // rotación alrededor del centro del cuerpo, no de los pies
   const cy = -rig.height * 0.45;
+  // sombra de contacto en el suelo (no salta con el personaje: se encoge al despegar)
+  const baseX = evalTrack(actor.tracks?.['root.x'], frame, actor.x) + (root.tx ?? 0);
+  const lift = Math.max(0, -(root.ty ?? 0));
+  const k = Math.max(0.35, 1 - lift / 320);
+  const shW = rig.width * 0.36 * sc * k;
   return (
+    <>
+    <ellipse cx={baseX} cy={actor.y + 4 * sc} rx={shW} ry={shW * 0.16} fill="#1b1030" opacity={0.28 * k} />
     <g transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${rot.toFixed(2)} 0 ${(cy * sc).toFixed(1)}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(${-ax} ${-ay})`}>
       <RigView rig={rig} frame={frame} fps={fps} pose={pose} tracks={actor.tracks} variants={variants} />
     </g>
+    </>
   );
 };

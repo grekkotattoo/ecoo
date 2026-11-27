@@ -1,40 +1,128 @@
 {
   "_doc": "Biblia visual PERMANENTE de la serie. Todo episodio la hereda. Cambios = nueva versión (version++) y quedan en CHANGELOG.",
-  "version": 1,
-  "name": "Underground Cartoon Adulto",
+  "version": 2,
+  "name": "Cartoon Adulto Premium",
   "illustration": {
-    "description": "Cartoon adulto 2D, influencia de cómic underground: contornos gruesos irregulares, sombras planas duras (cel), texturas de papel y trama, colores cinematográficos desaturados con acentos ácidos. Caricatura expresiva, proporciones exageradas. Nada infantil, nada 3D, nada fotorrealista.",
-    "forbidden": ["3D", "fotografía", "metraje real", "fotorrealismo", "estética infantil", "degradados plásticos", "zoom sobre imagen fija como sustituto de animación"]
+    "description": "Cartoon adulto premium 2D de calidad streaming: colores saturados y armónicos, iluminación cinematográfica (luz cálida arriba-izquierda, sombras de color violeta frío, luz de borde), línea de grosor variable (más gruesa en el lado de sombra, pinceladas afiladas en detalles), caras muy expresivas con ojos brillantes, fondos ricos con profundidad atmosférica. Nada infantil, nada 3D, nada fotorrealista.",
+    "forbidden": [
+      "3D",
+      "fotografía",
+      "metraje real",
+      "fotorrealismo",
+      "estética infantil",
+      "degradados plásticos",
+      "zoom sobre imagen fija como sustituto de animación"
+    ]
   },
   "palette": {
-    "paper": "#efe3c8",
-    "ink": "#1d1a17",
-    "shadow": "#3a2f2a",
-    "accent": "#ffd23f",
-    "acid": "#b6e03a",
-    "blood": "#d7263d",
-    "night": "#23395b",
-    "teal": "#1b998b",
-    "skin_light": "#f2c9a0",
-    "skin_mid": "#d49a6a",
-    "skin_dark": "#8d5a3b",
-    "creature": "#9bc26b"
+    "paper": "#fff4e0",
+    "ink": "#1b1424",
+    "shadow": "#2a1d4f",
+    "accent": "#ffb703",
+    "acid": "#9ef01a",
+    "blood": "#e63946",
+    "night": "#1d3557",
+    "teal": "#2ec4b6",
+    "sky": "#8ecae6",
+    "warm": "#fb8500",
+    "pink": "#ff5d8f",
+    "purple": "#7b2cbf",
+    "skin_light": "#f6c49d",
+    "skin_mid": "#d99a6c",
+    "skin_dark": "#8d5524",
+    "creature": "#80ed99"
   },
-  "outline": {"color": "#1d1a17", "width": 6, "jitter": 1.6, "join": "round"},
-  "shading": {"type": "cel", "shadow_opacity": 0.28, "shadow_offset": [-10, 8], "highlight": false},
-  "texture": {"grain": 0.55, "boil": 0.35, "boil_fps": 8, "vignette": 0.35},
+  "outline": {
+    "color": "#1b1424",
+    "width": 6,
+    "jitter": 0.6,
+    "join": "round",
+    "variable_weight": true
+  },
+  "shading": {
+    "type": "cel-3-tonos",
+    "shadow_tint": "#3b2a6b",
+    "core_tint": "#2a1d4f",
+    "rim_light": "#ffe9b8",
+    "light_dir": "arriba-izquierda"
+  },
+  "texture": {
+    "grain": 0.22,
+    "boil": 0.12,
+    "boil_fps": 8,
+    "vignette": 0.16,
+    "grade": {
+      "top": "#ffcf8b",
+      "top_opacity": 0.1,
+      "bottom": "#5a3d9a",
+      "bottom_opacity": 0.1
+    }
+  },
   "typography": {
-    "title": {"family": "Bangers", "file": "library/fonts/Bangers.woff", "license": "OFL-1.1"},
-    "subtitle": {"family": "Luckiest Guy", "file": "library/fonts/LuckiestGuy.woff", "license": "Apache-2.0"},
-    "subtitle_style": {"size": 66, "y": 0.70, "color": "#ffffff", "stroke": "#1d1a17", "max_chars": 30}
+    "title": {
+      "family": "Bangers",
+      "file": "library/fonts/Bangers.woff",
+      "license": "OFL-1.1"
+    },
+    "subtitle": {
+      "family": "Luckiest Guy",
+      "file": "library/fonts/LuckiestGuy.woff",
+      "license": "Apache-2.0"
+    },
+    "subtitle_style": {
+      "size": 66,
+      "y": 0.7,
+      "color": "#ffffff",
+      "stroke": "#1b1424",
+      "max_chars": 30
+    }
   },
   "composition": {
     "aspect": "9:16",
-    "safe_area": {"top": 0.10, "bottom": 0.20, "sides": 0.06},
-    "rules": ["Personaje principal en tercio central", "Subtítulos entre 62% y 78% de altura", "Fondos con 3+ capas de profundidad para parallax", "Siempre algo animado en el plano además de la cámara"]
+    "safe_area": {
+      "top": 0.1,
+      "bottom": 0.2,
+      "sides": 0.06
+    },
+    "rules": [
+      "Personaje principal en tercio central",
+      "Subtítulos entre 62% y 78% de altura",
+      "Fondos con 3+ capas de profundidad para parallax",
+      "Siempre algo animado en el plano además de la cámara"
+    ]
   },
-  "lighting": {"default": "dramática lateral", "moods": {"normal": "#ffffff00", "noche": "#23395b55", "infierno": "#d7263d44", "absurdo": "#b6e03a33"}},
-  "expressiveness": {"squash_stretch": true, "anticipation": true, "overshoot": true, "smear_frames": false, "blink": true},
-  "proportions": {"head_to_body": [0.35, 0.6], "height_range": [0.75, 1.35], "hands": "manoplas de 4 dedos", "eyes": "grandes y separados, pupila pequeña"},
-  "title_card": {"kicker": "¿QUÉ PASARÍA SI...?", "bg": "#1d1a17"}
+  "lighting": {
+    "default": "cálida cinematográfica",
+    "moods": {
+      "normal": "#ffffff00",
+      "noche": "#1d355766",
+      "infierno": "#e6394644",
+      "absurdo": "#9ef01a2a",
+      "dorado": "#ffb70333"
+    }
+  },
+  "expressiveness": {
+    "squash_stretch": true,
+    "anticipation": true,
+    "overshoot": true,
+    "smear_frames": false,
+    "blink": true
+  },
+  "proportions": {
+    "head_to_body": [
+      0.35,
+      0.6
+    ],
+    "height_range": [
+      0.75,
+      1.35
+    ],
+    "hands": "manoplas de 4 dedos",
+    "eyes": "grandes y separados, pupila pequeña"
+  },
+  "title_card": {
+    "kicker": "¿QUÉ PASARÍA SI...?",
+    "bg": "#1b1424",
+    "accent": "#ffb703"
+  }
 }

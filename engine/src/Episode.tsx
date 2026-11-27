@@ -43,7 +43,23 @@ export const Defs: React.FC<{style: Style; f: number}> = ({style, f}) => {
 /** Grano de papel + viñeta. Sin mix-blend-mode (provocaba parpadeo en el render). */
 export const Overlay: React.FC<{style: Style; w: number; h: number}> = ({style, w, h}) => (
   <svg width={w} height={h} style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}>
-    {style.grain > 0 ? <rect width={w} height={h} filter="url(#grain)" opacity={style.grain * 0.18} /> : null}
+    {style.grade ? (
+      <>
+        <defs>
+          <linearGradient id="gradeTop" x1="0" y1="0" x2="0.35" y2="1">
+            <stop offset="0" stopColor={style.grade.top} stopOpacity={style.grade.topOpacity * 2.2} />
+            <stop offset="0.55" stopColor={style.grade.top} stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id="gradeBottom" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stopColor={style.grade.bottom} stopOpacity={style.grade.bottomOpacity * 2.2} />
+            <stop offset="0.45" stopColor={style.grade.bottom} stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <rect width={w} height={h} fill="url(#gradeTop)" />
+        <rect width={w} height={h} fill="url(#gradeBottom)" />
+      </>
+    ) : null}
+    {style.grain > 0 ? <rect width={w} height={h} filter="url(#grain)" opacity={style.grain * 0.12} /> : null}
     {style.vignette > 0 ? <rect width={w} height={h} fill="url(#vignette)" opacity={style.vignette} /> : null}
   </svg>
 );
@@ -53,16 +69,34 @@ const TitleCard: React.FC<{shot: Shot; f: number; style: Style; w: number; h: nu
   const s1 = ease('back', f / 12);
   const s2 = ease('back', (f - 8) / 12);
   const wob = Math.sin(f * 0.15) * 1.5;
+  const rays = Array.from({length: 18}, (_, i) => {
+    const a0 = (i / 18) * Math.PI * 2 + f * 0.004;
+    const a1 = a0 + Math.PI / 18;
+    const R = 2000;
+    return `M${w / 2},${h / 2} L${w / 2 + Math.cos(a0) * R},${h / 2 + Math.sin(a0) * R} L${w / 2 + Math.cos(a1) * R},${h / 2 + Math.sin(a1) * R} Z`;
+  }).join(' ');
+  const acc = style.palette.accent ?? '#ffb703';
   return (
     <AbsoluteFill style={{background: shot.bgColor ?? style.palette.ink ?? '#1d1a17', alignItems: 'center', justifyContent: 'center', padding: 80}}>
+      <svg width={w} height={h} style={{position: 'absolute', inset: 0}}>
+        <defs>
+          <radialGradient id="titleGlow" cx="50%" cy="50%" r="60%">
+            <stop offset="0" stopColor={style.palette.purple ?? '#7b2cbf'} stopOpacity={0.9} />
+            <stop offset="1" stopColor={shot.bgColor ?? style.palette.ink ?? '#000'} stopOpacity={1} />
+          </radialGradient>
+        </defs>
+        <rect width={w} height={h} fill="url(#titleGlow)" />
+        <path d={rays} fill={acc} opacity={0.09} />
+      </svg>
       {t.kicker ? (
-        <div style={{fontFamily: style.fonts.title, fontSize: 92, color: style.palette.accent ?? '#ffd23f', transform: `scale(${s1}) rotate(${-4 + wob}deg)`, textAlign: 'center',
+        <div style={{fontFamily: style.fonts.title, fontSize: 92, color: acc, transform: `scale(${s1}) rotate(${-4 + wob}deg)`, textAlign: 'center',
           WebkitTextStroke: `6px ${style.palette.ink ?? '#1d1a17'}`, paintOrder: 'stroke fill', textShadow: `8px 8px 0 ${style.palette.shadow ?? '#000'}`}}>
           {t.kicker}
         </div>
       ) : null}
-      <div style={{fontFamily: style.fonts.title, fontSize: 104, lineHeight: 1.05, color: style.palette.paper ?? '#f3e9d2', marginTop: 40, textAlign: 'center',
-        transform: `scale(${Math.max(0, s2)})`, textShadow: `6px 6px 0 ${style.palette.shadow ?? '#000'}`}}>
+      <div style={{fontFamily: style.fonts.title, fontSize: 112, lineHeight: 1.02, color: '#ffffff', marginTop: 40, textAlign: 'center', position: 'relative',
+        transform: `scale(${Math.max(0, s2)}) rotate(-2deg)`, WebkitTextStroke: `5px ${style.palette.ink ?? '#000'}`, paintOrder: 'stroke fill',
+        textShadow: `0 8px 0 ${style.palette.pink ?? '#ff5d8f'}, 0 14px 0 ${style.palette.ink ?? '#000'}`}}>
         {t.text}
       </div>
       {t.sub ? <div style={{fontFamily: style.fonts.subtitle, fontSize: 48, color: style.palette.paper ?? '#fff', marginTop: 30, opacity: Math.max(0, Math.min(1, (f - 18) / 10))}}>{t.sub}</div> : null}

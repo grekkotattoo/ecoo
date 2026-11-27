@@ -144,9 +144,9 @@ def humor(d: Any) -> dict:
 def character_params(p: dict, ctx: str) -> dict:
     out = {k: _enum(p.get(k), v, f"{ctx}.{k}", v[0]) for k, v in CHAR_ENUMS.items()}
     out.update({
-        "skin": _color(p.get("skin"), "#f2c9a0"), "hair_color": _color(p.get("hair_color"), "#1d1a17"),
-        "top_color": _color(p.get("top_color"), "#d7263d"), "bottom_color": _color(p.get("bottom_color"), "#23395b"),
-        "accent_color": _color(p.get("accent_color"), "#ffd23f"),
+        "skin": _color(p.get("skin"), "#f6c49d"), "hair_color": _color(p.get("hair_color"), "#2b2d42"),
+        "top_color": _color(p.get("top_color"), "#e63946"), "bottom_color": _color(p.get("bottom_color"), "#1d3557"),
+        "accent_color": _color(p.get("accent_color"), "#ffb703"), "eye_color": _color(p.get("eye_color"), "#3f88c5"),
         "height": _num(p.get("height"), 0.75, 1.35, 1.0), "head_scale": _num(p.get("head_scale"), 0.8, 1.6, 1.15),
         "width": _num(p.get("width"), 0.7, 1.5, 1.0),
         "accessories": [a for a in p.get("accessories", []) if a in ACCESSORIES][:4],

@@ -63,3 +63,71 @@ def engine_selftest(out_dir: Path | None = None, seconds_per_shot: float = 1.5) 
     res["files"] = {"final": str(final), "still": str(out / "still.png"), "contact": str(out / "contact.png")}
     append_jsonl(P.state / "benchmarks.jsonl", {k: res[k] for k in ("ts", "frames", "bundle_s", "still_s", "render_cached_s")} | {"render": stats})
     return res
+
+
+def style_sample(out_dir: Path | None = None) -> dict:
+    """Muestra del acabado visual con personajes y escenarios GENÉRICOS (no son contenido de la serie).
+    Sirve para evaluar/ajustar la biblia visual. Salida: data/cache/style_sample/."""
+    from . import schemas
+    from .backgrounds import build_background
+    from .rigs import EXPRESSION_PRESETS, build_rig
+    P = paths()
+    out = out_dir or (P.cache / "style_sample")
+    out.mkdir(parents=True, exist_ok=True)
+    st = read_json(P.config / "style_bible.json")
+    v = load_config()["video"]["primary"]
+    specs = [
+        ("muestra_a", "Muestra A", {"body": "pear", "head": "egg", "hair": "bald_ring", "eyes": "big", "nose": "long", "outfit": "suit", "skin": "#f6c49d",
+                                    "hair_color": "#3d2c2e", "top_color": "#2b59c3", "bottom_color": "#1d3557", "accent_color": "#ffb703", "eye_color": "#2a9d8f",
+                                    "head_scale": 1.3, "accessories": ["tie", "mustache", "glasses"], "seed": 4}),
+        ("muestra_b", "Muestra B", {"body": "skinny", "head": "oval", "hair": "bob", "eyes": "big", "nose": "pointy", "outfit": "dress", "skin": "#d99a6c",
+                                    "hair_color": "#e63946", "top_color": "#7b2cbf", "bottom_color": "#3c096c", "accent_color": "#9ef01a", "eye_color": "#7b2cbf",
+                                    "height": 1.15, "head_scale": 1.25, "accessories": ["earring"], "seed": 9}),
+        ("muestra_c", "Muestra C", {"body": "round", "head": "square", "hair": "spiky", "eyes": "wild", "nose": "round", "outfit": "tank", "skin": "#80ed99",
+                                    "hair_color": "#fb8500", "top_color": "#ff5d8f", "bottom_color": "#264653", "accent_color": "#ffb703", "eye_color": "#e63946",
+                                    "species": "creature", "height": 0.9, "head_scale": 1.45, "accessories": ["horns"], "seed": 21}),
+    ]
+    rigs = {cid: build_rig(cid, name, schemas.character_params(p, cid), st) for cid, name, p in specs}
+    locs = schemas.art_direction({"locations": [
+        {"id": "muestra_interior", "name": "Interior", "description": "x", "type": "interior", "sky": "#2ec4b6", "ground": "#8a5a44", "accent": "#ffb703", "horizon": 0.66,
+         "elements": [{"kind": "window", "x": 0.25, "y": 0.33, "scale": 1.0, "depth": 0.5}, {"kind": "frame", "x": 0.72, "y": 0.3, "scale": 0.9, "color": "#e63946", "depth": 0.5},
+                      {"kind": "lamp", "x": 0.55, "y": 0.12, "scale": 1.1, "depth": 0.6}, {"kind": "shelf", "x": 0.85, "y": 0.45, "scale": 0.9, "depth": 0.55},
+                      {"kind": "plant", "x": 0.06, "y": 0.6, "scale": 1.1, "color": "#2d6a4f", "depth": 0.9}, {"kind": "table", "x": 0.82, "y": 0.6, "scale": 0.9, "color": "#b5651d", "depth": 0.95}]},
+        {"id": "muestra_exterior", "name": "Exterior", "description": "x", "type": "city", "sky": "#ff9e6d", "ground": "#6a994e", "accent": "#ffb703", "horizon": 0.7,
+         "elements": [{"kind": "sun", "x": 0.7, "y": 0.22, "scale": 1.1, "color": "#ffd166", "depth": 0.1}, {"kind": "mountain", "x": 0.2, "y": 0.6, "scale": 1.2, "color": "#7b5ea7", "depth": 0.15},
+                      {"kind": "building", "x": 0.1, "y": 0.6, "scale": 1.0, "color": "#457b9d", "depth": 0.3}, {"kind": "building", "x": 0.9, "y": 0.6, "scale": 0.8, "color": "#e76f51", "depth": 0.3},
+                      {"kind": "cloud", "x": 0.35, "y": 0.15, "depth": 0.2}, {"kind": "tree", "x": 0.85, "y": 0.6, "scale": 1.1, "color": "#2d6a4f", "depth": 0.6},
+                      {"kind": "sign", "x": 0.15, "y": 0.58, "scale": 0.8, "color": "#ffb703", "text": "BAR", "depth": 0.8}, {"kind": "bush", "x": 0.5, "y": 0.7, "scale": 1.0, "color": "#40916c", "depth": 1.1}]}]})["locations"]
+    bgs = {l["id"]: build_background(l, st, seed=5) for l in locs}
+    ep = {"id": "EP000", "title": "MUESTRA DE ESTILO", "question": "¿Qué pasaría si esto fuera una muestra de estilo?", "test": True}
+    sb = {"shots": [
+        {"id": "s01", "location": "muestra_interior", "framing": "medium", "camera": "static", "transition": "cut", "effects": [], "text_pop": "",
+         "actors": [{"character": "muestra_a", "position": "left", "facing": "right", "actions": [], "expression": "smug"},
+                    {"character": "muestra_b", "position": "right", "facing": "left", "actions": [], "expression": "surprised"}],
+         "lines": ["l01"], "seconds": 2, "description": "x", "key_image": True},
+        {"id": "s02", "location": "muestra_exterior", "framing": "medium", "camera": "static", "transition": "cut", "effects": [], "text_pop": "",
+         "actors": [{"character": "muestra_c", "position": "center", "facing": "right", "actions": ["point"], "expression": "crazy"}],
+         "lines": ["l02"], "seconds": 2, "description": "x", "key_image": True}]}
+    script = {"beats": [{"id": "b1", "location": "muestra_interior", "action": "", "lines": [
+        {"id": "l01", "speaker": "muestra_b", "text": "Muestra de subtítulo", "emotion": "surprised"},
+        {"id": "l02", "speaker": "muestra_c", "text": "Otra línea de muestra", "emotion": "crazy"}]}]}
+    la = {"l01": {"duration": 1.5, "file": None, "visemes": [{"f": 0, "v": "D"}]}, "l02": {"duration": 1.5, "file": None, "visemes": [{"f": 0, "v": "C"}]}}
+    spec, _ = timeline.build_spec(ep, sb, script, rigs, bgs, st, la, v["fps"], v["width"], v["height"])
+    files = []
+    for s in spec["shots"][1:3]:
+        f = out / f"escena_{s['id']}.png"
+        render.still({"spec": spec}, "Episode", f, s["start"] + 30)
+        files.append(str(f))
+    f = out / "cartela.png"
+    render.still({"spec": spec}, "Episode", f, 40)
+    files.append(str(f))
+    from .pipeline import ES_LABEL
+    for cid, rig in rigs.items():
+        sheet = {"style": timeline.style_props(st), "rig": rig, "width": 1080, "height": 1920, "title": rig["name"],
+                 "expressions": [{"label": ES_LABEL[k], "set": EXPRESSION_PRESETS[k]} for k in ES_LABEL],
+                 "poses": [{"label": "saludo", "tracks": {"armR_up.rot": -150, "armR_lo.rot": -20}}, {"label": "señala", "tracks": {"armR_up.rot": -95}},
+                           {"label": "encogido", "tracks": {"armL_up.rot": 35, "armR_up.rot": -35, "armL_lo.rot": -80, "armR_lo.rot": 80}}]}
+        f = out / f"hoja_{cid}.png"
+        render.still({"sheet": sheet}, "CharacterSheet", f)
+        files.append(str(f))
+    return {"files": files}

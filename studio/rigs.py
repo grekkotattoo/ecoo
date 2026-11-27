@@ -1,12 +1,18 @@
-"""Constructor paramétrico de rigs 2D (personajes por piezas).
+"""Constructor paramétrico de rigs 2D — estilo CARTOON ADULTO PREMIUM (v2).
 
-Entrada: parámetros validados (schemas.character_params) + biblia visual.
-Salida: rig JSON (piezas SVG con pivotes, jerarquía, orden z, variantes de ojos/cejas/boca).
-Trazo con temblor de "dibujado a mano" determinista (seed), sombra cel recortada, contorno grueso.
-Esqueleto estándar compatible con engine/src/rig/actions.ts.
+Técnicas de acabado profesional, todo vectorial y animable por piezas:
+- Línea de grosor variable: contorno fino en el lado iluminado y engrosado en el lado de sombra;
+  líneas interiores como pinceladas afiladas (brush) que se estrechan en las puntas.
+- Iluminación de 3 niveles: degradado base (luz arriba-izquierda), sombra cel y sombra núcleo,
+  luz de borde (rim light) de color y brillos especulares.
+- Cara detallada: ojos con iris degradado, pupila, doble brillo, párpados y pestañas; rubor,
+  nariz con volumen, boca con interior, dientes y lengua (visemas A–H, X).
+- Manos de 4 dedos, zapatos con suela, pliegues de ropa, pelo con mechones y reflejos.
+Esqueleto estándar compatible con engine/src/rig/actions.ts. Determinista por `seed`.
 """
 from __future__ import annotations
 
+import hashlib
 import math
 import random
 
@@ -28,22 +34,64 @@ EXPRESSION_PRESETS = {
 VISEMES = ["A", "B", "C", "D", "E", "F", "G", "H", "X"]
 
 
-def _shade(hex_color: str, k: float) -> str:
-    h = hex_color.lstrip("#")
-    r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
-    f = (lambda c: max(0, min(255, int(c * k)))) if k < 1 else (lambda c: max(0, min(255, int(c + (255 - c) * (k - 1)))))
-    return "#%02x%02x%02x" % (f(r), f(g), f(b))
+# ------------------------------------------------------------------ color
 
+def _rgb(h: str) -> tuple[int, int, int]:
+    h = h.lstrip("#")
+    return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+
+
+def _hex(r, g, b) -> str:
+    return "#%02x%02x%02x" % tuple(max(0, min(255, int(round(v)))) for v in (r, g, b))
+
+
+def _shade(hex_color: str, k: float) -> str:
+    """k<1 oscurece, k>1 aclara (hacia blanco)."""
+    r, g, b = _rgb(hex_color)
+    if k < 1:
+        return _hex(r * k, g * k, b * k)
+    t = k - 1
+    return _hex(r + (255 - r) * t, g + (255 - g) * t, b + (255 - b) * t)
+
+
+def mix(a: str, b: str, t: float) -> str:
+    ra, ga, ba = _rgb(a)
+    rb, gb, bb = _rgb(b)
+    return _hex(ra + (rb - ra) * t, ga + (gb - ga) * t, ba + (bb - ba) * t)
+
+
+def shadow_of(c: str) -> str:
+    """Sombra de color (no gris): oscurece y desplaza hacia violeta frío — look de animación premium."""
+    return mix(_shade(c, 0.70), "#3b2a6b", 0.22)
+
+
+def core_of(c: str) -> str:
+    return mix(_shade(c, 0.52), "#2a1d4f", 0.30)
+
+
+def light_of(c: str) -> str:
+    return mix(_shade(c, 1.18), "#fff1c9", 0.18)
+
+
+RIM = "#ffe9b8"
+
+
+# ------------------------------------------------------------------ pluma
 
 class Pen:
-    """Geometría con temblor de línea determinista."""
+    """Geometría y acabado. `uid` hace únicos los ids de degradados/recortes de cada rig/escenario."""
 
-    def __init__(self, seed: int, jitter: float, ink: str, width: float):
+    def __init__(self, seed: int, jitter: float, ink: str, width: float, uid: str = "p"):
         self.rng = random.Random(seed)
         self.j = jitter
         self.ink = ink
         self.w = width
-        self.uid = 0
+        self.uid = uid
+        self.n = 0
+
+    def nid(self, kind: str) -> str:
+        self.n += 1
+        return f"{self.uid}{kind}{self.n}"
 
     def jit(self, v: float, amt: float = 1.0) -> float:
         return v + (self.rng.random() - 0.5) * 2 * self.j * amt
@@ -70,61 +118,126 @@ class Pen:
         for i in range(n):
             a = (i / n) * math.tau - math.pi / 2
             c, s = math.cos(a), math.sin(a)
-            if square > 0:  # superelipse
+            if square > 0:
                 e = 2 / (2 + square * 6)
                 c = math.copysign(abs(c) ** e, c)
                 s = math.copysign(abs(s) ** e, s)
             ky = top_squash if s < 0 else bottom_bulge
-            pts.append((self.jit(cx + c * rx), self.jit(cy + s * ry * ky)))
+            pts.append((self.jit(cx + c * rx, 0.5), self.jit(cy + s * ry * ky, 0.5)))
         return pts
 
-    def limb(self, x1, y1, x2, y2, w1, w2) -> list:
+    def limb(self, x1, y1, x2, y2, w1, w2, bulge=1.06) -> list:
         ang = math.atan2(y2 - y1, x2 - x1)
         nx, ny = -math.sin(ang), math.cos(ang)
-        pts = [(x1 + nx * w1 / 2, y1 + ny * w1 / 2), ((x1 + x2) / 2 + nx * (w1 + w2) / 4, (y1 + y2) / 2 + ny * (w1 + w2) / 4),
-               (x2 + nx * w2 / 2, y2 + ny * w2 / 2), (x2 + math.cos(ang) * w2 / 2, y2 + math.sin(ang) * w2 / 2),
-               (x2 - nx * w2 / 2, y2 - ny * w2 / 2), ((x1 + x2) / 2 - nx * (w1 + w2) / 4, (y1 + y2) / 2 - ny * (w1 + w2) / 4),
-               (x1 - nx * w1 / 2, y1 - ny * w1 / 2), (x1 - math.cos(ang) * w1 / 2, y1 - math.sin(ang) * w1 / 2)]
-        return [(self.jit(x, 0.6), self.jit(y, 0.6)) for x, y in pts]
+        ux, uy = math.cos(ang), math.sin(ang)
+        mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+        wm = (w1 + w2) / 2 * bulge
+        pts = [(x1 + nx * w1 / 2, y1 + ny * w1 / 2), (mx + nx * wm / 2, my + ny * wm / 2), (x2 + nx * w2 / 2, y2 + ny * w2 / 2),
+               (x2 + ux * w2 * 0.45, y2 + uy * w2 * 0.45),
+               (x2 - nx * w2 / 2, y2 - ny * w2 / 2), (mx - nx * wm / 2, my - ny * wm / 2), (x1 - nx * w1 / 2, y1 - ny * w1 / 2),
+               (x1 - ux * w1 * 0.45, y1 - uy * w1 * 0.45)]
+        return [(self.jit(x, 0.3), self.jit(y, 0.3)) for x, y in pts]
 
-    def shape(self, pts, fill, shadow=True, sw=None, closed=True, shadow_dx=-14, shadow_dy=10) -> str:
-        d = self.smooth(pts, closed)
+    @staticmethod
+    def bbox(pts):
+        xs = [p[0] for p in pts]
+        ys = [p[1] for p in pts]
+        return min(xs), min(ys), max(xs), max(ys)
+
+    def shape(self, pts, fill, shadow=True, sw=None, closed=True, rim=True, weight=True, gloss=False, flat=False) -> str:
+        """Forma con acabado completo: degradado, sombra cel + núcleo, rim light, línea variable."""
+        d = self.smooth(pts, closed) if len(pts) > 5 else ("M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts) + (" Z" if closed else ""))
         sw = self.w if sw is None else sw
-        out = ""
-        if shadow and fill != "none":
-            self.uid += 1
-            cid = f"c{self.rng.randrange(1 << 30):x}{self.uid}"
-            # sombra cel: forma oscura completa + forma clara desplazada, ambas recortadas a la silueta
-            out += (f'<clipPath id="{cid}"><path d="{d}"/></clipPath>'
-                    f'<g clip-path="url(#{cid})"><path d="{d}" fill="{_shade(fill, 0.68)}"/>'
-                    f'<path d="{d}" fill="{fill}" transform="translate({shadow_dx:.1f} {-shadow_dy:.1f})"/></g>')
-            out += f'<path d="{d}" fill="none" stroke="{self.ink}" stroke-width="{sw}" stroke-linejoin="round" stroke-linecap="round"/>'
-        else:
-            out += f'<path d="{d}" fill="{fill}" stroke="{self.ink}" stroke-width="{sw}" stroke-linejoin="round" stroke-linecap="round"/>'
+        if not shadow or flat:
+            stroke = f' stroke="{self.ink}" stroke-width="{sw}" stroke-linejoin="round" stroke-linecap="round"' if sw else ""
+            return f'<path d="{d}" fill="{fill}"{stroke}/>'
+        x0, y0, x1, y1 = self.bbox(pts)
+        w, h = max(1, x1 - x0), max(1, y1 - y0)
+        g, c, r = self.nid("g"), self.nid("c"), self.nid("r")
+        out = (f'<defs><linearGradient id="{g}" x1="0" y1="0" x2="1" y2="1">'
+               f'<stop offset="0" stop-color="{light_of(fill)}"/><stop offset="0.55" stop-color="{fill}"/><stop offset="1" stop-color="{_shade(fill, 0.93)}"/></linearGradient>'
+               f'<linearGradient id="{r}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{RIM}" stop-opacity="0.95"/>'
+               f'<stop offset="0.35" stop-color="{RIM}" stop-opacity="0"/></linearGradient>'
+               f'<clipPath id="{c}"><path d="{d}"/></clipPath></defs>')
+        # sombra cel (lado inferior-derecho) + núcleo de sombra más profundo
+        out += (f'<g clip-path="url(#{c})"><path d="{d}" fill="{core_of(fill)}"/>'
+                f'<path d="{d}" fill="{shadow_of(fill)}" transform="translate({-w * 0.07:.1f} {-h * 0.05:.1f})"/>'
+                f'<path d="{d}" fill="url(#{g})" transform="translate({-w * 0.17:.1f} {-h * 0.11:.1f})"/>')
+        if gloss:
+            out += f'<ellipse cx="{x0 + w * 0.32:.1f}" cy="{y0 + h * 0.22:.1f}" rx="{w * 0.16:.1f}" ry="{h * 0.08:.1f}" fill="#ffffff" opacity="0.35" transform="rotate(-25 {x0 + w * 0.32:.1f} {y0 + h * 0.22:.1f})"/>'
+        if rim:
+            out += f'<path d="{d}" fill="none" stroke="url(#{r})" stroke-width="{max(4, sw * 1.4):.1f}"/>'
+        out += "</g>"
+        # línea: fina en general + engrosada en el lado de sombra (abajo-derecha)
+        out += f'<path d="{d}" fill="none" stroke="{self.ink}" stroke-width="{sw * 0.8:.1f}" stroke-linejoin="round" stroke-linecap="round"/>'
+        if weight:
+            k = self.nid("k")
+            cx, cy = x0 + w / 2, y0 + h / 2
+            out += (f'<defs><clipPath id="{k}"><path d="M{cx - w:.0f},{cy + h * 1.6:.0f} L{cx + w * 1.6:.0f},{cy - h:.0f} L{cx + w * 2:.0f},{cy + h * 2:.0f} Z"/></clipPath></defs>'
+                    f'<path d="{d}" fill="none" stroke="{self.ink}" stroke-width="{sw * 1.9:.1f}" stroke-linejoin="round" clip-path="url(#{k})"/>')
         return out
 
-    def line(self, pts, sw=None, color=None) -> str:
-        jp = [(self.jit(x, 0.5), self.jit(y, 0.5)) for x, y in pts]
-        return f'<path d="{self.smooth(jp, closed=False)}" fill="none" stroke="{color or self.ink}" stroke-width="{sw or self.w}" stroke-linecap="round" stroke-linejoin="round"/>'
+    def brush(self, pts, w=None, color=None, taper=(0.15, 0.15), opacity=1.0) -> str:
+        """Pincelada afilada (grosor variable) a lo largo de una polilínea suave."""
+        w = self.w if w is None else w
+        pts = [(self.jit(x, 0.35), self.jit(y, 0.35)) for x, y in pts]
+        # densifica con Catmull-Rom
+        dense = []
+        n = len(pts)
+        for i in range(n - 1):
+            p0, p1, p2, p3 = pts[max(0, i - 1)], pts[i], pts[i + 1], pts[min(n - 1, i + 2)]
+            for t in [k / 6 for k in range(6)]:
+                t2, t3 = t * t, t * t * t
+                dense.append(tuple(0.5 * ((2 * p1[j]) + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 +
+                                          (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3) for j in (0, 1)))
+        dense.append(pts[-1])
+        m = len(dense)
+        left, right = [], []
+        for i, (x, y) in enumerate(dense):
+            a = dense[max(0, i - 1)]
+            b = dense[min(m - 1, i + 1)]
+            ang = math.atan2(b[1] - a[1], b[0] - a[0])
+            u = i / max(1, m - 1)
+            k = min(1.0, u / taper[0] if taper[0] else 1, (1 - u) / taper[1] if taper[1] else 1)
+            hw = max(0.4, w / 2 * (0.25 + 0.75 * math.sin(min(1.0, k) * math.pi / 2)))
+            nx, ny = -math.sin(ang) * hw, math.cos(ang) * hw
+            left.append((x + nx, y + ny))
+            right.append((x - nx, y - ny))
+        poly = left + right[::-1]
+        dpath = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in poly) + " Z"
+        op = f' opacity="{opacity}"' if opacity < 1 else ""
+        return f'<path d="{dpath}" fill="{color or self.ink}"{op}/>'
 
+    def line(self, pts, sw=None, color=None) -> str:
+        return self.brush(pts, (sw or self.w) * 1.1, color, (0.25, 0.25))
+
+
+def _uid(char_id: str, seed) -> str:
+    return "r" + hashlib.sha1(f"{char_id}:{seed}".encode()).hexdigest()[:6]
+
+
+# ------------------------------------------------------------------ personaje
 
 def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -> dict:
     ink = style["outline"]["color"]
-    pen = Pen(p.get("seed", 7), style["outline"].get("jitter", 1.5), ink, style["outline"]["width"])
+    lw = style["outline"]["width"]
+    pen = Pen(p.get("seed", 7), style["outline"].get("jitter", 1.0), ink, lw, _uid(char_id, p.get("seed", 7)))
     h, hs, wf = p["height"], p["head_scale"], p["width"]
     cx = W / 2
     footY = ANCHOR[1]
-    legL = 190 * h
+    legL = 185 * h
     hipY = footY - legL
-    torsoH = 215 * h
+    torsoH = 205 * h
     shY = hipY - torsoH
-    R = 92 * hs
-    headCy = shY - R * 0.78
-    bw = {"pear": 1.0, "round": 1.25, "tall": 0.85, "stocky": 1.2, "blob": 1.35, "skinny": 0.7}[p["body"]] * wf
-    tw = 85 * bw
+    R = 96 * hs
+    headCy = shY - R * 0.80
+    bw = {"pear": 1.0, "round": 1.25, "tall": 0.85, "stocky": 1.2, "blob": 1.35, "skinny": 0.72}[p["body"]] * wf
+    tw = 82 * bw
     skin, top, bottom, accent, hairc = p["skin"], p["top_color"], p["bottom_color"], p["accent_color"], p["hair_color"]
+    eye_col = p.get("eye_color", "#3f88c5")
     if p["species"] == "robot":
-        skin = "#9aa5b1"
+        skin = "#b8c4d0"
+    blush = mix(skin, "#ff5a6e", 0.45)
     parts: list[dict] = []
 
     def part(pid, parent, pivot, z, svg=None, variants=None, default=None):
@@ -136,248 +249,364 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
             d["defaultVariant"] = default
         parts.append(d)
 
-    # --- piernas (z bajo el torso)
+    # ---------------- piernas + zapatos
+    shoe = _shade(ink, 1.25) if p["outfit"] != "robe" else "#5b3a29"
     for side, sx, z in (("L", -1, 2), ("R", 1, 3)):
-        hx = cx + sx * tw * 0.45
+        hx = cx + sx * tw * 0.42
         kneeY = hipY + legL * 0.5
-        thick = 46 * min(1.3, bw)
-        up = pen.shape(pen.limb(hx, hipY - 10, hx, kneeY, thick, thick * 0.85), bottom)
-        shoe_pts = pen.blob(hx + sx * 22, footY - 16, 46, 20, n=10, square=0.4)
-        lo = pen.shape(pen.limb(hx, kneeY, hx, footY - 20, thick * 0.85, thick * 0.7), bottom) + pen.shape(shoe_pts, ink if p["outfit"] != "robe" else "#3a2f2a", shadow=False)
+        thick = 44 * min(1.3, bw)
+        up = pen.shape(pen.limb(hx, hipY - 12, hx + sx * 2, kneeY, thick, thick * 0.86), bottom)
+        lo = pen.shape(pen.limb(hx + sx * 2, kneeY, hx, footY - 22, thick * 0.86, thick * 0.72), bottom)
+        lo += pen.brush([(hx - 10, kneeY - 4), (hx + 2, kneeY + 6), (hx + 12, kneeY - 2)], 3.5, shadow_of(bottom))  # pliegue rodilla
+        sole = [(hx - 30 + sx * 6, footY - 6), (hx + sx * 58, footY - 6), (hx + sx * 60, footY + 4), (hx - 32 + sx * 6, footY + 4)]
+        upper = pen.blob(hx + sx * 20, footY - 22, 44, 22, n=12, square=0.25, bottom_bulge=0.6)
+        lo += pen.shape(sole, _shade(shoe, 0.6), shadow=False, sw=lw * 0.7) + pen.shape(upper, shoe, gloss=True)
         part(f"leg{side}_up", "torso", (hx, hipY), z, up)
         part(f"leg{side}_lo", f"leg{side}_up", (hx, kneeY), z, lo)
 
-    # --- torso
+    # ---------------- torso + ropa
     body = p["body"]
     if body in ("round", "blob"):
-        tpts = pen.blob(cx, (shY + hipY) / 2 + 10, tw, torsoH * 0.6, n=14, bottom_bulge=1.1)
+        tpts = pen.blob(cx, (shY + hipY) / 2 + 12, tw, torsoH * 0.6, n=16, bottom_bulge=1.08)
     elif body == "pear":
-        tpts = [(cx - tw * 0.55, shY + 10), (cx, shY - 6), (cx + tw * 0.55, shY + 10), (cx + tw * 1.05, hipY - 30),
-                (cx + tw * 0.85, hipY + 18), (cx, hipY + 30), (cx - tw * 0.85, hipY + 18), (cx - tw * 1.05, hipY - 30)]
-        tpts = [(pen.jit(x), pen.jit(y)) for x, y in tpts]
+        tpts = [(cx - tw * 0.55, shY + 8), (cx, shY - 6), (cx + tw * 0.55, shY + 8), (cx + tw * 1.02, hipY - 34),
+                (cx + tw * 0.86, hipY + 16), (cx, hipY + 28), (cx - tw * 0.86, hipY + 16), (cx - tw * 1.02, hipY - 34)]
+        tpts = [(pen.jit(x, .4), pen.jit(y, .4)) for x, y in tpts]
     else:
-        sq = 0.6 if body in ("stocky",) else 0.35
-        tpts = pen.blob(cx, (shY + hipY) / 2 + 6, tw * (1.05 if body == "stocky" else 0.9), torsoH * 0.56, n=14, square=sq)
-    torso_svg = pen.shape(tpts, top)
+        sq = 0.6 if body == "stocky" else 0.35
+        tpts = pen.blob(cx, (shY + hipY) / 2 + 6, tw * (1.05 if body == "stocky" else 0.9), torsoH * 0.56, n=16, square=sq)
     out = p["outfit"]
+    torso_svg = pen.shape(tpts, top)
+    # sombra de contacto bajo la cabeza (oclusión ambiental)
+    torso_svg += f'<ellipse cx="{cx + 6:.1f}" cy="{shY + 16:.1f}" rx="{tw * 0.5:.1f}" ry="22" fill="{core_of(top)}" opacity="0.55"/>'
     if out == "suit":
-        torso_svg += pen.shape([(cx - 16, shY + 4), (cx, shY + 70), (cx + 16, shY + 4)], "#f5f0e6", shadow=False, sw=4)
-        torso_svg += pen.line([(cx - 40, shY + 4), (cx, shY + 120), (cx + 40, shY + 4)], sw=5)
-        torso_svg += "".join(f'<circle cx="{cx}" cy="{shY + 140 + k * 36}" r="6" fill="{ink}"/>' for k in range(2))
+        shirt = "#f4f1ea"
+        torso_svg += pen.shape([(cx - 26, shY + 2), (cx, shY + 96), (cx + 26, shY + 2)], shirt, rim=False, weight=False, sw=lw * 0.6)
+        for s in (-1, 1):
+            torso_svg += pen.shape([(cx + s * 26, shY + 2), (cx + s * 62, shY + 24), (cx + s * 30, shY + 70), (cx + s * 4, shY + 118)], _shade(top, 0.86), rim=False, sw=lw * 0.6)
+        torso_svg += "".join(f'<circle cx="{cx + 8}" cy="{shY + 150 + k * 38}" r="7" fill="{_shade(top, 0.55)}" stroke="{ink}" stroke-width="2.5"/>'
+                             f'<circle cx="{cx + 6}" cy="{shY + 148 + k * 38}" r="2.2" fill="#ffffff" opacity="0.7"/>' for k in range(2))
+        torso_svg += pen.brush([(cx + tw * 0.55, shY + 120), (cx + tw * 0.4, shY + 135), (cx + tw * 0.7, shY + 140)], 3, shadow_of(top))
     elif out == "lab":
-        torso_svg += pen.line([(cx, shY + 10), (cx, hipY + 20)], sw=5) + pen.line([(cx - 30, shY + 6), (cx, shY + 80), (cx + 30, shY + 6)], sw=5)
+        torso_svg += pen.brush([(cx, shY + 30), (cx + 2, hipY + 20)], 4) + pen.brush([(cx - 36, shY + 4), (cx - 4, shY + 90)], 4) + pen.brush([(cx + 36, shY + 4), (cx + 4, shY + 90)], 4)
+        torso_svg += pen.shape([(cx + tw * 0.3, shY + 110), (cx + tw * 0.72, shY + 110), (cx + tw * 0.7, shY + 150), (cx + tw * 0.32, shY + 150)], _shade(top, 0.95), rim=False, weight=False, sw=lw * 0.5)
+        torso_svg += pen.brush([(cx + tw * 0.4, shY + 108), (cx + tw * 0.4, shY + 135)], 5, "#3f88c5")
     elif out == "uniform":
-        torso_svg += pen.shape(pen.blob(cx + tw * 0.45, shY + 70, 18, 14, n=8), accent, shadow=False, sw=4)
-        torso_svg += pen.line([(cx - tw * 0.8, hipY - 40), (cx + tw * 0.8, hipY - 40)], sw=10, color=ink)
+        torso_svg += pen.shape(pen.blob(cx + tw * 0.45, shY + 72, 18, 15, n=10), accent, gloss=True, sw=lw * 0.6)
+        torso_svg += pen.shape([(cx - tw * 0.86, hipY - 50), (cx + tw * 0.86, hipY - 50), (cx + tw * 0.86, hipY - 30), (cx - tw * 0.86, hipY - 30)], _shade(ink, 1.4), rim=False, sw=lw * 0.6)
+        torso_svg += pen.shape([(cx - 16, hipY - 54), (cx + 16, hipY - 54), (cx + 16, hipY - 26), (cx - 16, hipY - 26)], accent, gloss=True, sw=lw * 0.5)
     elif out == "tank":
-        torso_svg += pen.line([(cx - 30, shY + 2), (cx, shY + 40), (cx + 30, shY + 2)], sw=5)
+        torso_svg += pen.brush([(cx - 34, shY + 2), (cx, shY + 42), (cx + 34, shY + 2)], 5)
+    elif out == "tshirt":
+        torso_svg += pen.shape(pen.blob(cx, shY + 8, 32, 16, n=10), skin, rim=False, weight=False, sw=lw * 0.6)
+        torso_svg += pen.brush([(cx - 30, shY + 14), (cx, shY + 30), (cx + 30, shY + 14)], 4)
     elif out in ("dress", "robe"):
-        torso_svg += pen.shape([(cx - tw * 0.9, hipY - 40), (cx + tw * 0.9, hipY - 40), (cx + tw * 1.3, hipY + legL * 0.55),
-                                (cx - tw * 1.3, hipY + legL * 0.55)], top)
+        torso_svg += pen.shape([(cx - tw * 0.9, hipY - 40), (cx + tw * 0.9, hipY - 40), (cx + tw * 1.35, hipY + legL * 0.58),
+                                (cx - tw * 1.35, hipY + legL * 0.58)], top)
+        for k in (-0.5, 0, 0.5):
+            torso_svg += pen.brush([(cx + tw * k * 0.7, hipY - 20), (cx + tw * k * 1.1, hipY + legL * 0.5)], 4, shadow_of(top))
+    # pliegues de cintura
+    torso_svg += pen.brush([(cx - tw * 0.6, hipY - 18), (cx - tw * 0.3, hipY - 10)], 3.5, shadow_of(top))
+    torso_svg += pen.brush([(cx + tw * 0.25, hipY - 8), (cx + tw * 0.62, hipY - 20)], 3.5, shadow_of(top))
     if "tie" in p["accessories"]:
-        torso_svg += pen.shape([(cx - 12, shY + 14), (cx + 12, shY + 14), (cx + 16, shY + 120), (cx, shY + 140), (cx - 16, shY + 120)], accent, shadow=False, sw=4)
+        torso_svg += pen.shape([(cx - 14, shY + 10), (cx + 14, shY + 10), (cx + 10, shY + 30), (cx - 10, shY + 30)], _shade(accent, 0.85), rim=False, sw=lw * 0.5)
+        torso_svg += pen.shape([(cx - 11, shY + 28), (cx + 11, shY + 28), (cx + 18, shY + 128), (cx, shY + 150), (cx - 18, shY + 128)], accent, sw=lw * 0.6)
+        torso_svg += pen.brush([(cx - 6, shY + 60), (cx + 8, shY + 52)], 3, shadow_of(accent)) + pen.brush([(cx - 8, shY + 100), (cx + 10, shY + 92)], 3, shadow_of(accent))
     part("torso", None, (cx, hipY), 5, torso_svg)
 
-    # --- brazos (L detrás del torso, R delante)
+    # ---------------- brazos + manos (4 dedos)
+    sleeve = top if out not in ("tank",) else skin
     for side, sx, z in (("L", -1, 1), ("R", 1, 8)):
-        shx = cx + sx * tw * 0.8
-        ua = 105 * h
-        elbow = (shx + sx * 18, shY + 20 + ua)
-        hand = (elbow[0] + sx * 6, elbow[1] + ua * 0.95)
-        thick = 34 * min(1.25, bw)
-        up = pen.shape(pen.limb(shx, shY + 20, *elbow, thick, thick * 0.85), top)
-        lo = pen.shape(pen.limb(*elbow, *hand, thick * 0.85, thick * 0.75), top if out != "tank" else skin)
-        lo += pen.shape(pen.blob(hand[0], hand[1] + 14, 24, 22, n=9), skin, shadow=False)  # manopla
-        lo += pen.line([(hand[0] - sx * 4, hand[1] + 6), (hand[0] - sx * 20, hand[1] + 16)], sw=4)
-        part(f"arm{side}_up", "torso", (shx, shY + 20), z, up)
+        shx = cx + sx * tw * 0.78
+        ua = 102 * h
+        elbow = (shx + sx * 16, shY + 22 + ua)
+        hand = (elbow[0] + sx * 5, elbow[1] + ua * 0.92)
+        thick = 33 * min(1.25, bw)
+        up = pen.shape(pen.limb(shx, shY + 22, *elbow, thick, thick * 0.86), sleeve)
+        up += pen.brush([(elbow[0] - 10, elbow[1] - 14), (elbow[0] + 2, elbow[1] - 6), (elbow[0] + 10, elbow[1] - 16)], 3, shadow_of(sleeve))
+        lo = pen.shape(pen.limb(*elbow, hand[0], hand[1] - 8, thick * 0.86, thick * 0.74), sleeve if out not in ("tank",) else skin)
+        if out not in ("tank",):  # puño de la manga
+            lo += pen.shape(pen.blob(hand[0], hand[1] - 12, thick * 0.46, 9, n=10), _shade(sleeve, 0.85), rim=False, weight=False, sw=lw * 0.6)
+        # mano: palma + pulgar + separaciones de dedos
+        hx, hy = hand[0], hand[1] + 16
+        palm = pen.blob(hx, hy, 25, 26, n=12, square=0.2, bottom_bulge=1.1)
+        thumb = pen.limb(hx - sx * 14, hy - 8, hx - sx * 34, hy + 4, 15, 12)
+        lo += pen.shape(thumb, skin, rim=False, weight=False, sw=lw * 0.7) + pen.shape(palm, skin, sw=lw * 0.75)
+        for k in (-1, 0, 1):
+            lo += pen.brush([(hx + k * 9, hy + 24), (hx + k * 9.5, hy + 10)], 3.2, taper=(0.05, 0.6))
+        part(f"arm{side}_up", "torso", (shx, shY + 22), z, up)
         part(f"arm{side}_lo", f"arm{side}_up", elbow, z, lo)
 
-    # --- cabeza
+    # ---------------- cabeza
     hd = p["head"]
-    shapes = {"round": dict(n=14), "oval": dict(n=14), "square": dict(n=14, square=0.8), "egg": dict(n=14, top_squash=1.15, bottom_bulge=0.85),
-              "long": dict(n=14), "bean": dict(n=14, bottom_bulge=1.2)}
-    rx = R * {"oval": 0.85, "long": 0.75, "bean": 1.05}.get(hd, 1.0)
+    shapes = {"round": dict(n=16), "oval": dict(n=16), "square": dict(n=16, square=0.8), "egg": dict(n=16, top_squash=1.15, bottom_bulge=0.86),
+              "long": dict(n=16), "bean": dict(n=16, bottom_bulge=1.2)}
+    rx = R * {"oval": 0.86, "long": 0.76, "bean": 1.05}.get(hd, 1.0)
     ry = R * {"oval": 1.1, "long": 1.3, "egg": 1.05}.get(hd, 1.0)
     if p["species"] == "robot":
-        shapes[hd] = dict(n=14, square=1.0)
-    neck = pen.shape(pen.limb(cx, shY + 20, cx, headCy + ry * 0.6, 36, 36), skin, shadow=False)
-    head_svg = neck + pen.shape(pen.blob(cx, headCy, rx, ry, **shapes[hd]), skin)
-    # orejas
-    for sx in (-1, 1):
+        shapes[hd] = dict(n=16, square=1.0)
+    neck = pen.shape(pen.limb(cx, shY + 24, cx, headCy + ry * 0.55, 38, 36), _shade(skin, 0.93), rim=False, weight=False, sw=lw * 0.7)
+    neck += f'<ellipse cx="{cx + 4:.1f}" cy="{headCy + ry * 0.86:.1f}" rx="{rx * 0.42:.1f}" ry="16" fill="{core_of(skin)}" opacity="0.6"/>'
+    head_svg = neck
+    for sx in (-1, 1):  # orejas con pabellón interior
         if p["species"] != "robot":
-            head_svg += pen.shape(pen.blob(cx + sx * rx * 0.98, headCy + 8, 16, 22, n=8), skin, shadow=False, sw=5)
+            ex0 = cx + sx * rx * 0.97
+            head_svg += pen.shape(pen.blob(ex0, headCy + 10, 17, 24, n=10), skin, sw=lw * 0.75, weight=False)
+            head_svg += pen.brush([(ex0 + sx * 4, headCy - 4), (ex0 - sx * 4, headCy + 10), (ex0 + sx * 2, headCy + 22)], 3.5, shadow_of(skin))
+    head_svg += pen.shape(pen.blob(cx, headCy, rx, ry, **shapes[hd]), skin)
+    # rubor
+    rb = pen.nid("b")
+    head_svg += (f'<defs><radialGradient id="{rb}"><stop offset="0" stop-color="{blush}" stop-opacity="0.75"/>'
+                 f'<stop offset="1" stop-color="{blush}" stop-opacity="0"/></radialGradient></defs>')
+    for sx in (-1, 1):
+        head_svg += f'<ellipse cx="{cx + sx * rx * 0.55:.1f}" cy="{headCy + ry * 0.28:.1f}" rx="{rx * 0.22:.1f}" ry="{ry * 0.13:.1f}" fill="url(#{rb})"/>'
     nose = p["nose"]
-    ny = headCy + ry * 0.15
+    ny = headCy + ry * 0.16
+    head_svg += f'<ellipse cx="{cx + 10:.1f}" cy="{ny + 22:.1f}" rx="16" ry="6" fill="{shadow_of(skin)}" opacity="0.7"/>'  # sombra bajo la nariz
     if nose == "round":
-        head_svg += pen.shape(pen.blob(cx + 6, ny, 18, 15, n=9), _shade(skin, 0.85), shadow=False, sw=5)
+        head_svg += pen.shape(pen.blob(cx + 6, ny, 19, 16, n=10), _shade(skin, 0.96), sw=lw * 0.7, gloss=True)
     elif nose == "long":
-        head_svg += pen.shape([(cx, ny - 30), (cx + 50, ny + 8), (cx + 4, ny + 14)], _shade(skin, 0.88), shadow=False, sw=5)
+        head_svg += pen.shape([(cx - 2, ny - 32), (cx + 54, ny + 6), (cx + 50, ny + 16), (cx + 2, ny + 14)], _shade(skin, 0.97), sw=lw * 0.7, gloss=True)
     elif nose == "pointy":
-        head_svg += pen.line([(cx + 2, ny - 20), (cx + 20, ny + 8), (cx + 2, ny + 10)], sw=5)
+        head_svg += pen.brush([(cx + 2, ny - 24), (cx + 24, ny + 8), (cx + 4, ny + 12)], 5, taper=(0.4, 0.3))
     elif nose == "pig":
-        head_svg += pen.shape(pen.blob(cx, ny, 22, 15, n=9), "#f29ca3", shadow=False, sw=5)
-        head_svg += f'<circle cx="{cx-7}" cy="{ny}" r="4" fill="{ink}"/><circle cx="{cx+7}" cy="{ny}" r="4" fill="{ink}"/>'
+        head_svg += pen.shape(pen.blob(cx, ny, 24, 16, n=10), "#f4a1ad", sw=lw * 0.7, gloss=True)
+        head_svg += f'<ellipse cx="{cx-8}" cy="{ny+1}" rx="4.5" ry="6" fill="{ink}"/><ellipse cx="{cx+8}" cy="{ny+1}" rx="4.5" ry="6" fill="{ink}"/>'
     if "mustache" in p["accessories"]:
-        head_svg += pen.shape([(cx - 46, ny + 30), (cx - 8, ny + 16), (cx, ny + 22), (cx + 8, ny + 16), (cx + 46, ny + 30), (cx, ny + 36)], hairc, shadow=False, sw=4)
+        head_svg += pen.shape([(cx - 46, ny + 28), (cx - 28, ny + 13), (cx - 6, ny + 12), (cx, ny + 17), (cx + 6, ny + 12), (cx + 28, ny + 13), (cx + 46, ny + 28), (cx + 20, ny + 26), (cx, ny + 29), (cx - 20, ny + 26)], hairc, sw=lw * 0.6)
     if "beard" in p["accessories"]:
-        head_svg += pen.shape([(cx - rx * 0.85, headCy + ry * 0.25), (cx + rx * 0.85, headCy + ry * 0.25), (cx + rx * 0.5, headCy + ry * 1.2),
-                               (cx, headCy + ry * 1.45), (cx - rx * 0.5, headCy + ry * 1.2)], hairc, shadow=False, sw=5)
+        head_svg += pen.shape([(cx - rx * 0.88, headCy + ry * 0.22), (cx - rx * 0.5, headCy + ry * 0.55), (cx + rx * 0.5, headCy + ry * 0.55), (cx + rx * 0.88, headCy + ry * 0.22),
+                               (cx + rx * 0.55, headCy + ry * 1.2), (cx, headCy + ry * 1.48), (cx - rx * 0.55, headCy + ry * 1.2)], hairc)
+        for k in (-0.4, 0, 0.4):
+            head_svg += pen.brush([(cx + rx * k, headCy + ry * 0.8), (cx + rx * k * 1.1, headCy + ry * 1.2)], 3, light_of(hairc), opacity=0.6)
     if "bandage" in p["accessories"]:
-        head_svg += f'<g transform="rotate(-20 {cx - rx*0.4} {headCy - ry*0.5})"><rect x="{cx - rx*0.4 - 24}" y="{headCy - ry*0.5 - 8}" width="48" height="16" fill="#f5f0e6" stroke="{ink}" stroke-width="4"/></g>'
+        head_svg += f'<g transform="rotate(-20 {cx - rx*0.4} {headCy - ry*0.5})">' + pen.shape([(cx - rx * 0.4 - 28, headCy - ry * 0.5 - 9), (cx - rx * 0.4 + 28, headCy - ry * 0.5 - 9), (cx - rx * 0.4 + 28, headCy - ry * 0.5 + 9), (cx - rx * 0.4 - 28, headCy - ry * 0.5 + 9)], "#f6efe2", sw=lw * 0.5) + "</g>"
     part("head", "torso", (cx, shY + 10), 10, head_svg)
 
-    # --- ojos (variantes)
-    ex, ey = rx * 0.4, headCy - ry * 0.12
-    er = {"big": R * 0.24, "dots": R * 0.09, "tired": R * 0.2, "wild": R * 0.26}[p["eyes"]]
-    white = "#fbf7ee"
+    # ---------------- ojos (variantes)
+    ex, ey = rx * 0.38, headCy - ry * 0.10
+    er = {"big": R * 0.235, "dots": R * 0.09, "tired": R * 0.2, "wild": R * 0.26}[p["eyes"]]
+    ig = pen.nid("i")
+    sg = pen.nid("s")
+    eye_defs = (f'<defs><radialGradient id="{ig}" cx="0.45" cy="0.4" r="0.6"><stop offset="0" stop-color="{light_of(eye_col)}"/>'
+                f'<stop offset="0.7" stop-color="{eye_col}"/><stop offset="1" stop-color="{core_of(eye_col)}"/></radialGradient>'
+                f'<linearGradient id="{sg}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9d2e6"/><stop offset="0.35" stop-color="#ffffff"/></linearGradient></defs>')
+
+    def eye_one(x, r, kind, sx):
+        s = ""
+        if p["eyes"] == "dots" and kind in ("open", "wide", "half", "angry", "sad"):
+            ry_ = r * (1.8 if kind != "half" else 0.9) * (1.2 if kind == "wide" else 1)
+            s += f'<ellipse cx="{x:.1f}" cy="{ey:.1f}" rx="{r*1.25:.1f}" ry="{ry_:.1f}" fill="{ink}"/>'
+            s += f'<circle cx="{x - r*0.35:.1f}" cy="{ey - ry_*0.4:.1f}" r="{r*0.45:.1f}" fill="#ffffff"/>'
+            return s
+        if kind == "closed":
+            return pen.brush([(x - r * 1.05, ey - r * 0.05), (x, ey + r * 0.38), (x + r * 1.05, ey - r * 0.05)], lw * 1.1) + \
+                pen.brush([(x + sx * r * 0.95, ey), (x + sx * r * 1.35, ey - r * 0.25)], lw * 0.6, taper=(0.1, 0.9))
+        if kind == "happy":
+            return pen.brush([(x - r, ey + r * 0.35), (x, ey - r * 0.45), (x + r, ey + r * 0.35)], lw * 1.2)
+        s += f'<ellipse cx="{x:.1f}" cy="{ey:.1f}" rx="{r:.1f}" ry="{r*1.14:.1f}" fill="url(#{sg})" stroke="{ink}" stroke-width="{lw*0.55:.1f}"/>'
+        ir = r * (0.42 if kind in ("wide", "crazy") else 0.62)
+        px = x + (-sx * r * 0.12 if kind != "crazy" else sx * r * 0.22)
+        py = ey + r * 0.10
+        s += f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{ir:.1f}" fill="url(#{ig})"/>'
+        s += f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{ir*0.52:.1f}" fill="#120d14"/>'
+        s += f'<circle cx="{px - ir*0.38:.1f}" cy="{py - ir*0.42:.1f}" r="{ir*0.32:.1f}" fill="#ffffff"/>'
+        s += f'<circle cx="{px + ir*0.38:.1f}" cy="{py + ir*0.35:.1f}" r="{ir*0.14:.1f}" fill="#ffffff" opacity="0.85"/>'
+        lid_top = ey - r * 1.14
+        if kind in ("half",) or (p["eyes"] == "tired" and kind == "open"):
+            s += f'<path d="M{x-r-2:.1f},{ey+r*0.05:.1f} A{r+2:.1f},{r*1.14+2:.1f} 0 0 1 {x+r+2:.1f},{ey+r*0.05:.1f} Z" fill="{_shade(skin,0.95)}"/>'
+            s += pen.brush([(x - r * 1.05, ey + r * 0.05), (x, ey - r * 0.08), (x + r * 1.05, ey + r * 0.05)], lw * 1.0)
+        elif kind == "angry":
+            inner = x - sx * r
+            outer = x + sx * r
+            s += f'<path d="M{outer:.1f},{lid_top - 6:.1f} L{inner:.1f},{lid_top - 6:.1f} L{inner:.1f},{ey - r*0.05:.1f} Z" fill="{skin}"/>'
+            s += pen.brush([(outer + sx * 2, ey - r * 0.95), (inner - sx * 2, ey - r * 0.1)], lw * 1.15)
+        elif kind == "sad":
+            inner = x - sx * r
+            outer = x + sx * r
+            s += f'<path d="M{outer:.1f},{lid_top - 6:.1f} L{inner:.1f},{lid_top - 6:.1f} L{outer:.1f},{ey - r*0.15:.1f} Z" fill="{skin}"/>'
+            s += pen.brush([(inner - sx * 2, ey - r * 0.95), (outer + sx * 2, ey - r * 0.2)], lw * 1.0)
+        else:  # párpado superior grueso con pestaña
+            s += pen.brush([(x - r * 1.08, ey - r * 0.25), (x - r * 0.4, ey - r * 1.12), (x + r * 0.4, ey - r * 1.12), (x + r * 1.08, ey - r * 0.25)], lw * 1.05, taper=(0.2, 0.2))
+            s += pen.brush([(x + sx * r * 0.95, ey - r * 0.55), (x + sx * r * 1.38, ey - r * 0.85)], lw * 0.6, taper=(0.1, 0.9))
+        s += pen.brush([(x - r * 0.6, ey + r * 1.2), (x, ey + r * 1.32), (x + r * 0.6, ey + r * 1.2)], 2.4, shadow_of(skin), opacity=0.9)  # ojera
+        return s
 
     def eye_pair(kind: str) -> str:
-        s = ""
+        s = eye_defs
         for i, sx in enumerate((-1, 1)):
             x = cx + sx * ex
-            r = er * (1.25 if kind == "wide" else 1.0) * (1.25 if (kind == "crazy" and i == 0) else 0.8 if kind == "crazy" else 1.0)
-            if p["eyes"] == "dots" and kind in ("open", "wide", "half", "angry", "sad"):
-                s += f'<ellipse cx="{x:.1f}" cy="{ey:.1f}" rx="{r*(1.3 if kind=="wide" else 1):.1f}" ry="{r*(1.7 if kind!="half" else 0.8):.1f}" fill="{ink}"/>'
-                continue
-            if kind == "closed":
-                s += pen.line([(x - r, ey), (x, ey + r * 0.35), (x + r, ey)], sw=6)
-                continue
-            if kind == "happy":
-                s += pen.line([(x - r, ey + r * 0.3), (x, ey - r * 0.5), (x + r, ey + r * 0.3)], sw=6)
-                continue
-            s += f'<ellipse cx="{x:.1f}" cy="{ey:.1f}" rx="{r:.1f}" ry="{r*1.12:.1f}" fill="{white}" stroke="{ink}" stroke-width="5"/>'
-            pr = r * (0.28 if kind in ("wide", "crazy") else 0.42)
-            px = x + (sx * -r * 0.12 if kind != "crazy" else sx * r * 0.2)
-            s += f'<circle cx="{px:.1f}" cy="{ey + r*0.08:.1f}" r="{pr:.1f}" fill="{ink}"/>'
-            if kind in ("half",) or p["eyes"] == "tired":
-                s += f'<path d="M{x-r-3:.1f},{ey:.1f} A{r+3:.1f},{r*1.12+3:.1f} 0 0 1 {x+r+3:.1f},{ey:.1f} Z" fill="{_shade(skin,0.9)}" stroke="{ink}" stroke-width="5"/>'
-            elif kind == "angry":
-                inner = x - sx * r
-                s += f'<path d="M{x - r - 4:.1f},{ey - r*1.3:.1f} L{x + r + 4:.1f},{ey - r*1.3:.1f} L{(x + r + 4) if sx < 0 else (x - r - 4):.1f},{ey - r*0.1:.1f} Z" fill="{skin}" stroke="none"/>'
-                s += pen.line([(x - r * sx * -1 - sx * 2, ey - r * 0.9), (inner, ey - r * 0.15)], sw=5)
-            elif kind == "sad":
-                s += f'<path d="M{x - r - 4:.1f},{ey - r*1.3:.1f} L{x + r + 4:.1f},{ey - r*1.3:.1f} L{(x - r - 4) if sx < 0 else (x + r + 4):.1f},{ey - r*0.15:.1f} Z" fill="{skin}" stroke="none"/>'
+            r = er * (1.25 if kind == "wide" else 1.0) * ((1.3 if i == 0 else 0.78) if kind == "crazy" else 1.0)
+            s += eye_one(x, r, kind, sx)
         return s
 
     eye_kinds = ["open", "half", "closed", "wide", "angry", "sad", "happy", "crazy"]
     part("eyes", "head", (cx, ey), 12, variants={k: eye_pair(k) for k in eye_kinds}, default="open")
 
-    # --- cejas
-    by = ey - er * 1.5 - 10
-    bl = max(26, er * 1.1)
+    # ---------------- cejas (pinceladas gruesas)
+    by = ey - er * 1.55 - 12
+    bl = max(28, er * 1.15)
+    brow_c = hairc if p["hair"] != "none" else _shade(ink, 1.3)
 
     def brows(kind: str) -> str:
         s = ""
         for sx in (-1, 1):
             x = cx + sx * ex
-            inner, outer = x - sx * bl * 0.8, x + sx * bl * 0.8
-            dy = {"neutral": (0, 0), "angry": (14, -10), "sad": (-12, 8), "raised": (-14, -14), "skeptical": ((-18, -18) if sx > 0 else (6, 6))}[kind]
-            s += pen.line([(inner, by + dy[0]), (x, by - 4 + (dy[0] + dy[1]) / 2), (outer, by + dy[1])], sw=9, color=hairc if p["hair"] != "none" else ink)
+            inner, outer = x - sx * bl * 0.85, x + sx * bl * 0.85
+            dy = {"neutral": (0, -2), "angry": (16, -10), "sad": (-14, 8), "raised": (-16, -12), "skeptical": ((-20, -16) if sx > 0 else (6, 6))}[kind]
+            s += pen.brush([(inner, by + dy[0]), (x, by - 6 + (dy[0] + dy[1]) / 2), (outer, by + dy[1])], 11, brow_c, taper=(0.35, 0.6))
         return s
 
     part("brows", "head", (cx, by), 13, variants={k: brows(k) for k in ("neutral", "angry", "sad", "raised", "skeptical")}, default="neutral")
 
-    # --- boca (visemas Rhubarb A-H, X + emociones)
-    my = headCy + ry * 0.5
+    # ---------------- boca (visemas + emociones), interior oscuro, dientes, lengua
+    my = headCy + ry * 0.52
     mw = rx * 0.42
-    lip = "#7a2630"
+    inner_c = "#3a0f1d"
+    tongue = "#e8647f"
+    lip = mix(skin, "#c0394f", 0.35)
+
+    def open_mouth(w2, hh, teeth=True, tongue_on=True, round_=False):
+        rx_, ry_ = (w2, hh / 2 + 4)
+        cyc = my + hh * 0.3
+        mid = pen.nid("m")
+        d = f"M{cx - rx_:.1f},{cyc:.1f} A{rx_:.1f},{ry_:.1f} 0 1 0 {cx + rx_:.1f},{cyc:.1f} A{rx_:.1f},{ry_ * (1 if round_ else 0.55):.1f} 0 1 0 {cx - rx_:.1f},{cyc:.1f} Z"
+        s = f'<defs><clipPath id="{mid}"><path d="{d}"/></clipPath></defs><path d="{d}" fill="{inner_c}"/>'
+        s += f'<g clip-path="url(#{mid})">'
+        if teeth:
+            s += f'<rect x="{cx - rx_:.1f}" y="{cyc - ry_ * 0.6 - 2:.1f}" width="{rx_ * 2:.1f}" height="{max(7, hh * 0.3):.1f}" fill="#fbf8f2"/>'
+            s += f'<rect x="{cx - rx_:.1f}" y="{cyc - ry_ * 0.6 + max(7, hh*0.3) - 3:.1f}" width="{rx_ * 2:.1f}" height="3" fill="#d8d0c8"/>'
+        if tongue_on:
+            s += f'<ellipse cx="{cx + rx_ * 0.1:.1f}" cy="{cyc + ry_ * 0.95:.1f}" rx="{rx_ * 0.65:.1f}" ry="{ry_ * 0.6:.1f}" fill="{tongue}"/>'
+        s += "</g>" + f'<path d="{d}" fill="none" stroke="{ink}" stroke-width="{lw*0.7:.1f}" stroke-linejoin="round"/>'
+        s += pen.brush([(cx - rx_ * 0.5, cyc + ry_ + 8), (cx + rx_ * 0.5, cyc + ry_ + 8)], 3, shadow_of(skin), opacity=0.8)  # labio inferior
+        return s
 
     def mouth(k: str) -> str:
         if k == "X":
-            return pen.line([(cx - mw * 0.7, my), (cx, my + 4), (cx + mw * 0.7, my)], sw=6)
+            return pen.brush([(cx - mw * 0.75, my), (cx - mw * 0.2, my + 5), (cx + mw * 0.4, my + 4), (cx + mw * 0.8, my - 2)], lw * 0.9) + \
+                pen.brush([(cx - mw * 0.3, my + 16), (cx + mw * 0.3, my + 16)], 2.5, shadow_of(skin), opacity=0.7)
         if k == "A":
-            return pen.line([(cx - mw * 0.6, my), (cx + mw * 0.6, my)], sw=8)
-        shapes = {
-            "B": (mw * 0.75, 12, True), "C": (mw * 0.8, 26, False), "D": (mw, 42, False), "E": (mw * 0.5, 30, False),
-            "F": (mw * 0.28, 14, False), "G": (mw * 0.7, 14, True), "H": (mw * 0.75, 30, False),
-        }
-        if k in shapes:
-            w2, hh, teeth = shapes[k]
-            s = f'<ellipse cx="{cx:.1f}" cy="{my + hh*0.3:.1f}" rx="{w2:.1f}" ry="{hh/2+4:.1f}" fill="{lip}" stroke="{ink}" stroke-width="5"/>'
-            if teeth or k in ("C", "D"):
-                s += f'<rect x="{cx - w2*0.7:.1f}" y="{my + hh*0.3 - hh/2 - 2:.1f}" width="{w2*1.4:.1f}" height="{max(6, hh*0.28):.1f}" rx="3" fill="#fbf7ee"/>'
-            if k == "H":
-                s += f'<ellipse cx="{cx:.1f}" cy="{my + hh*0.55:.1f}" rx="{w2*0.5:.1f}" ry="8" fill="#e86a7a"/>'
-            return s
+            return pen.shape([(cx - mw * 0.6, my - 3), (cx + mw * 0.6, my - 3), (cx + mw * 0.5, my + 6), (cx - mw * 0.5, my + 6)], lip, rim=False, weight=False, sw=lw * 0.6)
+        table = {"B": (mw * 0.75, 12, True, False), "C": (mw * 0.8, 26, True, True), "D": (mw, 44, True, True), "E": (mw * 0.5, 32, False, True),
+                 "F": (mw * 0.3, 16, False, False), "G": (mw * 0.7, 14, True, False), "H": (mw * 0.75, 30, True, True)}
+        if k in table:
+            w2, hh, teeth, tng = table[k]
+            return open_mouth(w2, hh, teeth, tng, round_=k in ("E", "F"))
         if k == "smile":
-            return pen.line([(cx - mw, my - 8), (cx - mw * 0.4, my + 14), (cx + mw * 0.4, my + 14), (cx + mw, my - 8)], sw=7)
+            return pen.brush([(cx - mw * 1.05, my - 10), (cx - mw * 0.45, my + 14), (cx + mw * 0.45, my + 14), (cx + mw * 1.05, my - 10)], lw * 1.0) + \
+                "".join(pen.brush([(cx + s * mw * 1.0, my - 16), (cx + s * mw * 1.12, my - 4)], 3, taper=(0.2, 0.6)) for s in (-1, 1))
         if k == "frown":
-            return pen.line([(cx - mw * 0.9, my + 12), (cx, my - 4), (cx + mw * 0.9, my + 12)], sw=7)
+            return pen.brush([(cx - mw * 0.9, my + 12), (cx, my - 4), (cx + mw * 0.9, my + 12)], lw * 1.0)
         if k == "smirk":
-            return pen.line([(cx - mw * 0.7, my + 6), (cx + mw * 0.3, my + 6), (cx + mw * 0.9, my - 10)], sw=7)
+            return pen.brush([(cx - mw * 0.7, my + 6), (cx + mw * 0.3, my + 6), (cx + mw * 0.95, my - 12)], lw * 1.0) + \
+                pen.brush([(cx + mw * 0.95, my - 18), (cx + mw * 1.08, my - 6)], 3, taper=(0.2, 0.6))
         if k == "grin":
-            return (f'<path d="M{cx-mw:.1f},{my-6:.1f} Q{cx:.1f},{my+50:.1f} {cx+mw:.1f},{my-6:.1f} Z" fill="#fbf7ee" stroke="{ink}" stroke-width="6"/>'
-                    + pen.line([(cx - mw * 0.8, my + 6), (cx + mw * 0.8, my + 6)], sw=3))
+            mid = pen.nid("m")
+            d = f"M{cx-mw*1.1:.1f},{my-8:.1f} Q{cx:.1f},{my+60:.1f} {cx+mw*1.1:.1f},{my-8:.1f} Q{cx:.1f},{my+6:.1f} {cx-mw*1.1:.1f},{my-8:.1f} Z"
+            s = f'<defs><clipPath id="{mid}"><path d="{d}"/></clipPath></defs><path d="{d}" fill="#fbf8f2"/>'
+            s += f'<g clip-path="url(#{mid})"><path d="M{cx-mw*1.1:.1f},{my+14:.1f} Q{cx:.1f},{my+40:.1f} {cx+mw*1.1:.1f},{my+14:.1f}" stroke="{inner_c}" stroke-width="9" fill="none"/>'
+            s += "".join(f'<line x1="{cx + k * mw * 0.32:.1f}" y1="{my-10:.1f}" x2="{cx + k * mw * 0.32:.1f}" y2="{my+50:.1f}" stroke="#cfc6bd" stroke-width="2.5"/>' for k in (-2, -1, 0, 1, 2))
+            return s + f'</g><path d="{d}" fill="none" stroke="{ink}" stroke-width="{lw*0.8:.1f}" stroke-linejoin="round"/>'
         if k == "scream":
-            return f'<ellipse cx="{cx:.1f}" cy="{my+18:.1f}" rx="{mw*0.7:.1f}" ry="38" fill="{lip}" stroke="{ink}" stroke-width="6"/><ellipse cx="{cx:.1f}" cy="{my+40:.1f}" rx="{mw*0.4:.1f}" ry="10" fill="#e86a7a"/>'
+            return open_mouth(mw * 0.72, 70, teeth=True, tongue_on=True, round_=True)
         return ""
 
     part("mouth", "head", (cx, my), 12, variants={k: mouth(k) for k in VISEMES + ["smile", "frown", "smirk", "grin", "scream"]}, default="X")
 
-    # --- pelo y accesorios de cabeza
+    # ---------------- pelo (volumen, mechones, reflejos) y accesorios
     top_y = headCy - ry
     hair = p["hair"]
     hsvg = ""
+    hl = light_of(_shade(hairc, 1.35))
+    back = ""
     if hair == "spiky":
         pts = []
-        for i in range(9):
-            a = math.pi + (i / 8) * math.pi
-            r = rx * (1.35 if i % 2 else 1.02)
-            pts.append((cx + math.cos(a) * r, headCy - ry * 0.25 + math.sin(a) * ry * (1.3 if i % 2 else 0.95)))
-        pts += [(cx + rx * 0.9, headCy - ry * 0.3), (cx - rx * 0.9, headCy - ry * 0.3)]
-        hsvg = pen.shape(pts, hairc, shadow=False)
+        for i in range(11):
+            a = math.pi + (i / 10) * math.pi
+            r = rx * (1.32 if i % 2 else 1.02)
+            pts.append((cx + math.cos(a) * r, headCy - ry * 0.22 + math.sin(a) * ry * (1.32 if i % 2 else 0.95)))
+        pts += [(cx + rx * 0.92, headCy - ry * 0.25), (cx + rx * 0.4, headCy - ry * 0.55), (cx - rx * 0.4, headCy - ry * 0.5), (cx - rx * 0.92, headCy - ry * 0.25)]
+        hsvg = pen.shape(pts, hairc)
     elif hair in ("bob", "long", "slick", "curly", "bun"):
-        k = {"bob": 1.1, "long": 1.9, "slick": 0.7, "curly": 1.0, "bun": 0.75}[hair]
-        pts = pen.blob(cx, headCy - ry * 0.35, rx * 1.12, ry * 0.85, n=16, bottom_bulge=k * 0.6)
-        hsvg = pen.shape([pt for pt in pts if pt[1] < headCy + ry * (k - 0.6)] or pts, hairc, shadow=False)
+        # masa trasera (detrás de la cara) + casquete/flequillo que termina en la frente
+        k = {"bob": 1.05, "long": 1.9, "slick": 0.0, "curly": 0.95, "bun": 0.0}[hair]
+        if hair == "bob":  # melena hasta la mandíbula
+            back = pen.shape(pen.blob(cx, headCy - ry * 0.12, rx * 1.16, ry * 1.0, n=18, square=0.3, bottom_bulge=0.95), hairc)
+        elif k:
+            back = pen.shape(pen.blob(cx, headCy + ry * (k - 1) * 0.5, rx * 1.2, ry * (0.95 + k * 0.32), n=18), hairc)
+        fringe_y = ey - er * 1.6 - 22
+        cap = [(cx - rx * 1.06, headCy - ry * 0.05), (cx - rx * 1.02, headCy - ry * 0.6), (cx - rx * 0.55, top_y - ry * 0.12), (cx + rx * 0.25, top_y - ry * 0.14),
+               (cx + rx * 0.95, headCy - ry * 0.62), (cx + rx * 1.06, headCy - ry * 0.05), (cx + rx * 0.72, fringe_y + 6), (cx + rx * 0.3, fringe_y - 10),
+               (cx - rx * 0.1, fringe_y + 10), (cx - rx * 0.55, fringe_y - 4), (cx - rx * 0.85, fringe_y + 14)]
+        hsvg = pen.shape(cap, hairc)
         if hair == "curly":
-            hsvg += "".join(pen.shape(pen.blob(cx + math.cos(a) * rx * 0.95, headCy - ry * 0.45 + math.sin(a) * ry * 0.75, 30, 30, n=8), hairc, shadow=False, sw=5)
+            hsvg += "".join(pen.shape(pen.blob(cx + math.cos(a) * rx * 0.98, headCy - ry * 0.5 + math.sin(a) * ry * 0.72, 30, 30, n=9), hairc, sw=lw * 0.75, weight=False)
                             for a in [math.pi + i * math.pi / 6 for i in range(7)])
         if hair == "bun":
-            hsvg += pen.shape(pen.blob(cx, top_y - 30, 44, 38, n=10), hairc, shadow=False)
+            hsvg = pen.shape(pen.blob(cx, top_y - 34, 46, 40, n=12), hairc) + hsvg
     elif hair == "mohawk":
-        hsvg = pen.shape([(cx - 22, top_y + 30), (cx - 30, top_y - 70), (cx, top_y - 110), (cx + 30, top_y - 70), (cx + 22, top_y + 30)], accent)
+        hsvg = pen.shape([(cx - 24, top_y + 34), (cx - 34, top_y - 70), (cx - 8, top_y - 118), (cx + 22, top_y - 92), (cx + 34, top_y - 50), (cx + 24, top_y + 34)], accent)
     elif hair == "bald_ring":
-        for sx in (-1, 1):
-            hsvg += pen.shape(pen.blob(cx + sx * rx * 0.92, headCy - 6, 26, 46, n=9), hairc, shadow=False, sw=5)
+        for sx in (-1, 1):  # patillas pegadas al cráneo, por detrás de las orejas
+            back += pen.shape([(cx + sx * rx * 0.78, headCy - ry * 0.42), (cx + sx * rx * 1.1, headCy - ry * 0.3), (cx + sx * rx * 1.12, headCy + ry * 0.12),
+                               (cx + sx * rx * 0.95, headCy + ry * 0.3), (cx + sx * rx * 0.86, headCy - ry * 0.05)], hairc, sw=lw * 0.7)
+        hsvg += f'<ellipse cx="{cx - rx*0.3:.1f}" cy="{top_y + ry*0.25:.1f}" rx="{rx*0.25:.1f}" ry="{ry*0.08:.1f}" fill="#ffffff" opacity="0.45" transform="rotate(-20 {cx - rx*0.3:.1f} {top_y + ry*0.25:.1f})"/>'
+    if back:
+        part("hair_back", "head", (cx, headCy), 9, back)
+    if hair not in ("none", "bald_ring", "mohawk"):  # mechones y reflejo
+        for k in (-0.5, -0.15, 0.2):
+            hsvg += pen.brush([(cx + rx * k, top_y + ry * 0.06), (cx + rx * (k + 0.16), top_y + ry * 0.3)], 6, hl, opacity=0.75, taper=(0.3, 0.7))
+        for k in (-0.7, 0.05, 0.6):
+            hsvg += pen.brush([(cx + rx * k, top_y + ry * 0.2), (cx + rx * (k + 0.08), top_y + ry * 0.4)], 3, core_of(hairc), taper=(0.2, 0.8))
+    if hair == "none" and p["species"] != "robot":  # brillo de calva
+        hsvg += f'<ellipse cx="{cx - rx*0.32:.1f}" cy="{top_y + ry*0.22:.1f}" rx="{rx*0.22:.1f}" ry="{ry*0.07:.1f}" fill="#ffffff" opacity="0.4" transform="rotate(-25 {cx - rx*0.32:.1f} {top_y + ry*0.22:.1f})"/>'
     acc = p["accessories"]
     if "hat" in acc:
-        hsvg += pen.shape([(cx - rx * 1.4, top_y + 26), (cx + rx * 1.4, top_y + 26), (cx + rx * 1.3, top_y + 6), (cx - rx * 1.3, top_y + 6)], ink, shadow=False)
-        hsvg += pen.shape([(cx - rx * 0.8, top_y + 10), (cx - rx * 0.7, top_y - 110), (cx + rx * 0.7, top_y - 110), (cx + rx * 0.8, top_y + 10)], ink, shadow=False)
-        hsvg += f'<rect x="{cx - rx*0.76:.1f}" y="{top_y - 20:.1f}" width="{rx*1.52:.1f}" height="18" fill="{accent}"/>'
+        hsvg += pen.shape([(cx - rx * 1.45, top_y + 26), (cx + rx * 1.45, top_y + 26), (cx + rx * 1.32, top_y + 4), (cx - rx * 1.32, top_y + 4)], _shade(ink, 1.5))
+        hsvg += pen.shape([(cx - rx * 0.82, top_y + 10), (cx - rx * 0.72, top_y - 112), (cx + rx * 0.72, top_y - 112), (cx + rx * 0.82, top_y + 10)], _shade(ink, 1.5), gloss=True)
+        hsvg += pen.shape([(cx - rx * 0.8, top_y - 22), (cx + rx * 0.8, top_y - 22), (cx + rx * 0.81, top_y - 2), (cx - rx * 0.81, top_y - 2)], accent, rim=False, sw=lw * 0.5)
     if "crown" in acc:
-        hsvg += pen.shape([(cx - 60, top_y + 18), (cx - 70, top_y - 50), (cx - 30, top_y - 15), (cx, top_y - 65), (cx + 30, top_y - 15), (cx + 70, top_y - 50), (cx + 60, top_y + 18)], "#f2b134", shadow=False)
+        hsvg += pen.shape([(cx - 62, top_y + 18), (cx - 72, top_y - 52), (cx - 32, top_y - 16), (cx, top_y - 68), (cx + 32, top_y - 16), (cx + 72, top_y - 52), (cx + 62, top_y + 18)], "#f6b93b", gloss=True)
+        hsvg += "".join(f'<circle cx="{cx + k:.0f}" cy="{top_y + 2:.0f}" r="7" fill="#e63946" stroke="{ink}" stroke-width="2.5"/>' for k in (-34, 0, 34))
     if "horns" in acc:
         for sx in (-1, 1):
-            hsvg += pen.shape([(cx + sx * rx * 0.45, top_y + 20), (cx + sx * rx * 1.05, top_y - 70), (cx + sx * rx * 0.8, top_y + 30)], "#efe3c8", shadow=False)
+            hsvg += pen.shape([(cx + sx * rx * 0.42, top_y + 22), (cx + sx * rx * 0.7, top_y - 30), (cx + sx * rx * 1.1, top_y - 74), (cx + sx * rx * 0.84, top_y + 30)], "#f1e3c6")
     if "antenna" in acc or p["species"] == "robot":
-        hsvg += pen.line([(cx, top_y + 4), (cx + 10, top_y - 70)], sw=6) + pen.shape(pen.blob(cx + 10, top_y - 80, 16, 16, n=8), accent, shadow=False, sw=5)
+        hsvg += pen.brush([(cx, top_y + 6), (cx + 6, top_y - 40), (cx + 12, top_y - 70)], 6) + pen.shape(pen.blob(cx + 12, top_y - 82, 17, 17, n=10), accent, gloss=True)
     if hsvg:
         part("hair", "head", (cx, headCy), 14, hsvg)
     face = ""
     if "glasses" in acc or "sunglasses" in acc:
-        fill = ink if "sunglasses" in acc else "none"
-        face += "".join(f'<circle cx="{cx + sx*ex:.1f}" cy="{ey:.1f}" r="{er*1.35+8:.1f}" fill="{fill}" fill-opacity="0.9" stroke="{ink}" stroke-width="6"/>' for sx in (-1, 1))
-        face += pen.line([(cx - ex + er + 8, ey), (cx + ex - er - 8, ey)], sw=6)
+        sun = "sunglasses" in acc
+        for sx in (-1, 1):
+            gx = cx + sx * ex
+            lens = pen.nid("l")
+            face += (f'<defs><linearGradient id="{lens}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{"#3a3f5c" if sun else "#dff3ff"}" stop-opacity="{0.95 if sun else 0.25}"/>'
+                     f'<stop offset="1" stop-color="{"#0d0f1a" if sun else "#9fd3f0"}" stop-opacity="{0.98 if sun else 0.15}"/></linearGradient></defs>')
+            face += f'<circle cx="{gx:.1f}" cy="{ey:.1f}" r="{er*1.38+8:.1f}" fill="url(#{lens})" stroke="{ink}" stroke-width="{lw*0.9:.1f}"/>'
+            face += pen.brush([(gx - er * 0.8, ey - er * 0.2), (gx - er * 0.2, ey - er * 0.9)], 5, "#ffffff", opacity=0.75)
+        face += pen.brush([(cx - ex + er + 8, ey - 2), (cx, ey - 8), (cx + ex - er - 8, ey - 2)], lw * 0.9)
     if "eyepatch" in acc:
-        face += f'<ellipse cx="{cx - ex:.1f}" cy="{ey:.1f}" rx="{er*1.3+6:.1f}" ry="{er*1.2+6:.1f}" fill="{ink}"/>' + pen.line([(cx - rx, ey - 40), (cx + rx, ey - 70)], sw=5)
+        face += pen.shape(pen.blob(cx - ex, ey, er * 1.3 + 7, er * 1.2 + 7, n=10), _shade(ink, 1.2), sw=lw * 0.6) + pen.brush([(cx - rx, ey - 40), (cx + rx, ey - 72)], 5)
     if "earring" in acc:
-        face += f'<circle cx="{cx + rx*0.98:.1f}" cy="{headCy + 40:.1f}" r="9" fill="none" stroke="#f2b134" stroke-width="5"/>'
+        face += f'<circle cx="{cx + rx*0.98:.1f}" cy="{headCy + 42:.1f}" r="9" fill="none" stroke="#f6b93b" stroke-width="5"/>'
     if "cigar" in acc:
-        face += f'<g transform="rotate(12 {cx+mw} {my})"><rect x="{cx+mw*0.5:.1f}" y="{my-6:.1f}" width="70" height="14" rx="5" fill="#7b4a2a" stroke="{ink}" stroke-width="4"/><rect x="{cx+mw*0.5+62:.1f}" y="{my-6:.1f}" width="10" height="14" fill="#d7263d"/></g>'
+        face += f'<g transform="rotate(12 {cx+mw} {my})">' + pen.shape([(cx + mw * 0.5, my - 7), (cx + mw * 0.5 + 72, my - 7), (cx + mw * 0.5 + 72, my + 7), (cx + mw * 0.5, my + 7)], "#8a5a3b", sw=lw * 0.5) + \
+            f'<rect x="{cx+mw*0.5+64:.1f}" y="{my-7:.1f}" width="10" height="14" fill="#ff6b35"/></g>'
     if face:
         part("face_acc", "head", (cx, ey), 15, face)
 
     reach = tw * 0.8 + 110 * h + 40
-    bbox = [round(cx - reach, 1), round(max(0, headCy - ry - 130), 1), round(cx + reach, 1), float(footY + 6)]
+    bbox = [round(cx - reach, 1), round(max(0, headCy - ry - 130), 1), round(cx + reach, 1), float(footY + 8)]
     return {"id": char_id, "version": version, "name": name, "width": W, "height": H, "anchor": list(ANCHOR),
             "parts": parts, "meta": {"bbox": bbox, "params": p, "expressions": EXPRESSION_PRESETS, "visemes": VISEMES,
-                                     "style_version": style.get("version", 1)}}
+                                     "style_version": style.get("version", 1), "builder": "premium-v2"}}
 
 
 def test_rig(style: dict) -> dict:
     """Rig geométrico de PRUEBA TÉCNICA (no es contenido de la serie)."""
     p = {"body": "round", "head": "round", "hair": "none", "eyes": "big", "nose": "none", "outfit": "tshirt", "species": "object",
          "skin": "#cccccc", "hair_color": "#333333", "top_color": "#888888", "bottom_color": "#555555", "accent_color": "#aaaaaa",
-         "height": 1.0, "head_scale": 1.0, "width": 1.0, "accessories": [], "seed": 1}
+         "eye_color": "#777777", "height": 1.0, "head_scale": 1.0, "width": 1.0, "accessories": [], "seed": 1}
     return build_rig("test_geom", "TEST · geometría", p, style)
