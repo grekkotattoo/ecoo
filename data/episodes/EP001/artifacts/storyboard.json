@@ -2,31 +2,31 @@
   "shots": [
     {
       "id": "s01",
-      "location": "salon_piso",
+      "location": "estacion_itv",
       "framing": "wide",
-      "camera": "push_in",
+      "camera": "crane_down",
       "transition": "fade",
       "effects": [
         "textPop"
       ],
       "actors": [
         {
-          "character": "lucas",
+          "character": "toni",
           "position": "left",
           "actions": [
-            "idle",
-            "lean"
+            "walk",
+            "stretch"
           ],
-          "expression": "tired",
+          "expression": "smug",
           "facing": "right"
         },
         {
-          "character": "miguelon",
-          "position": "center",
+          "character": "inspectora",
+          "position": "right",
           "actions": [
-            "stretch"
+            "idle"
           ],
-          "expression": "neutral",
+          "expression": "tired",
           "facing": "left"
         }
       ],
@@ -34,100 +34,71 @@
         "l01"
       ],
       "seconds": 3.0,
-      "description": "Lucas acaricia a Miguelón en el sofá.",
-      "key_image": false,
+      "description": "Toni llega a la línea de ITV y estira el brazo para lucir el tribal.",
+      "key_image": true,
       "text_pop": "¿QUÉ PASARÍA SI."
     },
     {
       "id": "s02",
-      "location": "salon_piso",
-      "framing": "close",
-      "camera": "crash_zoom",
-      "transition": "smash",
-      "effects": [
-        "flash",
-        "textPop"
-      ],
-      "actors": [
-        {
-          "character": "miguelon",
-          "position": "center",
-          "actions": [
-            "pop",
-            "talk"
-          ],
-          "expression": "smug",
-          "facing": "left"
-        }
-      ],
-      "lines": [
-        "l02"
-      ],
-      "seconds": 2.8,
-      "description": "Un datáfono asoma bajo el cojín; Miguelón cobra.",
-      "key_image": true,
-      "text_pop": "PIP · 0,90 €/min"
-    },
-    {
-      "id": "s03",
-      "location": "salon_piso",
+      "location": "estacion_itv",
       "framing": "medium",
-      "camera": "handheld",
+      "camera": "push_in",
       "transition": "cut",
-      "effects": [
-        "impact"
-      ],
+      "effects": [],
       "actors": [
         {
-          "character": "lucas",
-          "position": "left",
-          "actions": [
-            "take",
-            "talk"
-          ],
-          "expression": "surprised",
-          "facing": "right"
-        },
-        {
-          "character": "miguelon",
+          "character": "inspectora",
           "position": "right",
           "actions": [
-            "idle"
+            "talk",
+            "lookAt"
+          ],
+          "expression": "tired",
+          "facing": "left"
+        },
+        {
+          "character": "toni",
+          "position": "left",
+          "actions": [
+            "talk",
+            "nod"
           ],
           "expression": "smug",
-          "facing": "left"
+          "facing": "right"
         }
       ],
       "lines": [
+        "l02",
         "l03"
       ],
-      "seconds": 2.0,
-      "description": "Take exagerado de Lucas.",
+      "seconds": 3.5,
+      "description": "La inspectora apunta con la linterna; Toni presume de taller.",
       "key_image": false,
       "text_pop": ""
     },
     {
-      "id": "s04",
-      "location": "salon_piso",
+      "id": "s03",
+      "location": "estacion_itv",
       "framing": "medium",
-      "camera": "orbit_right",
+      "camera": "orbit_left",
       "transition": "whip",
       "effects": [
-        "sparks"
+        "textPop"
       ],
       "actors": [
         {
-          "character": "miguelon",
+          "character": "inspectora",
           "position": "center",
           "actions": [
+            "lean",
             "talk",
-            "point"
+            "shakeHead"
           ],
-          "expression": "tired",
-          "facing": "right"
+          "expression": "disgusted",
+          "facing": "left"
         },
         {
-          "character": "lucas",
+          "character": "toni",
           "position": "far_left",
           "actions": [
             "rage",
@@ -141,79 +112,82 @@
         "l04",
         "l05"
       ],
-      "seconds": 4.5,
-      "description": "Miguelón estampa la huella en un talonario; Lucas rabia.",
-      "key_image": false,
-      "text_pop": ""
-    },
-    {
-      "id": "s05",
-      "location": "calle_barrio",
-      "framing": "wide",
-      "camera": "crane_up",
-      "transition": "wipe",
-      "effects": [
-        "confetti",
-        "speedlines"
-      ],
-      "actors": [
-        {
-          "character": "miguelon",
-          "position": "center",
-          "actions": [
-            "celebrate",
-            "jump"
-          ],
-          "expression": "crazy",
-          "facing": "right"
-        },
-        {
-          "character": "lucas",
-          "position": "far_left",
-          "actions": [
-            "cower"
-          ],
-          "expression": "sad",
-          "facing": "right"
-        }
-      ],
-      "lines": [
-        "l06"
-      ],
-      "seconds": 3.5,
-      "description": "Huelga gatuna con pancartas; Lucas en la cola pagando.",
+      "seconds": 5.5,
+      "description": "Revisión con lupa; aparece la falta de ortografía; Toni rabia.",
       "key_image": true,
-      "text_pop": "SIN CONVENIO NO "
+      "text_pop": "NO REGREST"
     },
     {
-      "id": "s06",
-      "location": "salon_piso",
+      "id": "s04",
+      "location": "estacion_itv",
       "framing": "medium",
-      "camera": "swoop",
+      "camera": "dutch",
       "transition": "smash",
       "effects": [
-        "shake",
-        "vignettePulse"
+        "impact",
+        "smoke",
+        "shake"
       ],
       "actors": [
         {
-          "character": "inspector",
+          "character": "inspectora",
           "position": "right",
           "actions": [
-            "walk",
+            "talk",
             "point"
           ],
           "expression": "neutral",
           "facing": "left"
         },
         {
-          "character": "lucas",
+          "character": "toni",
           "position": "left",
           "actions": [
-            "tremble",
-            "talk"
+            "take",
+            "cower"
           ],
           "expression": "scared",
+          "facing": "right"
+        }
+      ],
+      "lines": [
+        "l06"
+      ],
+      "seconds": 4.5,
+      "description": "El medidor de arrepentimiento explota; sello rojo NO APTO.",
+      "key_image": true,
+      "text_pop": "NO APTO"
+    },
+    {
+      "id": "s05",
+      "location": "estacion_itv",
+      "framing": "wide",
+      "camera": "swoop",
+      "transition": "whip",
+      "effects": [
+        "speedlines",
+        "sparks"
+      ],
+      "actors": [
+        {
+          "character": "primo",
+          "position": "right",
+          "actions": [
+            "sneak",
+            "wave",
+            "talk"
+          ],
+          "expression": "happy",
+          "facing": "left"
+        },
+        {
+          "character": "toni",
+          "position": "left",
+          "actions": [
+            "take",
+            "talk"
+          ],
+          "expression": "surprised",
           "facing": "right"
         }
       ],
@@ -221,78 +195,91 @@
         "l07",
         "l08"
       ],
-      "seconds": 4.5,
-      "description": "El inspector abre la escritura: titular, el gato.",
-      "key_image": true,
-      "text_pop": "HACIENDA"
+      "seconds": 4.0,
+      "description": "El primo entra con polo de la estación y máquina de tatuar.",
+      "key_image": false,
+      "text_pop": ""
     },
     {
-      "id": "s07",
-      "location": "salon_piso",
-      "framing": "close",
+      "id": "s06",
+      "location": "estacion_itv",
+      "framing": "medium",
       "camera": "vertigo",
       "transition": "cut",
       "effects": [
         "flash",
-        "impact",
+        "vignettePulse",
         "textPop"
       ],
       "actors": [
         {
-          "character": "inspector",
-          "position": "left",
+          "character": "primo",
+          "position": "center",
           "actions": [
+            "celebrate",
             "talk"
           ],
-          "expression": "neutral",
-          "facing": "right"
+          "expression": "smug",
+          "facing": "left"
         },
         {
-          "character": "lucas",
-          "position": "right",
+          "character": "toni",
+          "position": "far_left",
           "actions": [
             "faint"
           ],
           "expression": "surprised",
-          "facing": "left"
+          "facing": "right"
         }
       ],
       "lines": [
         "l09"
       ],
-      "seconds": 3.2,
-      "description": "Giro: Lucas figura como gasto deducible; se desmaya.",
+      "seconds": 3.5,
+      "description": "Giro: el primo es el dueño de la ITV; Toni se desmaya.",
       "key_image": true,
-      "text_pop": "HUMANO DOMÉSTICO"
+      "text_pop": "DUEÑO"
     },
     {
-      "id": "s08",
-      "location": "salon_piso",
-      "framing": "extreme_close",
+      "id": "s07",
+      "location": "estacion_itv",
+      "framing": "medium",
       "camera": "rack_focus",
       "transition": "iris",
       "effects": [
+        "impact",
         "textPop"
       ],
       "actors": [
         {
-          "character": "miguelon",
-          "position": "center",
+          "character": "inspectora",
+          "position": "left",
           "actions": [
-            "laugh",
-            "nod"
+            "point",
+            "talk"
           ],
           "expression": "smug",
           "facing": "right"
+        },
+        {
+          "character": "primo",
+          "position": "right",
+          "actions": [
+            "shrug",
+            "talk"
+          ],
+          "expression": "tired",
+          "facing": "left"
         }
       ],
       "lines": [
-        "l10"
+        "l10",
+        "l11"
       ],
-      "seconds": 2.5,
-      "description": "Remate: Miguelón ronronea satisfecho. Pip.",
+      "seconds": 3.5,
+      "description": "Remate: el tatuaje 'APOT' del primo. 'Otro primo.'",
       "key_image": false,
-      "text_pop": "PIP"
+      "text_pop": "APOT"
     }
   ]
 }

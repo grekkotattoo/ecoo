@@ -1,60 +1,54 @@
 {
   "episode": 1,
   "id": "EP001",
-  "title": "Los gatos cobran por ronronear",
-  "question": "¿Qué pasaría si los gatos empezaran a cobrar por ronronear?",
-  "summary": "Lucas acaricia a su gato Miguelón y oye un 'pip': un datáfono asoma bajo el cojín. Cada minuto de ronroneo se cobra, con tarifa nocturna y recargo por fin de semana. En días, los gatos del barrio fundan un sindicato, convocan huelga de ronroneos y los humanos, desesperados, pagan. Hacienda abre una inspección por ingresos no declarados. El inspector revisa la documentación y descubre que el titular de la casa, la hipoteca y la cuenta bancaria es el gato: Lucas figura en su declaración como mascota desgravable.",
-  "logline": "Un gato descubre que su ronroneo tiene valor de mercado y convierte el sofá en una empresa con facturación por minutos.",
+  "title": "La ITV de los tatuajes",
+  "question": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?",
+  "summary": "Toni hace cola en una estación de ITV con el brazo por la ventanilla. La inspectora sube su tribal a la rampa y lo revisa como un coche: contorno desgastado, sombreado gris, la frase 'No regrest' mal escrita y emisiones de arrepentimiento por las nubes. Resultado: NO APTO y prohibido ir a la playa sin funda. Aparece su primo, con polo de la estación, ofreciendo un retoque por cincuenta euros: es el dueño de la ITV y hace negocio tatuando en casa y suspendiendo aquí sus propios tatuajes. La inspectora le pregunta quién le hizo a él el suyo.",
+  "logline": "Los tatuajes pasan a tener ITV obligatoria y Toni lleva a revisión el tribal que le hizo su primo en una cocina en 2003.",
   "humor_type": "satírico",
-  "twist": "La inspección revela que Lucas no es el dueño: es la mascota fiscal del gato, que lo desgrava como gasto deducible.",
-  "estimated_seconds": 34.7,
+  "twist": "El dueño de la ITV es el primo que tatuó a Toni: cobra por tatuar mal en su cocina y otra vez por suspender sus propios trabajos.",
+  "estimated_seconds": 38.2,
   "humor": {
-    "overall": 7.5,
+    "overall": 7.67,
     "passed": true,
     "scores": {
       "sorpresa": 7.0,
       "absurdo": 8.0,
       "satira": 8.0,
-      "remate": 8.0,
-      "ritmo": 7.0,
-      "originalidad": 7.0
+      "remate": 7.0,
+      "ritmo": 8.0,
+      "originalidad": 8.0
     },
-    "notes": "Remate 'humano doméstico' + 'Y vacunado' funciona como doble golpe. Mejorable: 'Pues sí, la verdad' es plano; en animación conviene que Lucas pague con resignación para reforzar el giro de mascota. El beat de huelga podría tener una pancarta más mordaz."
+    "notes": "Muy reconocible para el sector (tatuaje casero del primo, faltas de ortografía). 'Más gris que su futuro' y 'tatúo en casa y suspendo aquí' son los mejores golpes. 'Otro primo' cierra con lógica de cadena infinita; reforzar visualmente con el 'APOT' bien legible."
   },
   "characters": [
     {
-      "id": "lucas",
-      "name": "Lucas",
-      "role": "Humano doméstico que cree ser el dueño",
-      "voice_hint": "hombre 30 años, español de España, voz cansada y algo nasal, tono incrédulo",
+      "id": "toni",
+      "name": "Toni",
+      "role": "Cliente orgulloso de su tribal casero",
+      "voice_hint": "hombre 40 años, español de España, voz chulesca de barrio que se indigna rápido",
       "version": 1
     },
     {
-      "id": "miguelon",
-      "name": "Miguelón",
-      "role": "Gato empresario, titular del piso",
-      "voice_hint": "voz masculina grave y pausada, español de España, tono de gestor aburrido y condescendiente",
+      "id": "inspectora",
+      "name": "Inspectora de ITV",
+      "role": "Funcionaria técnica e imperturbable",
+      "voice_hint": "mujer 50 años, español de España, voz seca, monótona y técnica de funcionaria",
       "version": 1
     },
     {
-      "id": "inspector",
-      "name": "Inspector de Hacienda",
-      "role": "Funcionario implacable",
-      "voice_hint": "hombre 55 años, español de España, voz seca y monótona de funcionario",
+      "id": "primo",
+      "name": "El Primo",
+      "role": "Tatuador casero y dueño de la ITV",
+      "voice_hint": "hombre 30 años, español de España, voz de vendedor enrollado y descarado",
       "version": 1
     }
   ],
   "locations": [
     {
-      "id": "salon_piso",
-      "name": "Salón del piso",
-      "description": "Salón pequeño de piso de alquiler: sofá gastado, lámpara de pie, estantería con carpetas, cuadro torcido y ventana con persiana.",
-      "version": 1
-    },
-    {
-      "id": "calle_barrio",
-      "name": "Calle del barrio",
-      "description": "Calle de barrio con persianas metálicas grafiteadas, contenedores y carteles de huelga felina.",
+      "id": "estacion_itv",
+      "name": "Estación de ITV de tatuajes",
+      "description": "Nave de ITV reconvertida: rampa con brazo de apoyo, carteles oficiales, neón 'ITV TATTOO', persiana metálica grafiteada y mesa de inspección con lupa.",
       "version": 1
     }
   ],
@@ -62,109 +56,108 @@
     {
       "id": "l01",
       "speaker": "narrador",
-      "text": "¿Qué pasaría si los gatos cobraran por ronronear?"
+      "text": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?"
     },
     {
       "id": "l02",
-      "speaker": "miguelon",
-      "text": "Noventa céntimos el minuto. Sin contacto."
+      "speaker": "inspectora",
+      "text": "Tribal de 2003. ¿Taller?"
     },
     {
       "id": "l03",
-      "speaker": "lucas",
-      "text": "¿Desde cuándo cobras?"
+      "speaker": "toni",
+      "text": "Mi primo. En su cocina."
     },
     {
       "id": "l04",
-      "speaker": "miguelon",
-      "text": "Tarifa nocturna. Recargo en domingo. ¿Quieres factura?"
+      "speaker": "inspectora",
+      "text": "Contorno desgastado. Sombreado más gris que su futuro. Y pone 'No regrest'."
     },
     {
       "id": "l05",
-      "speaker": "lucas",
-      "text": "Pues sí, la verdad."
+      "speaker": "toni",
+      "text": "Es estilo."
     },
     {
       "id": "l06",
-      "speaker": "narrador",
-      "text": "En una semana: sindicato, huelga y colas para pagar."
+      "speaker": "inspectora",
+      "text": "Emisiones de arrepentimiento: por las nubes. No apto. A la playa, con funda."
     },
     {
       "id": "l07",
-      "speaker": "inspector",
-      "text": "Inspección fiscal. El titular del piso es... el gato."
+      "speaker": "primo",
+      "text": "¿Problemas, primo? Retoque, cincuenta euros."
     },
     {
       "id": "l08",
-      "speaker": "lucas",
-      "text": "¿Cómo que el gato?"
+      "speaker": "toni",
+      "text": "¿Tú trabajas aquí?"
     },
     {
       "id": "l09",
-      "speaker": "inspector",
-      "text": "Gastos deducibles: comida, arena... y humano doméstico."
+      "speaker": "primo",
+      "text": "Soy el dueño. Tatúo en casa y suspendo aquí."
     },
     {
       "id": "l10",
-      "speaker": "miguelon",
-      "text": "Y vacunado."
+      "speaker": "inspectora",
+      "text": "¿Y el suyo quién se lo hizo?"
+    },
+    {
+      "id": "l11",
+      "speaker": "primo",
+      "text": "Otro primo."
     }
   ],
-  "punchline": "Gastos deducibles: comida, arena y humano doméstico.",
+  "punchline": "¿Y el suyo quién se lo hizo? Otro primo.",
   "images": [
     {
       "kind": "key_frame",
-      "shot": "s02",
-      "file": "key_s02.png",
-      "caption": "Un datáfono asoma bajo el cojín; Miguelón cobra."
+      "shot": "s01",
+      "file": "key_s01.png",
+      "caption": "Toni llega a la línea de ITV y estira el brazo para lucir el tribal."
     },
     {
       "kind": "key_frame",
-      "shot": "s05",
-      "file": "key_s05.png",
-      "caption": "Huelga gatuna con pancartas; Lucas en la cola pagando."
+      "shot": "s03",
+      "file": "key_s03.png",
+      "caption": "Revisión con lupa; aparece la falta de ortografía; Toni rabia."
+    },
+    {
+      "kind": "key_frame",
+      "shot": "s04",
+      "file": "key_s04.png",
+      "caption": "El medidor de arrepentimiento explota; sello rojo NO APTO."
     },
     {
       "kind": "key_frame",
       "shot": "s06",
       "file": "key_s06.png",
-      "caption": "El inspector abre la escritura: titular, el gato."
-    },
-    {
-      "kind": "key_frame",
-      "shot": "s07",
-      "file": "key_s07.png",
-      "caption": "Giro: Lucas figura como gasto deducible; se desmaya."
+      "caption": "Giro: el primo es el dueño de la ITV; Toni se desmaya."
     },
     {
       "kind": "character_sheet",
-      "character": "lucas",
-      "file": "char_lucas.png",
-      "caption": "Lucas"
+      "character": "toni",
+      "file": "char_toni.png",
+      "caption": "Toni"
     },
     {
       "kind": "character_sheet",
-      "character": "miguelon",
-      "file": "char_miguelon.png",
-      "caption": "Miguelón"
+      "character": "inspectora",
+      "file": "char_inspectora.png",
+      "caption": "Inspectora de ITV"
     },
     {
       "kind": "character_sheet",
-      "character": "inspector",
-      "file": "char_inspector.png",
-      "caption": "Inspector de Hacienda"
+      "character": "primo",
+      "file": "char_primo.png",
+      "caption": "El Primo"
     },
     {
       "kind": "background",
-      "location": "salon_piso",
-      "file": "bg_salon_piso.png",
-      "caption": "Salón del piso"
-    },
-    {
-      "kind": "background",
-      "location": "calle_barrio",
-      "file": "bg_calle_barrio.png",
-      "caption": "Calle del barrio"
+      "location": "estacion_itv",
+      "file": "bg_estacion_itv.png",
+      "caption": "Estación de ITV de tatuajes"
     }
   ],
   "test": false,
@@ -177,5 +170,5 @@
     "REVISAR HUMOR",
     "CANCELAR"
   ],
-  "hash": "4540eadb05384f08"
+  "hash": "19ec80fdee074218"
 }

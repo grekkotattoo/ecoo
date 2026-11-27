@@ -1,0 +1,14 @@
+{
+  "id": "toni",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "4f4d93551c94b737",
+      "created": "2026-11-27T19:44:54+00:00",
+      "name": "Toni",
+      "episode": "EP001",
+      "preview": "characters/toni/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}

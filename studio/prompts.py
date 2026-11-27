@@ -11,6 +11,7 @@ import json
 from . import schemas as S
 
 SERIES = ("Serie: ¿QUÉ PASARÍA SI...? Cortos animados 2D verticales (9:16) para ADULTOS, en español de España. "
+          "TEMÁTICA FIJA: el mundo del TATUAJE (estudios, tatuadores, clientes, diseños, modas, dolor, arrepentimientos, precios, tatuajes que cobran vida, jerga y vicios del sector). "
           "Humor absurdo, surrealista, retorcido, satírico e irónico; situaciones imposibles tratadas con lógica implacable; "
           "giro inesperado y remate inteligente. Nada infantil. Sin humor de relleno, sin moralejas. "
           "Evita odio hacia colectivos reales y personas reales identificables. Responde SOLO con JSON válido.")

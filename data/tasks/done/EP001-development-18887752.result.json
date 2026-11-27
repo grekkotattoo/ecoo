@@ -1,0 +1,24 @@
+{
+  "logline": "Los tatuajes pasan a tener ITV obligatoria y Toni lleva a revisión el tribal que le hizo su primo en una cocina en 2003.",
+  "synopsis": "Toni hace cola en una estación de ITV con el brazo por la ventanilla. La inspectora sube su tribal a la rampa y lo revisa como un coche: contorno desgastado, sombreado gris, la frase 'No regrest' mal escrita y emisiones de arrepentimiento por las nubes. Resultado: NO APTO y prohibido ir a la playa sin funda. Aparece su primo, con polo de la estación, ofreciendo un retoque por cincuenta euros: es el dueño de la ITV y hace negocio tatuando en casa y suspendiendo aquí sus propios tatuajes. La inspectora le pregunta quién le hizo a él el suyo.",
+  "humor_type": "satírico",
+  "twist": "El dueño de la ITV es el primo que tatuó a Toni: cobra por tatuar mal en su cocina y otra vez por suspender sus propios trabajos.",
+  "tone_notes": "Burocracia seca de ITV aplicada a la piel. La inspectora es imperturbable y técnica; Toni, indignado y orgulloso de su tribal; el primo, comercial y sin vergüenza. Ritmo rápido, jerga real de ITV y de estudio de tatuaje.",
+  "beats": [
+    {
+      "description": "Toni sube el brazo a la rampa de la ITV; la inspectora anota: tribal de 2003, hecho por un primo en una cocina."
+    },
+    {
+      "description": "Revisión técnica: contorno desgastado, sombreado gris, faltas de ortografía ('No regrest')."
+    },
+    {
+      "description": "Emisiones de arrepentimiento por las nubes: NO APTO y prohibido ir a la playa sin funda."
+    },
+    {
+      "description": "Llega el primo con polo de la estación y ofrece un retoque: es el dueño, tatúa en casa y suspende aquí."
+    },
+    {
+      "description": "Remate: la inspectora pregunta al primo quién le hizo su tatuaje 'APOT'. 'Otro primo.'"
+    }
+  ]
+}

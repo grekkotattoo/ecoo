@@ -1,111 +1,114 @@
 {
   "characters": [
     {
-      "id": "lucas",
-      "name": "Lucas",
-      "role": "Humano doméstico que cree ser el dueño",
-      "description": "Treintañero de piso de alquiler, ojeras, sudadera gastada, resignación crónica.",
+      "id": "toni",
+      "name": "Toni",
+      "role": "Cliente orgulloso de su tribal casero",
+      "description": "Cuarentón de gimnasio de barrio, camiseta de tirantes para lucir el tribal, gafas de sol en la cabeza y cadena.",
       "reuse": null,
-      "voice_hint": "hombre 30 años, español de España, voz cansada y algo nasal, tono incrédulo",
+      "voice_hint": "hombre 40 años, español de España, voz chulesca de barrio que se indigna rápido",
       "params": {
-        "body": "skinny",
-        "head": "oval",
-        "hair": "curly",
-        "eyes": "tired",
-        "nose": "long",
-        "outfit": "hoodie",
+        "body": "stocky",
+        "head": "square",
+        "hair": "spiky",
+        "eyes": "big",
+        "nose": "round",
+        "outfit": "tank",
         "species": "human",
-        "skin": "#e8b894",
-        "hair_color": "#3b2a1e",
-        "top_color": "#7a8a99",
+        "skin": "#d99a6c",
+        "hair_color": "#1e1a16",
+        "top_color": "#f4f1ea",
         "bottom_color": "#2b2f3a",
         "accent_color": "#c6ff00",
-        "eye_color": "#4a3b2a",
-        "height": 1.0,
-        "head_scale": 1.05,
-        "width": 0.9,
-        "accessories": [],
-        "seed": 11
-      }
-    },
-    {
-      "id": "miguelon",
-      "name": "Miguelón",
-      "role": "Gato empresario, titular del piso",
-      "description": "Gato atigrado naranja, gordo y señorial, mirada de autónomo cansado, corbata diminuta.",
-      "reuse": null,
-      "voice_hint": "voz masculina grave y pausada, español de España, tono de gestor aburrido y condescendiente",
-      "params": {
-        "body": "round",
-        "head": "round",
-        "hair": "none",
-        "eyes": "tired",
-        "nose": "pointy",
-        "outfit": "tshirt",
-        "species": "creature",
-        "skin": "#ff8c2a",
-        "hair_color": "#ff6b00",
-        "top_color": "#ff8c2a",
-        "bottom_color": "#ff8c2a",
-        "accent_color": "#ff2e88",
-        "eye_color": "#c6ff00",
-        "height": 0.75,
-        "head_scale": 1.2,
-        "width": 1.3,
+        "eye_color": "#3a2a1a",
+        "height": 1.05,
+        "head_scale": 1.1,
+        "width": 1.25,
         "accessories": [
-          "tie"
+          "sunglasses",
+          "chain"
         ],
-        "seed": 22
+        "seed": 41
       }
     },
     {
-      "id": "inspector",
-      "name": "Inspector de Hacienda",
-      "role": "Funcionario implacable",
-      "description": "Hombre de mediana edad, traje gris, gafas, bigote y maletín; ni se inmuta ante lo absurdo.",
+      "id": "inspectora",
+      "name": "Inspectora de ITV",
+      "role": "Funcionaria técnica e imperturbable",
+      "description": "Mujer de cincuenta años, uniforme azul de ITV, moño tirante, gafas y cara de haber visto demasiados tribales.",
       "reuse": null,
-      "voice_hint": "hombre 55 años, español de España, voz seca y monótona de funcionario",
+      "voice_hint": "mujer 50 años, español de España, voz seca, monótona y técnica de funcionaria",
       "params": {
         "body": "tall",
         "head": "long",
-        "hair": "bald_ring",
-        "eyes": "dots",
-        "nose": "long",
-        "outfit": "suit",
+        "hair": "bun",
+        "eyes": "tired",
+        "nose": "pointy",
+        "outfit": "uniform",
         "species": "human",
-        "skin": "#d9a77f",
-        "hair_color": "#8a8a8a",
-        "top_color": "#5a5f66",
-        "bottom_color": "#3a3e44",
+        "skin": "#e8b894",
+        "hair_color": "#5a4636",
+        "top_color": "#2f5d9a",
+        "bottom_color": "#1f3a63",
         "accent_color": "#00d1ff",
         "eye_color": "#2a2a2a",
-        "height": 1.25,
+        "height": 1.15,
         "head_scale": 1.0,
-        "width": 0.85,
+        "width": 0.9,
         "accessories": [
-          "glasses",
-          "mustache",
-          "tie"
+          "glasses"
         ],
-        "seed": 33
+        "seed": 52
+      }
+    },
+    {
+      "id": "primo",
+      "name": "El Primo",
+      "role": "Tatuador casero y dueño de la ITV",
+      "description": "Treintañero comercial y sin vergüenza, gorra hacia atrás, polo de la estación, bigote fino y brazos llenos de tatuajes torcidos.",
+      "reuse": null,
+      "voice_hint": "hombre 30 años, español de España, voz de vendedor enrollado y descarado",
+      "params": {
+        "body": "pear",
+        "head": "egg",
+        "hair": "slick",
+        "eyes": "wild",
+        "nose": "long",
+        "outfit": "tshirt",
+        "species": "human",
+        "skin": "#c98b5e",
+        "hair_color": "#0d0d0d",
+        "top_color": "#ff6b00",
+        "bottom_color": "#2b2f3a",
+        "accent_color": "#ff2e88",
+        "eye_color": "#2a1a0a",
+        "height": 0.95,
+        "head_scale": 1.1,
+        "width": 1.05,
+        "accessories": [
+          "cap",
+          "mustache",
+          "earring"
+        ],
+        "seed": 63
       }
     }
   ],
   "library": {
-    "lucas": {
-      "id": "lucas",
+    "toni": {
+      "id": "toni",
       "version": 1,
-      "hash": "6db95cfe8ecfc166"
+      "hash": "4f4d93551c94b737"
     },
-    "miguelon": {
-      "id": "miguelon",
+    "inspectora": {
+      "id": "inspectora",
       "version": 1,
-      "hash": "c1e3c2bce1cee43d"
+      "hash": "3f47e005ac138c25"
     },
-    "inspector": {
-      "id": "inspector",
+    "primo": {
+      "id": "primo",
       "version": 1,
-      "hash": "f285abc562e58646"
+      "hash": "5ddf208078b0adbc"
     }
   }
 }

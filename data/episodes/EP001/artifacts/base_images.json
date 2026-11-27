@@ -2,69 +2,62 @@
   "images": [
     {
       "kind": "key_frame",
-      "shot": "s02",
-      "file": "key_s02.png",
-      "caption": "Un datáfono asoma bajo el cojín; Miguelón cobra."
+      "shot": "s01",
+      "file": "key_s01.png",
+      "caption": "Toni llega a la línea de ITV y estira el brazo para lucir el tribal."
     },
     {
       "kind": "key_frame",
-      "shot": "s05",
-      "file": "key_s05.png",
-      "caption": "Huelga gatuna con pancartas; Lucas en la cola pagando."
+      "shot": "s03",
+      "file": "key_s03.png",
+      "caption": "Revisión con lupa; aparece la falta de ortografía; Toni rabia."
+    },
+    {
+      "kind": "key_frame",
+      "shot": "s04",
+      "file": "key_s04.png",
+      "caption": "El medidor de arrepentimiento explota; sello rojo NO APTO."
     },
     {
       "kind": "key_frame",
       "shot": "s06",
       "file": "key_s06.png",
-      "caption": "El inspector abre la escritura: titular, el gato."
-    },
-    {
-      "kind": "key_frame",
-      "shot": "s07",
-      "file": "key_s07.png",
-      "caption": "Giro: Lucas figura como gasto deducible; se desmaya."
+      "caption": "Giro: el primo es el dueño de la ITV; Toni se desmaya."
     },
     {
       "kind": "character_sheet",
-      "character": "lucas",
-      "file": "char_lucas.png",
-      "caption": "Lucas"
+      "character": "toni",
+      "file": "char_toni.png",
+      "caption": "Toni"
     },
     {
       "kind": "character_sheet",
-      "character": "miguelon",
-      "file": "char_miguelon.png",
-      "caption": "Miguelón"
+      "character": "inspectora",
+      "file": "char_inspectora.png",
+      "caption": "Inspectora de ITV"
     },
     {
       "kind": "character_sheet",
-      "character": "inspector",
-      "file": "char_inspector.png",
-      "caption": "Inspector de Hacienda"
+      "character": "primo",
+      "file": "char_primo.png",
+      "caption": "El Primo"
     },
     {
       "kind": "background",
-      "location": "salon_piso",
-      "file": "bg_salon_piso.png",
-      "caption": "Salón del piso"
-    },
-    {
-      "kind": "background",
-      "location": "calle_barrio",
-      "file": "bg_calle_barrio.png",
-      "caption": "Calle del barrio"
+      "location": "estacion_itv",
+      "file": "bg_estacion_itv.png",
+      "caption": "Estación de ITV de tatuajes"
     }
   ],
-  "estimated_seconds": 34.7,
+  "estimated_seconds": 38.2,
   "hashes": {
-    "key_s02.png": "a0552cd933b86968",
-    "key_s05.png": "5f5b5b9cff0a6e28",
-    "key_s06.png": "230347a27c2ab502",
-    "key_s07.png": "80a8653b2b4e8fb7",
-    "char_lucas.png": "da77c3f14269729c",
-    "char_miguelon.png": "7796e83c0187403c",
-    "char_inspector.png": "854f89fdc258fd7f",
-    "bg_salon_piso.png": "069b0ed25266b243",
-    "bg_calle_barrio.png": "aebaa005c5e9428d"
+    "key_s01.png": "a3b4bece446db66e",
+    "key_s03.png": "ea0bf67718dfebd3",
+    "key_s04.png": "8407c543cd48c353",
+    "key_s06.png": "a011d297696088f2",
+    "char_toni.png": "9be32481b3a24cda",
+    "char_inspectora.png": "8b00cc247acd7c65",
+    "char_primo.png": "580a80daa7917d9a",
+    "bg_estacion_itv.png": "2ec43c6b9addaaa7"
   }
 }

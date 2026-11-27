@@ -4,6 +4,7 @@
 
 **Qué es:** estudio autónomo de animación 2D que convierte una pregunta hipotética en un corto vertical terminado.
 **Serie:** cortos 2D para ADULTOS, español de España, 20–45 s, 1080×1920, 30 fps, H.264.
+**Temática (decisión del usuario, D13):** TODO gira alrededor del mundo del tatuaje y el humor del sector.
 **Tono:** absurdo, surrealista, retorcido, sátira, ironía, giro inesperado, remate inteligente. Nunca infantil.
 **Estética:** URBANA y joven (biblia v4): color plano + una sombra dura, contorno negro grueso, caricatura extrema y básica, escenarios callejeros nocturnos con neón y pintadas, animación en dobles, cámara 2.5D. Solo 2D (prohibido 3D, foto, metraje real, fotorrealismo). Biblia visual: `config/style_bible.json`.
 

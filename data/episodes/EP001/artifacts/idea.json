@@ -1,17 +1,14 @@
 {
-  "title": "Los gatos cobran por ronronear",
-  "question": "¿Qué pasaría si los gatos empezaran a cobrar por ronronear?",
-  "premise": "Un gato doméstico instala un datáfono en el sofá y factura cada ronroneo por minutos. En una semana los gatos tienen sindicato, tarifa nocturna y asesor fiscal.",
+  "title": "La ITV de los tatuajes",
+  "question": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?",
+  "premise": "Toni lleva a revisión obligatoria el tribal que le hizo su primo en una cocina en 2003. El inspector lo examina como un coche: contornos, sombreado, faltas de ortografía y emisiones de arrepentimiento.",
   "humor_type": "satírico",
-  "twist": "Hacienda abre una inspección… y descubre que el dueño lleva años siendo el mascota fiscal del gato.",
-  "tags": [
-    "animales",
-    "economía",
-    "sátira"
-  ],
-  "id": "I0001",
-  "status": "queued",
-  "source": "claude_code",
-  "created": "2026-11-27T13:21:37+00:00",
-  "episode": null
+  "twist": "Le dan NO APTO; Toni descubre que el dueño de la estación de ITV es su primo, que cobra por tatuar y por suspender sus propios tatuajes.",
+  "tags": [],
+  "id": "I0006",
+  "status": "in_episode",
+  "source": "user",
+  "created": "2026-11-27T19:43:54+00:00",
+  "episode": "EP001",
+  "updated": "2026-11-27T19:43:58+00:00"
 }

@@ -1,0 +1,279 @@
+{
+  "shots": [
+    {
+      "location": "estacion_itv",
+      "framing": "wide",
+      "camera": "crane_down",
+      "transition": "fade",
+      "effects": [
+        "textPop"
+      ],
+      "text_pop": "¿QUÉ PASARÍA SI...?",
+      "actors": [
+        {
+          "character": "toni",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "walk",
+            "stretch"
+          ],
+          "expression": "smug"
+        },
+        {
+          "character": "inspectora",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "idle"
+          ],
+          "expression": "tired"
+        }
+      ],
+      "lines": [
+        "l01"
+      ],
+      "seconds": 3,
+      "description": "Toni llega a la línea de ITV y estira el brazo para lucir el tribal.",
+      "key_image": true
+    },
+    {
+      "location": "estacion_itv",
+      "framing": "medium",
+      "camera": "push_in",
+      "transition": "cut",
+      "effects": [],
+      "text_pop": "",
+      "actors": [
+        {
+          "character": "inspectora",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "talk",
+            "lookAt"
+          ],
+          "expression": "tired"
+        },
+        {
+          "character": "toni",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "talk",
+            "nod"
+          ],
+          "expression": "smug"
+        }
+      ],
+      "lines": [
+        "l02",
+        "l03"
+      ],
+      "seconds": 3.5,
+      "description": "La inspectora apunta con la linterna; Toni presume de taller.",
+      "key_image": false
+    },
+    {
+      "location": "estacion_itv",
+      "framing": "medium",
+      "camera": "orbit_left",
+      "transition": "whip",
+      "effects": [
+        "textPop"
+      ],
+      "text_pop": "NO REGREST",
+      "actors": [
+        {
+          "character": "inspectora",
+          "position": "center",
+          "facing": "left",
+          "actions": [
+            "lean",
+            "talk",
+            "shakeHead"
+          ],
+          "expression": "disgusted"
+        },
+        {
+          "character": "toni",
+          "position": "far_left",
+          "facing": "right",
+          "actions": [
+            "rage",
+            "talk"
+          ],
+          "expression": "angry"
+        }
+      ],
+      "lines": [
+        "l04",
+        "l05"
+      ],
+      "seconds": 5.5,
+      "description": "Revisión con lupa; aparece la falta de ortografía; Toni rabia.",
+      "key_image": true
+    },
+    {
+      "location": "estacion_itv",
+      "framing": "medium",
+      "camera": "dutch",
+      "transition": "smash",
+      "effects": [
+        "impact",
+        "smoke",
+        "shake",
+        "textPop"
+      ],
+      "text_pop": "NO APTO",
+      "actors": [
+        {
+          "character": "inspectora",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "talk",
+            "point"
+          ],
+          "expression": "neutral"
+        },
+        {
+          "character": "toni",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "take",
+            "cower"
+          ],
+          "expression": "scared"
+        }
+      ],
+      "lines": [
+        "l06"
+      ],
+      "seconds": 4.5,
+      "description": "El medidor de arrepentimiento explota; sello rojo NO APTO.",
+      "key_image": true
+    },
+    {
+      "location": "estacion_itv",
+      "framing": "wide",
+      "camera": "swoop",
+      "transition": "whip",
+      "effects": [
+        "speedlines",
+        "sparks"
+      ],
+      "text_pop": "",
+      "actors": [
+        {
+          "character": "primo",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "sneak",
+            "wave",
+            "talk"
+          ],
+          "expression": "happy"
+        },
+        {
+          "character": "toni",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "take",
+            "talk"
+          ],
+          "expression": "surprised"
+        }
+      ],
+      "lines": [
+        "l07",
+        "l08"
+      ],
+      "seconds": 4,
+      "description": "El primo entra con polo de la estación y máquina de tatuar.",
+      "key_image": false
+    },
+    {
+      "location": "estacion_itv",
+      "framing": "medium",
+      "camera": "vertigo",
+      "transition": "cut",
+      "effects": [
+        "flash",
+        "vignettePulse",
+        "textPop"
+      ],
+      "text_pop": "DUEÑO",
+      "actors": [
+        {
+          "character": "primo",
+          "position": "center",
+          "facing": "left",
+          "actions": [
+            "celebrate",
+            "talk"
+          ],
+          "expression": "smug"
+        },
+        {
+          "character": "toni",
+          "position": "far_left",
+          "facing": "right",
+          "actions": [
+            "faint"
+          ],
+          "expression": "surprised"
+        }
+      ],
+      "lines": [
+        "l09"
+      ],
+      "seconds": 3.5,
+      "description": "Giro: el primo es el dueño de la ITV; Toni se desmaya.",
+      "key_image": true
+    },
+    {
+      "location": "estacion_itv",
+      "framing": "medium",
+      "camera": "rack_focus",
+      "transition": "iris",
+      "effects": [
+        "impact",
+        "textPop"
+      ],
+      "text_pop": "APOT",
+      "actors": [
+        {
+          "character": "inspectora",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "point",
+            "talk"
+          ],
+          "expression": "smug"
+        },
+        {
+          "character": "primo",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "shrug",
+            "talk"
+          ],
+          "expression": "tired"
+        }
+      ],
+      "lines": [
+        "l10",
+        "l11"
+      ],
+      "seconds": 3.5,
+      "description": "Remate: el tatuaje 'APOT' del primo. 'Otro primo.'",
+      "key_image": false
+    }
+  ]
+}

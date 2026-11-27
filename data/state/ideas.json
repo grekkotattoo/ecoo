@@ -1,5 +1,5 @@
 {
-  "next_id": 6,
+  "next_id": 11,
   "items": [
     {
       "title": "Los gatos cobran por ronronear",
@@ -13,11 +13,11 @@
         "sátira"
       ],
       "id": "I0001",
-      "status": "in_episode",
+      "status": "rejected",
       "source": "claude_code",
       "created": "2026-11-27T13:21:37+00:00",
       "episode": "EP001",
-      "updated": "2026-11-27T13:21:37+00:00"
+      "updated": "2026-11-27T19:43:58+00:00"
     },
     {
       "title": "El ascensor que opina",
@@ -31,10 +31,11 @@
         "trabajo"
       ],
       "id": "I0002",
-      "status": "queued",
+      "status": "rejected",
       "source": "claude_code",
       "created": "2026-11-27T13:21:37+00:00",
-      "episode": null
+      "episode": null,
+      "updated": "2026-11-27T19:43:54+00:00"
     },
     {
       "title": "Funeral de la última siesta",
@@ -48,10 +49,11 @@
         "burocracia"
       ],
       "id": "I0003",
-      "status": "queued",
+      "status": "rejected",
       "source": "claude_code",
       "created": "2026-11-27T13:21:37+00:00",
-      "episode": null
+      "episode": null,
+      "updated": "2026-11-27T19:43:54+00:00"
     },
     {
       "title": "Tu sombra pide el divorcio",
@@ -65,10 +67,11 @@
         "surrealismo"
       ],
       "id": "I0004",
-      "status": "queued",
+      "status": "rejected",
       "source": "claude_code",
       "created": "2026-11-27T13:21:37+00:00",
-      "episode": null
+      "episode": null,
+      "updated": "2026-11-27T19:43:54+00:00"
     },
     {
       "title": "La nevera con agenda propia",
@@ -82,9 +85,76 @@
         "moral"
       ],
       "id": "I0005",
-      "status": "queued",
+      "status": "rejected",
       "source": "claude_code",
       "created": "2026-11-27T13:21:37+00:00",
+      "episode": null,
+      "updated": "2026-11-27T19:43:54+00:00"
+    },
+    {
+      "title": "La ITV de los tatuajes",
+      "question": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?",
+      "premise": "Toni lleva a revisión obligatoria el tribal que le hizo su primo en una cocina en 2003. El inspector lo examina como un coche: contornos, sombreado, faltas de ortografía y emisiones de arrepentimiento.",
+      "humor_type": "satírico",
+      "twist": "Le dan NO APTO; Toni descubre que el dueño de la estación de ITV es su primo, que cobra por tatuar y por suspender sus propios tatuajes.",
+      "tags": [],
+      "id": "I0006",
+      "status": "in_episode",
+      "source": "user",
+      "created": "2026-11-27T19:43:54+00:00",
+      "episode": "EP001",
+      "updated": "2026-11-27T19:43:58+00:00"
+    },
+    {
+      "title": "Los kanjis hablan",
+      "question": "¿Qué pasaría si todos los kanjis tatuados empezaran a leerse en voz alta?",
+      "premise": "Un día los kanjis de la gente empiezan a decir en alto lo que realmente pone. 'Fuerza y honor' resulta ser 'pollo agridulce' y 'menú del día'.",
+      "humor_type": "ironía",
+      "twist": "El tatuador se ríe de todos hasta que su propio kanji dice: 'Yo tampoco sé japonés'.",
+      "tags": [],
+      "id": "I0007",
+      "status": "queued",
+      "source": "user",
+      "created": "2026-11-27T19:43:54+00:00",
+      "episode": null
+    },
+    {
+      "title": "Tatuaje con seis dedos",
+      "question": "¿Qué pasaría si un tatuaje diseñado por IA cobrara vida?",
+      "premise": "Una clienta trae un diseño hecho con IA y exige copiarlo exacto. El tatuaje cobra vida con seis dedos, tres ojos y opiniones sobre anatomía.",
+      "humor_type": "absurdo",
+      "twist": "El tatuaje pide que lo retoque un tatuador humano, y la IA le cobra derechos de autor a la clienta.",
+      "tags": [],
+      "id": "I0008",
+      "status": "queued",
+      "source": "user",
+      "created": "2026-11-27T19:43:54+00:00",
+      "episode": null
+    },
+    {
+      "title": "El nombre de la ex",
+      "question": "¿Qué pasaría si los tatuajes con nombres de pareja se actualizaran solos?",
+      "premise": "El tatuaje 'Vanessa' de Rubén cambia de nombre cada vez que liga. En un año su brazo es un listado con fechas, como un historial médico.",
+      "humor_type": "satírico",
+      "twist": "El tatuaje empieza a añadir valoraciones de una a cinco estrellas escritas por ellas.",
+      "tags": [],
+      "id": "I0009",
+      "status": "queued",
+      "source": "user",
+      "created": "2026-11-27T19:43:54+00:00",
+      "episode": null
+    },
+    {
+      "title": "Algo pequeñito que signifique algo",
+      "question": "¿Qué pasaría si el tatuador cumpliera literalmente 'algo pequeñito que signifique algo'?",
+      "premise": "Un cliente pide lo de siempre: pequeñito y con significado. El tatuador le tatúa un punto microscópico que contiene el sentido de la vida.",
+      "humor_type": "surrealista",
+      "twist": "Hace falta un microscopio para leerlo, y lo que pone es: 'No haberte tatuado esto'.",
+      "tags": [],
+      "id": "I0010",
+      "status": "queued",
+      "source": "user",
+      "created": "2026-11-27T19:43:55+00:00",
       "episode": null
     }
   ]

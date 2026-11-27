@@ -1,34 +1,34 @@
-# Episodio 001 — Los gatos cobran por ronronear
-**¿Qué pasaría si los gatos empezaran a cobrar por ronronear?**
+# Episodio 001 — La ITV de los tatuajes
+**¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?**
 
-Lucas acaricia a su gato Miguelón y oye un 'pip': un datáfono asoma bajo el cojín. Cada minuto de ronroneo se cobra, con tarifa nocturna y recargo por fin de semana. En días, los gatos del barrio fundan un sindicato, convocan huelga de ronroneos y los humanos, desesperados, pagan. Hacienda abre una inspección por ingresos no declarados. El inspector revisa la documentación y descubre que el titular de la casa, la hipoteca y la cuenta bancaria es el gato: Lucas figura en su declaración como mascota desgravable.
+Toni hace cola en una estación de ITV con el brazo por la ventanilla. La inspectora sube su tribal a la rampa y lo revisa como un coche: contorno desgastado, sombreado gris, la frase 'No regrest' mal escrita y emisiones de arrepentimiento por las nubes. Resultado: NO APTO y prohibido ir a la playa sin funda. Aparece su primo, con polo de la estación, ofreciendo un retoque por cincuenta euros: es el dueño de la ITV y hace negocio tatuando en casa y suspendiendo aquí sus propios tatuajes. La inspectora le pregunta quién le hizo a él el suyo.
 
-- Humor: satírico · puntuación 7.5/10 ✅
-- Giro: La inspección revela que Lucas no es el dueño: es la mascota fiscal del gato, que lo desgrava como gasto deducible.
-- Duración estimada: 34.7 s
+- Humor: satírico · puntuación 7.67/10 ✅
+- Giro: El dueño de la ITV es el primo que tatuó a Toni: cobra por tatuar mal en su cocina y otra vez por suspender sus propios trabajos.
+- Duración estimada: 38.2 s
 
 ## Imágenes base
-![Un datáfono asoma bajo el cojín; Miguelón cobra.](images/key_s02.png)
-![Huelga gatuna con pancartas; Lucas en la cola pagando.](images/key_s05.png)
-![El inspector abre la escritura: titular, el gato.](images/key_s06.png)
-![Giro: Lucas figura como gasto deducible; se desmaya.](images/key_s07.png)
-![Lucas](images/char_lucas.png)
-![Miguelón](images/char_miguelon.png)
-![Inspector de Hacienda](images/char_inspector.png)
-![Salón del piso](images/bg_salon_piso.png)
-![Calle del barrio](images/bg_calle_barrio.png)
+![Toni llega a la línea de ITV y estira el brazo para lucir el tribal.](images/key_s01.png)
+![Revisión con lupa; aparece la falta de ortografía; Toni rabia.](images/key_s03.png)
+![El medidor de arrepentimiento explota; sello rojo NO APTO.](images/key_s04.png)
+![Giro: el primo es el dueño de la ITV; Toni se desmaya.](images/key_s06.png)
+![Toni](images/char_toni.png)
+![Inspectora de ITV](images/char_inspectora.png)
+![El Primo](images/char_primo.png)
+![Estación de ITV de tatuajes](images/bg_estacion_itv.png)
 
 ## Guion
-- **narrador**: ¿Qué pasaría si los gatos cobraran por ronronear?
-- **miguelon**: Noventa céntimos el minuto. Sin contacto.
-- **lucas**: ¿Desde cuándo cobras?
-- **miguelon**: Tarifa nocturna. Recargo en domingo. ¿Quieres factura?
-- **lucas**: Pues sí, la verdad.
-- **narrador**: En una semana: sindicato, huelga y colas para pagar.
-- **inspector**: Inspección fiscal. El titular del piso es... el gato.
-- **lucas**: ¿Cómo que el gato?
-- **inspector**: Gastos deducibles: comida, arena... y humano doméstico.
-- **miguelon**: Y vacunado.
+- **narrador**: ¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?
+- **inspectora**: Tribal de 2003. ¿Taller?
+- **toni**: Mi primo. En su cocina.
+- **inspectora**: Contorno desgastado. Sombreado más gris que su futuro. Y pone 'No regrest'.
+- **toni**: Es estilo.
+- **inspectora**: Emisiones de arrepentimiento: por las nubes. No apto. A la playa, con funda.
+- **primo**: ¿Problemas, primo? Retoque, cincuenta euros.
+- **toni**: ¿Tú trabajas aquí?
+- **primo**: Soy el dueño. Tatúo en casa y suspendo aquí.
+- **inspectora**: ¿Y el suyo quién se lo hizo?
+- **primo**: Otro primo.
 
 ## Acciones
 `studio approve EP001 APROBAR` · o desde el panel

@@ -1,91 +1,91 @@
 {
   "id": "EP001",
   "number": 1,
-  "idea_id": "I0001",
-  "title": "Los gatos cobran por ronronear",
-  "question": "¿Qué pasaría si los gatos empezaran a cobrar por ronronear?",
+  "idea_id": "I0006",
+  "title": "La ITV de los tatuajes",
+  "question": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?",
   "status": "awaiting_approval",
   "test": false,
   "created": "2026-11-27T13:21:37+00:00",
-  "updated": "2026-11-27T13:23:42+00:00",
+  "updated": "2026-11-27T19:45:42+00:00",
   "phases": {
     "development": {
       "status": "done",
-      "attempts": 2,
-      "pid": 315,
-      "started": "2026-11-27T13:21:51+00:00",
+      "attempts": 3,
+      "pid": 295,
+      "started": "2026-11-27T19:44:16+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T13:21:51+00:00",
-      "output_hash": "67f12001d6c7bfb7"
+      "finished": "2026-11-27T19:44:16+00:00",
+      "output_hash": "85d9793da098b4d3"
     },
     "script": {
       "status": "done",
       "attempts": 2,
-      "pid": 333,
-      "started": "2026-11-27T13:22:01+00:00",
+      "pid": 309,
+      "started": "2026-11-27T19:44:25+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T13:22:01+00:00",
-      "output_hash": "f11fc157417e7c29"
+      "finished": "2026-11-27T19:44:25+00:00",
+      "output_hash": "8444cb3b1e604393"
     },
     "humor_review": {
       "status": "done",
       "attempts": 2,
-      "pid": 352,
-      "started": "2026-11-27T13:22:08+00:00",
+      "pid": 321,
+      "started": "2026-11-27T19:44:31+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T13:22:08+00:00",
-      "output_hash": "19f182f6920acd08"
+      "finished": "2026-11-27T19:44:31+00:00",
+      "output_hash": "b1142b7adfa5e4ec"
     },
     "art_direction": {
       "status": "done",
       "attempts": 2,
-      "pid": 373,
-      "started": "2026-11-27T13:22:22+00:00",
+      "pid": 338,
+      "started": "2026-11-27T19:44:41+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T13:22:22+00:00",
-      "output_hash": "4b0d9287d154f272"
+      "finished": "2026-11-27T19:44:41+00:00",
+      "output_hash": "841988c5ffe63b6f"
     },
     "characters": {
       "status": "done",
       "attempts": 2,
-      "pid": 391,
-      "started": "2026-11-27T13:22:35+00:00",
+      "pid": 352,
+      "started": "2026-11-27T19:44:54+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T13:22:35+00:00",
-      "output_hash": "f11f676d5c4c35b3"
+      "finished": "2026-11-27T19:44:54+00:00",
+      "output_hash": "b8e4ca2ebc1469d9"
     },
     "storyboard": {
       "status": "done",
       "attempts": 2,
-      "pid": 409,
-      "started": "2026-11-27T13:22:50+00:00",
+      "pid": 373,
+      "started": "2026-11-27T19:45:09+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T13:22:50+00:00",
-      "output_hash": "8dfc619856262ddd"
+      "finished": "2026-11-27T19:45:09+00:00",
+      "output_hash": "c51c63b8e1782584"
     },
     "base_images": {
       "status": "done",
-      "attempts": 2,
-      "pid": 448,
-      "started": "2026-11-27T13:23:02+00:00",
+      "attempts": 1,
+      "pid": 373,
+      "started": "2026-11-27T19:45:09+00:00",
+      "finished": "2026-11-27T19:45:42+00:00",
+      "output_hash": "16be849ed7d8a8f1",
       "error": null,
-      "finished": "2026-11-27T13:23:42+00:00",
-      "output_hash": "b71e7583f3739e2f",
       "task": null
     },
     "proposal": {
       "status": "done",
       "attempts": 1,
-      "pid": 448,
-      "started": "2026-11-27T13:23:42+00:00",
-      "finished": "2026-11-27T13:23:42+00:00",
-      "output_hash": "96cbc8cc8e9d3957",
+      "pid": 373,
+      "started": "2026-11-27T19:45:42+00:00",
+      "finished": "2026-11-27T19:45:42+00:00",
+      "output_hash": "20c66452dc8b09be",
       "error": null,
       "task": null
     },
@@ -134,5 +134,14 @@
   "waiting": {
     "type": "approval"
   },
-  "history": []
+  "history": [
+    {
+      "ts": "2026-11-27T19:43:58+00:00",
+      "episode": "EP001",
+      "action": "CHANGE_IDEA",
+      "feedback": "",
+      "by": "cli",
+      "proposal_hash": "4540eadb05384f08"
+    }
+  ]
 }

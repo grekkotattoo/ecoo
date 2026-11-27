@@ -1,102 +1,108 @@
 {
-  "title": "Los gatos cobran por ronronear",
+  "title": "La ITV de los tatuajes",
   "beats": [
     {
       "id": "b1",
-      "location": "salon_piso",
-      "action": "Lucas acaricia a Miguelón en el sofá. 'Pip': un datáfono asoma bajo el cojín.",
+      "location": "estacion_itv",
+      "action": "Toni apoya el brazo en la rampa de la ITV. La inspectora lo enfoca con una linterna.",
       "lines": [
         {
           "id": "l01",
           "speaker": "narrador",
-          "text": "¿Qué pasaría si los gatos cobraran por ronronear?",
+          "text": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?",
           "emotion": "neutral"
         },
         {
           "id": "l02",
-          "speaker": "miguelon",
-          "text": "Noventa céntimos el minuto. Sin contacto.",
-          "emotion": "smug"
+          "speaker": "inspectora",
+          "text": "Tribal de 2003. ¿Taller?",
+          "emotion": "tired"
         },
         {
           "id": "l03",
-          "speaker": "lucas",
-          "text": "¿Desde cuándo cobras?",
-          "emotion": "surprised"
+          "speaker": "toni",
+          "text": "Mi primo. En su cocina.",
+          "emotion": "smug"
         }
       ]
     },
     {
       "id": "b2",
-      "location": "salon_piso",
-      "action": "Miguelón saca un talonario y estampa su huella.",
+      "location": "estacion_itv",
+      "action": "La inspectora repasa el tatuaje con una lupa y un medidor.",
       "lines": [
         {
           "id": "l04",
-          "speaker": "miguelon",
-          "text": "Tarifa nocturna. Recargo en domingo. ¿Quieres factura?",
-          "emotion": "tired"
+          "speaker": "inspectora",
+          "text": "Contorno desgastado. Sombreado más gris que su futuro. Y pone 'No regrest'.",
+          "emotion": "disgusted"
         },
         {
           "id": "l05",
-          "speaker": "lucas",
-          "text": "Pues sí, la verdad.",
+          "speaker": "toni",
+          "text": "Es estilo.",
           "emotion": "angry"
         }
       ]
     },
     {
       "id": "b3",
-      "location": "calle_barrio",
-      "action": "Gatos en huelga con pancartas: 'SIN CONVENIO NO HAY PRRR'. Humanos en cola pagando con el móvil.",
+      "location": "estacion_itv",
+      "action": "Un medidor de arrepentimiento explota. Sello rojo: NO APTO.",
       "lines": [
         {
           "id": "l06",
-          "speaker": "narrador",
-          "text": "En una semana: sindicato, huelga y colas para pagar.",
+          "speaker": "inspectora",
+          "text": "Emisiones de arrepentimiento: por las nubes. No apto. A la playa, con funda.",
           "emotion": "neutral"
         }
       ]
     },
     {
       "id": "b4",
-      "location": "salon_piso",
-      "action": "Un inspector de Hacienda abre la escritura del piso.",
+      "location": "estacion_itv",
+      "action": "Entra el primo con polo de la estación y una máquina de tatuar.",
       "lines": [
         {
           "id": "l07",
-          "speaker": "inspector",
-          "text": "Inspección fiscal. El titular del piso es... el gato.",
-          "emotion": "surprised"
+          "speaker": "primo",
+          "text": "¿Problemas, primo? Retoque, cincuenta euros.",
+          "emotion": "happy"
         },
         {
           "id": "l08",
-          "speaker": "lucas",
-          "text": "¿Cómo que el gato?",
-          "emotion": "scared"
+          "speaker": "toni",
+          "text": "¿Tú trabajas aquí?",
+          "emotion": "surprised"
+        },
+        {
+          "id": "l09",
+          "speaker": "primo",
+          "text": "Soy el dueño. Tatúo en casa y suspendo aquí.",
+          "emotion": "smug"
         }
       ]
     },
     {
       "id": "b5",
-      "location": "salon_piso",
-      "action": "El inspector lee la declaración. Lucas mira a cámara. Miguelón ronronea. Pip.",
+      "location": "estacion_itv",
+      "action": "La inspectora señala el brazo del primo: pone 'APOT'.",
       "lines": [
         {
-          "id": "l09",
-          "speaker": "inspector",
-          "text": "Gastos deducibles: comida, arena... y humano doméstico.",
-          "emotion": "neutral"
+          "id": "l10",
+          "speaker": "inspectora",
+          "text": "¿Y el suyo quién se lo hizo?",
+          "emotion": "smug"
         },
         {
-          "id": "l10",
-          "speaker": "miguelon",
-          "text": "Y vacunado.",
-          "emotion": "smug"
+          "id": "l11",
+          "speaker": "primo",
+          "text": "Otro primo.",
+          "emotion": "tired"
         }
       ]
     }
   ],
-  "punchline": "Gastos deducibles: comida, arena y humano doméstico.",
-  "word_count": 59
+  "punchline": "¿Y el suyo quién se lo hizo? Otro primo.",
+  "word_count": 72
 }

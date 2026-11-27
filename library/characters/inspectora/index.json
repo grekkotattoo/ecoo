@@ -1,0 +1,14 @@
+{
+  "id": "inspectora",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "3f47e005ac138c25",
+      "created": "2026-11-27T19:44:54+00:00",
+      "name": "Inspectora de ITV",
+      "episode": "EP001",
+      "preview": "characters/inspectora/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}

@@ -1,0 +1,91 @@
+{
+  "title": "La ITV de los tatuajes",
+  "punchline": "¿Y el suyo quién se lo hizo? Otro primo.",
+  "beats": [
+    {
+      "location": "estacion_itv",
+      "action": "Toni apoya el brazo en la rampa de la ITV. La inspectora lo enfoca con una linterna.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "inspectora",
+          "text": "Tribal de 2003. ¿Taller?",
+          "emotion": "tired"
+        },
+        {
+          "speaker": "toni",
+          "text": "Mi primo. En su cocina.",
+          "emotion": "smug"
+        }
+      ]
+    },
+    {
+      "location": "estacion_itv",
+      "action": "La inspectora repasa el tatuaje con una lupa y un medidor.",
+      "lines": [
+        {
+          "speaker": "inspectora",
+          "text": "Contorno desgastado. Sombreado más gris que su futuro. Y pone 'No regrest'.",
+          "emotion": "disgusted"
+        },
+        {
+          "speaker": "toni",
+          "text": "Es estilo.",
+          "emotion": "angry"
+        }
+      ]
+    },
+    {
+      "location": "estacion_itv",
+      "action": "Un medidor de arrepentimiento explota. Sello rojo: NO APTO.",
+      "lines": [
+        {
+          "speaker": "inspectora",
+          "text": "Emisiones de arrepentimiento: por las nubes. No apto. A la playa, con funda.",
+          "emotion": "neutral"
+        }
+      ]
+    },
+    {
+      "location": "estacion_itv",
+      "action": "Entra el primo con polo de la estación y una máquina de tatuar.",
+      "lines": [
+        {
+          "speaker": "primo",
+          "text": "¿Problemas, primo? Retoque, cincuenta euros.",
+          "emotion": "happy"
+        },
+        {
+          "speaker": "toni",
+          "text": "¿Tú trabajas aquí?",
+          "emotion": "surprised"
+        },
+        {
+          "speaker": "primo",
+          "text": "Soy el dueño. Tatúo en casa y suspendo aquí.",
+          "emotion": "smug"
+        }
+      ]
+    },
+    {
+      "location": "estacion_itv",
+      "action": "La inspectora señala el brazo del primo: pone 'APOT'.",
+      "lines": [
+        {
+          "speaker": "inspectora",
+          "text": "¿Y el suyo quién se lo hizo?",
+          "emotion": "smug"
+        },
+        {
+          "speaker": "primo",
+          "text": "Otro primo.",
+          "emotion": "tired"
+        }
+      ]
+    }
+  ]
+}

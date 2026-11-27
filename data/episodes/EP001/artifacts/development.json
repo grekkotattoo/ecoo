@@ -1,29 +1,29 @@
 {
-  "logline": "Un gato descubre que su ronroneo tiene valor de mercado y convierte el sofá en una empresa con facturación por minutos.",
-  "synopsis": "Lucas acaricia a su gato Miguelón y oye un 'pip': un datáfono asoma bajo el cojín. Cada minuto de ronroneo se cobra, con tarifa nocturna y recargo por fin de semana. En días, los gatos del barrio fundan un sindicato, convocan huelga de ronroneos y los humanos, desesperados, pagan. Hacienda abre una inspección por ingresos no declarados. El inspector revisa la documentación y descubre que el titular de la casa, la hipoteca y la cuenta bancaria es el gato: Lucas figura en su declaración como mascota desgravable.",
+  "logline": "Los tatuajes pasan a tener ITV obligatoria y Toni lleva a revisión el tribal que le hizo su primo en una cocina en 2003.",
+  "synopsis": "Toni hace cola en una estación de ITV con el brazo por la ventanilla. La inspectora sube su tribal a la rampa y lo revisa como un coche: contorno desgastado, sombreado gris, la frase 'No regrest' mal escrita y emisiones de arrepentimiento por las nubes. Resultado: NO APTO y prohibido ir a la playa sin funda. Aparece su primo, con polo de la estación, ofreciendo un retoque por cincuenta euros: es el dueño de la ITV y hace negocio tatuando en casa y suspendiendo aquí sus propios tatuajes. La inspectora le pregunta quién le hizo a él el suyo.",
   "humor_type": "satírico",
-  "twist": "La inspección revela que Lucas no es el dueño: es la mascota fiscal del gato, que lo desgrava como gasto deducible.",
-  "tone_notes": "Seco, deadpan, ritmo de anuncio bancario. El gato nunca exagera: actúa como un autónomo cansado. Lucas, resignado. Nada infantil.",
+  "twist": "El dueño de la ITV es el primo que tatuó a Toni: cobra por tatuar mal en su cocina y otra vez por suspender sus propios trabajos.",
+  "tone_notes": "Burocracia seca de ITV aplicada a la piel. La inspectora es imperturbable y técnica; Toni, indignado y orgulloso de su tribal; el primo, comercial y sin vergüenza. Ritmo rápido, jerga real de ITV y de estudio de tatuaje.",
   "beats": [
     {
       "id": "b1",
-      "description": "Lucas acaricia a Miguelón en el sofá; suena 'pip' y un datáfono asoma bajo el cojín: '0,90 € el minuto'."
+      "description": "Toni sube el brazo a la rampa de la ITV; la inspectora anota: tribal de 2003, hecho por un primo en una cocina."
     },
     {
       "id": "b2",
-      "description": "Escalada: tarifa nocturna, recargo dominical, Lucas pide factura y el gato saca un talonario con su huella."
+      "description": "Revisión técnica: contorno desgastado, sombreado gris, faltas de ortografía ('No regrest')."
     },
     {
       "id": "b3",
-      "description": "Los gatos del barrio en huelga con pancartas: 'SIN CONVENIO NO HAY PRRR'. Los humanos hacen cola pagando con Bizum."
+      "description": "Emisiones de arrepentimiento por las nubes: NO APTO y prohibido ir a la playa sin funda."
     },
     {
       "id": "b4",
-      "description": "Llega un inspector de Hacienda con maletín; examina la escritura del piso: titular, Miguelón."
+      "description": "Llega el primo con polo de la estación y ofrece un retoque: es el dueño, tatúa en casa y suspende aquí."
     },
     {
       "id": "b5",
-      "description": "Remate: el inspector lee la declaración del gato: 'Gastos deducibles: comida, arena… y humano doméstico (Lucas)'. Lucas mira a cámara. El gato ronronea. Pip."
+      "description": "Remate: la inspectora pregunta al primo quién le hizo su tatuaje 'APOT'. 'Otro primo.'"
     }
   ]
 }

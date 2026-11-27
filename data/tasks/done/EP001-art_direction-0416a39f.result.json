@@ -1,0 +1,91 @@
+{
+  "mood": "Burocracia de ITV con estética de estudio de tatuaje: nave industrial nocturna, fluorescentes, neón ácido y carteles oficiales.",
+  "locations": [
+    {
+      "id": "estacion_itv",
+      "name": "Estación de ITV de tatuajes",
+      "description": "Nave de ITV reconvertida: rampa con brazo de apoyo, carteles oficiales, neón 'ITV TATTOO', persiana metálica grafiteada y mesa de inspección con lupa.",
+      "type": "office",
+      "sky": "#1a1b24",
+      "ground": "#2b2f3a",
+      "accent": "#c6ff00",
+      "horizon": 0.68,
+      "mood": "neon",
+      "elements": [
+        {
+          "kind": "neon",
+          "x": 0.5,
+          "y": 0.18,
+          "scale": 1.2,
+          "color": "#c6ff00",
+          "depth": 0.2,
+          "text": "ITV TATTOO"
+        },
+        {
+          "kind": "shutter",
+          "x": 0.2,
+          "y": 0.45,
+          "scale": 1.1,
+          "color": "#f4f1ea",
+          "depth": 0.3,
+          "text": ""
+        },
+        {
+          "kind": "graffiti",
+          "x": 0.22,
+          "y": 0.44,
+          "scale": 0.8,
+          "color": "#ff2e88",
+          "depth": 0.35,
+          "text": "NO REGREST"
+        },
+        {
+          "kind": "sign",
+          "x": 0.78,
+          "y": 0.35,
+          "scale": 0.9,
+          "color": "#ff6b00",
+          "depth": 0.3,
+          "text": "LÍNEA 1: TRIBALES"
+        },
+        {
+          "kind": "poster",
+          "x": 0.8,
+          "y": 0.55,
+          "scale": 0.8,
+          "color": "#00d1ff",
+          "depth": 0.4,
+          "text": "APTO / NO APTO"
+        },
+        {
+          "kind": "screen",
+          "x": 0.5,
+          "y": 0.42,
+          "scale": 0.8,
+          "color": "#00d1ff",
+          "depth": 0.35,
+          "text": "ARREPENTIMIENTO 98%"
+        },
+        {
+          "kind": "table",
+          "x": 0.55,
+          "y": 0.78,
+          "scale": 1,
+          "color": "#5a5f66",
+          "depth": 0.7,
+          "text": ""
+        },
+        {
+          "kind": "lamp",
+          "x": 0.9,
+          "y": 0.62,
+          "scale": 1,
+          "color": "#c6ff00",
+          "depth": 0.6,
+          "text": ""
+        }
+      ],
+      "ai_prompt": "flat 2D adult cartoon vehicle inspection garage turned tattoo inspection station, neon sign 'ITV TATTOO', metal shutter with graffiti, official signs, fluorescent lights, thick black outlines, one hard shadow, acid green and pink neon, vertical 9:16"
+    }
+  ]
+}
