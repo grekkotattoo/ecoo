@@ -4,10 +4,10 @@
   "idea_id": "I0001",
   "title": "FISIÓN X-9000",
   "question": "¿Qué pasaría si te tatuaras con una máquina alimentada por energía nuclear?",
-  "status": "awaiting_approval",
+  "status": "waiting_audio",
   "test": false,
   "created": "2026-11-27T22:37:18+00:00",
-  "updated": "2026-11-27T22:58:03+00:00",
+  "updated": "2026-11-27T23:42:54+00:00",
   "phases": {
     "development": {
       "status": "done",
@@ -90,8 +90,11 @@
       "task": null
     },
     "voice": {
-      "status": "pending",
-      "attempts": 0
+      "status": "waiting",
+      "attempts": 2,
+      "pid": 163,
+      "started": "2026-11-27T23:42:54+00:00",
+      "error": "EP001: faltan 11 audios de voz → /home/user/ecoo/data/inbox/audio/EP001"
     },
     "audio_sync": {
       "status": "pending",
@@ -142,10 +145,32 @@
   ],
   "humor_revisions": 0,
   "approval": {
-    "approved": false
+    "approved": true,
+    "proposal_hash": "c16e54e689adcc5a",
+    "at": "2026-11-27T23:42:54+00:00",
+    "by": "cli",
+    "asset_hashes": {
+      "vecino": "2904bb4ea9b5c847",
+      "tatuador": "9a5aabc12c27d96d",
+      "cliente": "9384a81695cafd2e"
+    }
   },
   "waiting": {
-    "type": "approval"
+    "type": "audio",
+    "lines": [
+      "l01",
+      "l02",
+      "l03",
+      "l04",
+      "l05",
+      "l06",
+      "l07",
+      "l08",
+      "l09",
+      "l10",
+      "l11"
+    ],
+    "inbox": "/home/user/ecoo/data/inbox/audio/EP001"
   },
   "history": [
     {
@@ -163,6 +188,14 @@
       "feedback": "Iteración 2: máquina centrada, pegatina legible, orden de capas 3D corregido.",
       "by": "cli",
       "proposal_hash": "f6dd1d330df91497"
+    },
+    {
+      "ts": "2026-11-27T23:42:54+00:00",
+      "episode": "EP001",
+      "action": "APPROVE",
+      "feedback": "Aprobado por el usuario (imágenes v2).",
+      "by": "cli",
+      "proposal_hash": "c16e54e689adcc5a"
     }
   ]
 }
