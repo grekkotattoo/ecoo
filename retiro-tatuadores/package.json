@@ -6,6 +6,7 @@
   "scripts": {
     "texturas": "python3 scripts/generar_texturas.py",
     "voces": "node scripts/sync-voces.mjs",
+    "efectos": "node scripts/efectos.mjs",
     "dev": "remotion studio",
     "render": "remotion render Retiro out/retiro_tatuadores_silencioso.mp4 --codec=h264 --muted --crf=18 --pixel-format=yuv420p",
     "preview-voz": "remotion render RetiroConVoz out/retiro_preview_con_voz.mp4 --codec=h264 --crf=20",
