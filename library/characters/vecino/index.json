@@ -1,0 +1,14 @@
+{
+  "id": "vecino",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "2904bb4ea9b5c847",
+      "created": "2026-11-27T22:38:42+00:00",
+      "name": "Señor del microondas",
+      "episode": "EP001",
+      "preview": "characters/vecino/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}

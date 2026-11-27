@@ -1,0 +1,13 @@
+{
+  "id": "estudio_tatuaje",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "8f0fae44c74edd0f",
+      "created": "2026-11-27T22:38:29+00:00",
+      "name": "Estudio de tatuaje con reactor",
+      "episode": "EP001"
+    }
+  ],
+  "approved": null
+}

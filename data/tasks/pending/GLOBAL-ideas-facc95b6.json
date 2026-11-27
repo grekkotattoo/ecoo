@@ -1,0 +1,9 @@
+{
+  "id": "GLOBAL-ideas-facc95b6",
+  "kind": "ideas",
+  "episode": null,
+  "created": "2026-11-27T22:37:18+00:00",
+  "system": "Serie: ¿QUÉ PASARÍA SI...? Cortos animados 2D verticales (9:16) para ADULTOS, en español de España. Humor absurdo, surrealista, retorcido, satírico e irónico; situaciones imposibles tratadas con lógica implacable; giro inesperado y remate inteligente. Nada infantil. Sin humor de relleno, sin moralejas. Evita odio hacia colectivos reales y personas reales identificables. Responde SOLO con JSON válido.\nTarea: generación de ideas.",
+  "prompt": "Propón 5 ideas NUEVAS. Prohibido repetir o parafrasear estas preguntas ya usadas: [\"¿Qué pasaría si te tatuaras con una máquina alimentada por energía nuclear?\"].\n\nFormato: {\"ideas\":[{\"title\":\"≤6 palabras\",\"question\":\"¿Qué pasaría si...?\",\"premise\":\"2 frases\",\"humor_type\":\"absurdo|surrealista|satírico|negro|ironía\",\"twist\":\"giro final\",\"tags\":[\"...\"]}]}",
+  "answer_with": "studio task submit GLOBAL-ideas-facc95b6 <fichero.json>"
+}

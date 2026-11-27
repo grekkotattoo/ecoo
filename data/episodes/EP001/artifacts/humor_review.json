@@ -1,0 +1,14 @@
+{
+  "scores": {
+    "sorpresa": 7.0,
+    "absurdo": 9.0,
+    "satira": 8.0,
+    "remate": 8.0,
+    "ritmo": 8.0,
+    "originalidad": 7.0
+  },
+  "overall": 7.83,
+  "verdict": "pass",
+  "notes": "Escalada sólida y números con autoridad. 'Multa de Hacienda' y 'comunidad autónoma' anclan la sátira en España. El remate funciona porque se retiró 'para el que sobrevive', que lo anticipaba. Riesgo: el arranque con la pregunta es convencional; compensar con la pegatina 'NO TOCAR, PACO' muy visible y el perro volando bien cronometrado.",
+  "passed": true
+}

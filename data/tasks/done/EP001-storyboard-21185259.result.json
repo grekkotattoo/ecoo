@@ -1,0 +1,273 @@
+{
+  "shots": [
+    {
+      "location": "estudio_tatuaje",
+      "framing": "wide",
+      "camera": "crane_up",
+      "transition": "cut",
+      "effects": [
+        "vignettePulse"
+      ],
+      "text_pop": "",
+      "actors": [
+        {
+          "character": "tatuador",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "point",
+            "celebrate"
+          ],
+          "expression": "smug"
+        },
+        {
+          "character": "cliente",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "idle",
+            "nod"
+          ],
+          "expression": "neutral"
+        }
+      ],
+      "lines": [
+        "l01"
+      ],
+      "seconds": 3.5,
+      "description": "El tatuador señala orgulloso la gigantesca máquina con pegatina NO TOCAR, PACO; el cliente espera impasible.",
+      "key_image": true
+    },
+    {
+      "location": "estudio_tatuaje",
+      "framing": "medium",
+      "camera": "crash_zoom",
+      "transition": "smash",
+      "effects": [
+        "flash",
+        "textPop"
+      ],
+      "text_pop": "FISIÓN X-9000",
+      "actors": [
+        {
+          "character": "tatuador",
+          "position": "center",
+          "facing": "right",
+          "actions": [
+            "pop",
+            "celebrate"
+          ],
+          "expression": "happy"
+        }
+      ],
+      "lines": [
+        "l02"
+      ],
+      "seconds": 2.5,
+      "description": "Presentación de la FISIÓN X-9000 con destello de anuncio de lujo.",
+      "key_image": false
+    },
+    {
+      "location": "estudio_tatuaje",
+      "framing": "extreme_close",
+      "camera": "orbit_right",
+      "transition": "whip",
+      "effects": [
+        "sparks",
+        "speedlines",
+        "shake",
+        "textPop"
+      ],
+      "text_pop": "48 GW",
+      "actors": [
+        {
+          "character": "tatuador",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "tremble",
+            "laugh"
+          ],
+          "expression": "crazy"
+        }
+      ],
+      "lines": [
+        "l03"
+      ],
+      "seconds": 6,
+      "description": "Primeros planos: máquina rugiendo, agujas girando como turbinas, contador con cifras imposibles y '16 TURBOCOMPRESORES DE PLUTONIO'.",
+      "key_image": true
+    },
+    {
+      "location": "estudio_tatuaje",
+      "framing": "close",
+      "camera": "swoop",
+      "transition": "whip",
+      "effects": [
+        "speedlines",
+        "textPop"
+      ],
+      "text_pop": "14.000 KM/H",
+      "actors": [
+        {
+          "character": "cliente",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "take",
+            "lookAt"
+          ],
+          "expression": "surprised"
+        }
+      ],
+      "lines": [
+        "l04"
+      ],
+      "seconds": 4,
+      "description": "La aguja cruza el plano a 14.000 km/h; el cliente sigue tan tranquilo tras un pequeño take.",
+      "key_image": false
+    },
+    {
+      "location": "estudio_tatuaje",
+      "framing": "wide",
+      "camera": "handheld",
+      "transition": "smash",
+      "effects": [
+        "flash",
+        "shake",
+        "sparks",
+        "impact",
+        "textPop"
+      ],
+      "text_pop": "0,0003 s",
+      "actors": [
+        {
+          "character": "tatuador",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "lean",
+            "celebrate"
+          ],
+          "expression": "smug"
+        },
+        {
+          "character": "cliente",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "tremble",
+            "nod"
+          ],
+          "expression": "happy"
+        }
+      ],
+      "lines": [
+        "l05",
+        "l06"
+      ],
+      "seconds": 6,
+      "description": "El tatuador baja la palanca: alarmas, luces rojas, farolas parpadeando por la ventana, un perro sale volando al fondo. Destello: manga completa.",
+      "key_image": true
+    },
+    {
+      "location": "calle_barrio",
+      "framing": "wide",
+      "camera": "pull_out",
+      "transition": "cut",
+      "effects": [
+        "smoke",
+        "vignettePulse"
+      ],
+      "text_pop": "",
+      "actors": [
+        {
+          "character": "tatuador",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "lookAt",
+            "shrug"
+          ],
+          "expression": "tired"
+        }
+      ],
+      "lines": [
+        "l07",
+        "l08"
+      ],
+      "seconds": 6.5,
+      "description": "El tatuador mira el contador de la luz humeante; la cámara se aleja y media ciudad queda a oscuras.",
+      "key_image": false
+    },
+    {
+      "location": "calle_barrio",
+      "framing": "medium",
+      "camera": "push_in",
+      "transition": "cut",
+      "effects": [
+        "shake"
+      ],
+      "text_pop": "",
+      "actors": [
+        {
+          "character": "vecino",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "rage",
+            "shakeHead"
+          ],
+          "expression": "angry"
+        }
+      ],
+      "lines": [
+        "l09"
+      ],
+      "seconds": 2.5,
+      "description": "Señor en pijama asomado a la ventana con el microondas apagado, furioso.",
+      "key_image": true
+    },
+    {
+      "location": "estudio_tatuaje",
+      "framing": "medium",
+      "camera": "vertigo",
+      "transition": "iris",
+      "effects": [
+        "smoke",
+        "flash",
+        "textPop"
+      ],
+      "text_pop": "FISIÓN X-9000 — La última máquina que necesitarás en tu vida",
+      "actors": [
+        {
+          "character": "tatuador",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "celebrate",
+            "nod"
+          ],
+          "expression": "happy"
+        },
+        {
+          "character": "cliente",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "idle",
+            "faint"
+          ],
+          "expression": "neutral"
+        }
+      ],
+      "lines": [
+        "l10",
+        "l11"
+      ],
+      "seconds": 5.5,
+      "description": "Pulgar arriba del tatuador; el cliente es una silueta negra humeante con el tatuaje perfecto brillando. Cartel final, pitido, corte a negro.",
+      "key_image": true
+    }
+  ]
+}

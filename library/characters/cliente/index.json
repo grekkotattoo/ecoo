@@ -1,0 +1,14 @@
+{
+  "id": "cliente",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "9384a81695cafd2e",
+      "created": "2026-11-27T22:38:42+00:00",
+      "name": "Cliente",
+      "episode": "EP001",
+      "preview": "characters/cliente/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}

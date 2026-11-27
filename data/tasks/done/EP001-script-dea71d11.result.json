@@ -1,0 +1,91 @@
+{
+  "title": "FISIÓN X-9000",
+  "punchline": "La FISIÓN X-9000 incluye garantía de por vida. Del cliente, concretamente.",
+  "beats": [
+    {
+      "location": "estudio_tatuaje",
+      "action": "El tatuador presenta orgulloso una máquina de tatuar gigantesca: tuberías, luces rojas, reactor nuclear en miniatura y pegatina 'NO TOCAR, PACO'. El cliente espera sentado, impasible.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "¿Qué pasaría si te tatuaras con una máquina nuclear?",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "narrador",
+          "text": "Ha llegado la FISIÓN X-9000.",
+          "emotion": "smug"
+        }
+      ]
+    },
+    {
+      "location": "estudio_tatuaje",
+      "action": "Primeros planos de la máquina rugiendo; agujas girando como turbinas de avión; contador digital con cifras imposibles y rótulo '16 TURBOCOMPRESORES DE PLUTONIO'.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "Reactor de fisión de 48 gigavatios. Novecientos millones de pinchazos por segundo. Autonomía: tres guerras mundiales.",
+          "emotion": "smug"
+        },
+        {
+          "speaker": "narrador",
+          "text": "Su aguja va a 14.000 kilómetros por hora. Más rápida que una multa de Hacienda.",
+          "emotion": "smug"
+        }
+      ]
+    },
+    {
+      "location": "estudio_tatuaje",
+      "action": "El cliente se sienta tranquilo, el tatuador baja una palanca. Alarmas, luces rojas giratorias, las farolas del barrio parpadean por la ventana y un perro sale volando al fondo. Destello: manga completa terminada.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "Precisión atómica: una manga completa en 0,0003 segundos.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "narrador",
+          "text": "Sin dolor. Sin esperas. Sin anestesia.",
+          "emotion": "happy"
+        }
+      ]
+    },
+    {
+      "location": "calle_barrio",
+      "action": "La máquina vibra; el tatuador mira el contador de la luz echando humo. Fuera, media ciudad a oscuras; un señor en pijama asomado a la ventana con un microondas apagado.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "Eso sí, su consumo es ligeramente elevado.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "narrador",
+          "text": "Cada tatuaje deja sin luz a una comunidad autónoma y recalienta el núcleo terrestre cuatro grados.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "vecino",
+          "text": "¡Se me ha apagado el microondas!",
+          "emotion": "angry"
+        }
+      ]
+    },
+    {
+      "location": "estudio_tatuaje",
+      "action": "El tatuador levanta el pulgar. El cliente es una silueta completamente negra y humeante, con el tatuaje perfecto brillando en el brazo. Cartel: 'FISIÓN X-9000 — La última máquina que necesitarás en tu vida.' Pitido. Corte a negro.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "La FISIÓN X-9000 incluye garantía de por vida.",
+          "emotion": "smug"
+        },
+        {
+          "speaker": "narrador",
+          "text": "Del cliente, concretamente.",
+          "emotion": "neutral"
+        }
+      ]
+    }
+  ]
+}

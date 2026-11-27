@@ -1,0 +1,14 @@
+{
+  "id": "tatuador",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "9a5aabc12c27d96d",
+      "created": "2026-11-27T22:38:42+00:00",
+      "name": "Tatuador",
+      "episode": "EP001",
+      "preview": "characters/tatuador/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}

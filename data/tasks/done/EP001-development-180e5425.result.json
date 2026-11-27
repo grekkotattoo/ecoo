@@ -1,0 +1,24 @@
+{
+  "logline": "Un anuncio de lujo militar presenta la FISIÓN X-9000, una máquina de tatuar con reactor nuclear que hace una manga completa en 0,0003 segundos… y garantía de por vida del cliente.",
+  "synopsis": "Voz en off de anuncio de tecnología militar de 200.000 millones. Un tatuador presenta orgulloso la FISIÓN X-9000: tuberías, luces rojas, reactor en miniatura y una pegatina 'NO TOCAR, PACO'. Ficha técnica: 48 gigavatios, 16 turbocompresores de plutonio, 900 millones de pinchazos por segundo, autonomía de tres guerras mundiales, aguja a 14.000 km/h, más rápida que una multa de Hacienda. El cliente se sienta tan tranquilo, el tatuador baja la palanca: alarmas, el barrio parpadea, un perro sale volando. Consumo 'ligeramente elevado': una comunidad autónoma a oscuras y el núcleo terrestre cuatro grados más caliente; un señor se queja de su microondas. Remate: garantía de por vida… del cliente. Pulgar arriba del tatuador; el cliente es una silueta carbonizada con el tatuaje perfecto brillando. Cartel final, pitido, negro.",
+  "humor_type": "Sátira publicitaria: anuncio de tecnología militar narrado con autoridad absoluta, cifras imposibles y personajes que lo viven todo como perfectamente normal.",
+  "twist": "La garantía de por vida es la del cliente: acaba convertido en silueta negra carbonizada, con el tatuaje impecable brillando en el brazo.",
+  "tone_notes": "Voz grave de tráiler de defensa, ritmo seco sin pausas largas. Cada escena supera visualmente a la anterior. Nadie se alarma. Remate seco, sin música sentimental ni moraleja. Solo 2D ilustrado.",
+  "beats": [
+    {
+      "description": "0-6 s Presentación: el tatuador muestra orgulloso la gigantesca FISIÓN X-9000 (tuberías, luces rojas, reactor en miniatura, pegatina 'NO TOCAR, PACO')."
+    },
+    {
+      "description": "6-15 s Ficha técnica: primeros planos de la máquina rugiendo, agujas girando como turbinas y un contador digital con cifras imposibles (48 GW, 900 millones de pinchazos/s, 14.000 km/h)."
+    },
+    {
+      "description": "15-25 s Experiencia: el cliente se sienta tranquilo, el tatuador baja la palanca; alarmas, luces del barrio parpadeando, un perro sale volando al fondo. Manga completa en 0,0003 s."
+    },
+    {
+      "description": "25-33 s Problema: la máquina vibra, el tatuador mira el contador de la luz; fuera media ciudad a oscuras y un señor se queja de que se le ha apagado el microondas."
+    },
+    {
+      "description": "33-40 s Remate: 'garantía de por vida… del cliente, concretamente'. Pulgar arriba; el cliente es una silueta negra con el tatuaje perfecto brillando. Cartel 'FISIÓN X-9000. La última máquina que necesitarás en tu vida.' Pitido. Negro."
+    }
+  ]
+}

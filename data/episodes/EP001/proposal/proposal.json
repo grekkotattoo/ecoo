@@ -1,0 +1,192 @@
+{
+  "episode": 1,
+  "id": "EP001",
+  "title": "FISIÓN X-9000",
+  "question": "¿Qué pasaría si te tatuaras con una máquina alimentada por energía nuclear?",
+  "summary": "Voz en off de anuncio de tecnología militar de 200.000 millones. Un tatuador presenta orgulloso la FISIÓN X-9000: tuberías, luces rojas, reactor en miniatura y una pegatina 'NO TOCAR, PACO'. Ficha técnica: 48 gigavatios, 16 turbocompresores de plutonio, 900 millones de pinchazos por segundo, autonomía de tres guerras mundiales, aguja a 14.000 km/h, más rápida que una multa de Hacienda. El cliente se sienta tan tranquilo, el tatuador baja la palanca: alarmas, el barrio parpadea, un perro sale volando. Consumo 'ligeramente elevado': una comunidad autónoma a oscuras y el núcleo terrestre cuatro grados más caliente; un señor se queja de su microondas. Remate: garantía de por vida… del cliente. Pulgar arriba del tatuador; el cliente es una silueta carbonizada con el tatuaje perfecto brillando. Cartel final, pitido, negro.",
+  "logline": "Un anuncio de lujo militar presenta la FISIÓN X-9000, una máquina de tatuar con reactor nuclear que hace una manga completa en 0,0003 segundos… y garantía de por vida del cliente.",
+  "humor_type": "Sátira publicitaria: anuncio de tecnología militar narrado con autoridad absoluta, cifras imposibles",
+  "twist": "La garantía de por vida es la del cliente: acaba convertido en silueta negra carbonizada, con el tatuaje impecable brillando en el brazo.",
+  "estimated_seconds": 49.6,
+  "humor": {
+    "overall": 7.83,
+    "passed": true,
+    "scores": {
+      "sorpresa": 7.0,
+      "absurdo": 9.0,
+      "satira": 8.0,
+      "remate": 8.0,
+      "ritmo": 8.0,
+      "originalidad": 7.0
+    },
+    "notes": "Escalada sólida y números con autoridad. 'Multa de Hacienda' y 'comunidad autónoma' anclan la sátira en España. El remate funciona porque se retiró 'para el que sobrevive', que lo anticipaba. Riesgo: el arranque con la pregunta es convencional; compensar con la pegatina 'NO TOCAR, PACO' muy visible y el perro volando bien cronometrado."
+  },
+  "characters": [
+    {
+      "id": "vecino",
+      "name": "Señor del microondas",
+      "role": "Vecino indignado del barrio a oscuras",
+      "voice_hint": "hombre de 55 años, voz cascada y gruñona de vecino español indignado",
+      "version": 1
+    },
+    {
+      "id": "tatuador",
+      "name": "Tatuador",
+      "role": "Presentador orgulloso de la FISIÓN X-9000",
+      "voice_hint": "sin diálogo",
+      "version": 1
+    },
+    {
+      "id": "cliente",
+      "name": "Cliente",
+      "role": "Cliente impasible que acaba carbonizado",
+      "voice_hint": "sin diálogo",
+      "version": 1
+    }
+  ],
+  "locations": [
+    {
+      "id": "estudio_tatuaje",
+      "name": "Estudio de tatuaje con reactor",
+      "description": "Estudio de tatuaje de barrio nocturno, paredes llenas de flashes, camilla en el centro y la FISIÓN X-9000 gigante con tuberías y luces rojas; ventana a la calle con farolas.",
+      "version": 1
+    },
+    {
+      "id": "calle_barrio",
+      "name": "Barrio apagado",
+      "description": "Calle de barrio de noche con bloques de pisos; media ciudad a oscuras, farolas fundidas, un vecino en pijama asomado a la ventana con un microondas apagado; el estudio brilla rojo al fondo.",
+      "version": 1
+    }
+  ],
+  "script": [
+    {
+      "id": "l01",
+      "speaker": "narrador",
+      "text": "¿Qué pasaría si te tatuaras con una máquina nuclear?"
+    },
+    {
+      "id": "l02",
+      "speaker": "narrador",
+      "text": "Ha llegado la FISIÓN X-9000."
+    },
+    {
+      "id": "l03",
+      "speaker": "narrador",
+      "text": "Reactor de fisión de 48 gigavatios. Novecientos millones de pinchazos por segundo. Autonomía: tres guerras mundiales."
+    },
+    {
+      "id": "l04",
+      "speaker": "narrador",
+      "text": "Su aguja va a 14.000 kilómetros por hora. Más rápida que una multa de Hacienda."
+    },
+    {
+      "id": "l05",
+      "speaker": "narrador",
+      "text": "Precisión atómica: una manga completa en 0,0003 segundos."
+    },
+    {
+      "id": "l06",
+      "speaker": "narrador",
+      "text": "Sin dolor. Sin esperas. Sin anestesia."
+    },
+    {
+      "id": "l07",
+      "speaker": "narrador",
+      "text": "Eso sí, su consumo es ligeramente elevado."
+    },
+    {
+      "id": "l08",
+      "speaker": "narrador",
+      "text": "Cada tatuaje deja sin luz a una comunidad autónoma y recalienta el núcleo terrestre cuatro grados."
+    },
+    {
+      "id": "l09",
+      "speaker": "vecino",
+      "text": "¡Se me ha apagado el microondas!"
+    },
+    {
+      "id": "l10",
+      "speaker": "narrador",
+      "text": "La FISIÓN X-9000 incluye garantía de por vida."
+    },
+    {
+      "id": "l11",
+      "speaker": "narrador",
+      "text": "Del cliente, concretamente."
+    }
+  ],
+  "punchline": "La FISIÓN X-9000 incluye garantía de por vida. Del cliente, concretamente.",
+  "images": [
+    {
+      "kind": "key_frame",
+      "shot": "s01",
+      "file": "key_s01.png",
+      "caption": "El tatuador señala orgulloso la gigantesca máquina con pegatina NO TOCAR, PACO; el cliente espera impasible."
+    },
+    {
+      "kind": "key_frame",
+      "shot": "s03",
+      "file": "key_s03.png",
+      "caption": "Primeros planos: máquina rugiendo, agujas girando como turbinas, contador con cifras imposibles y '16 TURBOCOMPRESORES DE PLUTONIO'."
+    },
+    {
+      "kind": "key_frame",
+      "shot": "s05",
+      "file": "key_s05.png",
+      "caption": "El tatuador baja la palanca: alarmas, luces rojas, farolas parpadeando por la ventana, un perro sale volando al fondo. Destello: manga completa."
+    },
+    {
+      "kind": "key_frame",
+      "shot": "s07",
+      "file": "key_s07.png",
+      "caption": "Señor en pijama asomado a la ventana con el microondas apagado, furioso."
+    },
+    {
+      "kind": "key_frame",
+      "shot": "s08",
+      "file": "key_s08.png",
+      "caption": "Pulgar arriba del tatuador; el cliente es una silueta negra humeante con el tatuaje perfecto brillando. Cartel final, pitido, corte a negro."
+    },
+    {
+      "kind": "character_sheet",
+      "character": "vecino",
+      "file": "char_vecino.png",
+      "caption": "Señor del microondas"
+    },
+    {
+      "kind": "character_sheet",
+      "character": "tatuador",
+      "file": "char_tatuador.png",
+      "caption": "Tatuador"
+    },
+    {
+      "kind": "character_sheet",
+      "character": "cliente",
+      "file": "char_cliente.png",
+      "caption": "Cliente"
+    },
+    {
+      "kind": "background",
+      "location": "estudio_tatuaje",
+      "file": "bg_estudio_tatuaje.png",
+      "caption": "Estudio de tatuaje con reactor"
+    },
+    {
+      "kind": "background",
+      "location": "calle_barrio",
+      "file": "bg_calle_barrio.png",
+      "caption": "Barrio apagado"
+    }
+  ],
+  "test": false,
+  "actions": [
+    "APROBAR",
+    "CAMBIAR IDEA",
+    "CAMBIAR IMÁGENES",
+    "CAMBIAR PERSONAJES",
+    "REVISAR GUION",
+    "REVISAR HUMOR",
+    "CANCELAR"
+  ],
+  "hash": "7feb4155b720d817"
+}
