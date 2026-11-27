@@ -7,6 +7,20 @@
       "created": "2026-11-27T22:38:29+00:00",
       "name": "Estudio de tatuaje con reactor",
       "episode": "EP001"
+    },
+    {
+      "version": 2,
+      "hash": "96ca89374627b5f3",
+      "created": "2026-11-27T22:53:03+00:00",
+      "name": "Estudio con la FISIÓN X-9000",
+      "episode": "EP001"
+    },
+    {
+      "version": 3,
+      "hash": "e5dd0467d493f46a",
+      "created": "2026-11-27T22:57:24+00:00",
+      "name": "Estudio con la FISIÓN X-9000",
+      "episode": "EP001"
     }
   ],
   "approved": null

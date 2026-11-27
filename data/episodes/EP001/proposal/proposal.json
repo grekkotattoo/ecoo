@@ -47,15 +47,15 @@
   "locations": [
     {
       "id": "estudio_tatuaje",
-      "name": "Estudio de tatuaje con reactor",
-      "description": "Estudio de tatuaje de barrio nocturno, paredes llenas de flashes, camilla en el centro y la FISIÓN X-9000 gigante con tuberías y luces rojas; ventana a la calle con farolas.",
-      "version": 1
+      "name": "Estudio con la FISIÓN X-9000",
+      "description": "Estudio de tatuaje nocturno dominado por la FISIÓN X-9000: reactor gigante con núcleo radiactivo, tuberías al techo, luces rojas, aguja-turbina y pegatina NO TOCAR, PACO. Sirena roja girando.",
+      "version": 3
     },
     {
       "id": "calle_barrio",
-      "name": "Barrio apagado",
-      "description": "Calle de barrio de noche con bloques de pisos; media ciudad a oscuras, farolas fundidas, un vecino en pijama asomado a la ventana con un microondas apagado; el estudio brilla rojo al fondo.",
-      "version": 1
+      "name": "Barrio apagándose",
+      "description": "Calle de barrio de noche: bloques casi a oscuras, farola fundida, contador de la luz echando humo en la fachada y un perro cruzando el cielo volando.",
+      "version": 2
     }
   ],
   "script": [
@@ -169,13 +169,13 @@
       "kind": "background",
       "location": "estudio_tatuaje",
       "file": "bg_estudio_tatuaje.png",
-      "caption": "Estudio de tatuaje con reactor"
+      "caption": "Estudio con la FISIÓN X-9000"
     },
     {
       "kind": "background",
       "location": "calle_barrio",
       "file": "bg_calle_barrio.png",
-      "caption": "Barrio apagado"
+      "caption": "Barrio apagándose"
     }
   ],
   "test": false,
@@ -188,5 +188,5 @@
     "REVISAR HUMOR",
     "CANCELAR"
   ],
-  "hash": "7feb4155b720d817"
+  "hash": "c16e54e689adcc5a"
 }

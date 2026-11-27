@@ -50,6 +50,7 @@ export type Actor = {
   visemes?: VisemeKey[];
   blink?: boolean;
   idle?: boolean;
+  look?: 'normal' | 'charred'; // charred = silueta carbonizada con halo radiactivo
 };
 
 export type BgLayer = {

@@ -68,13 +68,14 @@ const toTexture = (img: HTMLImageElement | HTMLCanvasElement) => {
 const layerCache = new Map<string, Promise<THREE.Texture>>();
 
 // ---------------------------------------------------------------- plano texturizado
-const PlaneMesh: React.FC<{tex: THREE.Texture | null; W: number; H: number; z: number; opacity?: number; lit: boolean; margin?: number}> = ({tex, W, H, z, opacity = 1, lit, margin = MARGIN}) => {
+const PlaneMesh: React.FC<{tex: THREE.Texture | null; W: number; H: number; z: number; opacity?: number; lit: boolean; margin?: number; order?: number}> = ({tex, W, H, z, opacity = 1, lit, margin = MARGIN, order = 0}) => {
   const s = (PERSP - z) / PERSP;
   const w = (W * (1 + 2 * margin)) / U;
   const h = (H * (1 + 2 * margin)) / U;
   if (!tex) return null;
   return (
-    <mesh position={[0, 0, z / U]} scale={[s, s, 1]}>
+    // renderOrder explícito: capas transparentes sin depthWrite deben pintarse de fondo a frente (orden de pintor)
+    <mesh position={[0, 0, z / U]} scale={[s, s, 1]} renderOrder={order}>
       <planeGeometry args={[w, h]} />
       {lit ? (
         <meshLambertMaterial map={tex} transparent opacity={opacity} depthWrite={false} />
@@ -107,9 +108,10 @@ const BgPlane: React.FC<{l: BgLayer; bgKey: string; spec: EpisodeSpec; f: number
   const [tex, setTex] = useState<THREE.Texture | null>(null);
   const advance = useThree((s) => s.advance);
   const key = `${bgKey}:${l.id}:${l.svg?.length ?? 0}`;
+  // delayRender en el render inicial (no en el efecto): Remotion no captura el fotograma antes de pedir la textura
+  const [h] = useState(() => delayRender(`capa ${key}`));
   useEffect(() => {
     let done = false;
-    const h = delayRender(`capa ${key}`);
     if (!layerCache.has(key)) {
       layerCache.set(key, fontCss(spec.style).then((css) => svgImage(l.svg ?? '', W, H, css, spec.style.three?.bgScale ?? 0.85)).then(toTexture));
     }
@@ -133,7 +135,7 @@ const BgPlane: React.FC<{l: BgLayer; bgKey: string; spec: EpisodeSpec; f: number
   return (
     <group position={[(cx * s) / U, (cy * s) / U, 0]} rotation={[0, 0, (-an.rot * Math.PI) / 180]}>
       <group position={[(-cx * s + an.x * s) / U, (-cy * s - an.y * s) / U, 0]}>
-        <PlaneMesh tex={tex} W={W} H={H} z={z} opacity={an.opacity} lit={lit} />
+        <PlaneMesh tex={tex} W={W} H={H} z={z} opacity={an.opacity} lit={lit} order={Math.round(l.depth * 1000)} />
       </group>
     </group>
   );

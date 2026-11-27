@@ -34,7 +34,9 @@ ACCESSORIES = ["cap", "beanie", "chain", "headphones", "glasses", "sunglasses", 
                "horns", "antenna", "crown", "bandage", "cigar"]
 BG_TYPES = ["interior", "exterior", "city", "nature", "space", "void", "underground", "office"]
 BG_ELEMENTS = ["graffiti", "shutter", "poster", "neon", "dumpster", "building", "tree", "window", "door", "table", "lamp", "cloud", "sun", "moon", "mountain", "star", "sign",
-               "plant", "chair", "screen", "rock", "planet", "car", "bush", "shelf", "frame", "column"]
+               "plant", "chair", "screen", "rock", "planet", "car", "bush", "shelf", "frame", "column", "reactor", "alarm", "dog", "meter"]
+
+ACTOR_STATES = ["normal", "charred"]
 
 HEX = re.compile(r"^#[0-9a-fA-F]{6}$")
 
@@ -212,7 +214,8 @@ def storyboard(d: Any, line_ids: set[str], char_ids: set[str], loc_ids: set[str]
             acts = [x for x in a.get("actions", []) if x in ACTIONS][:4]
             actors.append({"character": a["character"], "position": _enum(a.get("position"), POSITIONS, "pos", "center"),
                            "actions": acts, "expression": _enum(a.get("expression"), EXPRESSIONS, "expr", "neutral"),
-                           "facing": "left" if a.get("facing") == "left" else "right"})
+                           "facing": "left" if a.get("facing") == "left" else "right",
+                           "state": a.get("state") if a.get("state") in ACTOR_STATES else "normal"})
         lines = [l for l in s.get("lines", []) if l in line_ids]
         used_lines.update(lines)
         if not actors and not s.get("effects"):

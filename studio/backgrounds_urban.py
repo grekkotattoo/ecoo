@@ -34,6 +34,70 @@ def _el(f: Flat, rng: random.Random, e: dict, loc: dict, gy: float) -> tuple[str
     col = e["color"] or None
     neon = col or rng.choice(NEON)
     anim = None
+    if k == "reactor":  # máquina gigante / reactor de ciencia loca: cuerpo, tuberías, núcleo, luces y pegatina
+        w, hh = 420 * s, 620 * s
+        bx, by = x, gy + 40
+        out = ""
+        for i, (dx, up) in enumerate(((-0.62, 0.95), (0.62, 0.8), (-0.45, 1.15))):  # tuberías hacia techo/pared
+            px = bx + dx * w
+            out += f.limb([(px, by - hh * 0.35), (px, by - hh * up), (px + (60 if dx < 0 else -60) * s, by - hh * up - 140 * s), (px + (60 if dx < 0 else -60) * s, -400)], 34 * s, "#6b6f7a")
+        out += f.poly(rrect(bx - w / 2, by - hh * 0.55, bx + w / 2, by, 14), col or "#3a3d4a")  # cuerpo
+        out += "".join(f.line([(bx - w / 2 + 14, by - hh * 0.55 + 40 + r * 44), (bx + w / 2 - 14, by - hh * 0.55 + 40 + r * 44)], 5, "#22242e") for r in range(6))
+        out += f.poly([(bx - w * 0.34, by - hh * 0.55), (bx - w * 0.22, by - hh), (bx + w * 0.22, by - hh), (bx + w * 0.34, by - hh * 0.55)], "#4a4d5a")  # torre
+        out += f.ell(bx, by - hh * 0.98, w * 0.26, 46 * s, "#2b2d3a")
+        # núcleo radiactivo (ventana redonda) con símbolo trébol
+        cx_, cy_, r = bx, by - hh * 0.75, 92 * s
+        out += f'<circle cx="{cx_:.0f}" cy="{cy_:.0f}" r="{r * 1.7:.0f}" fill="#c6ff00" opacity="0.16"/>' + f.ell(cx_, cy_, r, r, "#c6ff00", shadow=False)
+        for a in (90, 210, 330):
+            a0, a1 = math.radians(a - 30), math.radians(a + 30)
+            out += (f'<path d="M{cx_:.0f},{cy_:.0f} L{cx_ + r*0.85*math.cos(a0):.0f},{cy_ - r*0.85*math.sin(a0):.0f} '
+                    f'A{r*0.85:.0f},{r*0.85:.0f} 0 0 0 {cx_ + r*0.85*math.cos(a1):.0f},{cy_ - r*0.85*math.sin(a1):.0f} Z" fill="{INK}"/>')
+        out += f'<circle cx="{cx_:.0f}" cy="{cy_:.0f}" r="{r*0.2:.0f}" fill="#c6ff00" stroke="{INK}" stroke-width="8"/>'
+        # brazo + aguja-turbina
+        out += f.limb([(bx + w / 2 - 20, by - hh * 0.4), (bx + w * 0.85, by - hh * 0.55), (bx + w * 1.05, by - hh * 0.35)], 30 * s, "#9aa0aa")
+        tx, ty = bx + w * 1.05, by - hh * 0.35
+        out += f.ell(tx, ty, 70 * s, 70 * s, "#ff6b00") + "".join(
+            f.line([(tx, ty), (tx + 64 * s * math.cos(math.radians(a)), ty + 64 * s * math.sin(math.radians(a)))], 8) for a in range(0, 360, 45))
+        out += f.limb([(tx, ty + 60 * s), (tx, ty + 170 * s)], 10, "#d0d4dc")
+        # luces rojas y diales
+        for i in range(5):
+            out += f'<circle cx="{bx - w*0.4 + i * w*0.2:.0f}" cy="{by - hh*0.48:.0f}" r="{18*s:.0f}" fill="#ff2e2e" stroke="{INK}" stroke-width="6"/>'
+        out += f.poly(rrect(bx - w * 0.42, by - hh * 0.3, bx - w * 0.05, by - hh * 0.1, 6), "#15151c") + \
+            f'<text x="{bx - w*0.235:.0f}" y="{by - hh*0.16:.0f}" text-anchor="middle" font-family="var(--font-title)" font-size="{50*s:.0f}" fill="#ff2e2e">48 GW</text>'
+        # pegatina (centrada sobre el cuerpo, por encima de las cabezas; ancho según el texto)
+        txt = (e.get("text") or "NO TOCAR")[:18]
+        sw = max(200, 30 * len(txt)) * s
+        sy0, sy1 = by - hh * 0.64, by - hh * 0.55
+        out += (f'<g transform="rotate(-5 {bx:.0f} {(sy0 + sy1) / 2:.0f})">' + f.poly(rrect(bx - sw / 2, sy0, bx + sw / 2, sy1, 8), "#ffd54a", lw=6) +
+                f'<text x="{bx:.0f}" y="{sy1 - (sy1 - sy0) * 0.26:.0f}" text-anchor="middle" font-family="Permanent Marker" font-size="{min(44 * s, (sy1 - sy0) * 0.62):.0f}" fill="{INK}">{_esc(txt)}</text></g>')
+        return out, {"type": "flicker", "speed": 1.6}
+    if k == "alarm":  # sirena giratoria con haz rojo
+        r = 46 * s
+        out = f'<g><path d="M{x:.0f},{y:.0f} L{x - 900*s:.0f},{y - 260*s:.0f} L{x - 900*s:.0f},{y + 260*s:.0f} Z" fill="{col or "#ff2e2e"}" opacity="0.22"/>'
+        out += f'<path d="M{x:.0f},{y:.0f} L{x + 900*s:.0f},{y - 260*s:.0f} L{x + 900*s:.0f},{y + 260*s:.0f} Z" fill="{col or "#ff2e2e"}" opacity="0.22"/></g>'
+        out += f.ell(x, y, r, r, col or "#ff2e2e") + f.poly(rrect(x - r * 1.2, y + r * 0.8, x + r * 1.2, y + r * 1.3, 4), "#2b2d3a", shadow=False)
+        return out, {"type": "spin", "amount": 6, "cx": x, "cy": y}
+    if k == "dog":  # perro saliendo volando (caricatura plana)
+        c = col or "#c98a4b"
+        out = f'<g transform="rotate(-25 {x:.0f} {y:.0f})">'
+        out += f.ell(x, y, 120 * s, 62 * s, c)  # cuerpo
+        for dx, dy in ((-80, 40), (-40, 50), (60, 45), (95, 30)):  # patas estiradas
+            out += f.limb([(x + dx * s, y + dy * s), (x + dx * 1.3 * s, y + (dy + 70) * s)], 18 * s, c)
+        out += f.limb([(x - 115 * s, y - 10 * s), (x - 190 * s, y - 70 * s)], 16 * s, c)  # cola
+        out += f.ell(x + 140 * s, y - 50 * s, 66 * s, 56 * s, c)  # cabeza
+        out += f.ell(x + 120 * s, y - 100 * s, 22 * s, 46 * s, _shade(c, 0.7), shadow=False)  # oreja al viento
+        out += f'<circle cx="{x + 150*s:.0f}" cy="{y - 62*s:.0f}" r="{16*s:.0f}" fill="{WHITE}" stroke="{INK}" stroke-width="5"/><circle cx="{x + 154*s:.0f}" cy="{y - 62*s:.0f}" r="{6*s:.0f}" fill="{INK}"/>'
+        out += f.ell(x + 202 * s, y - 40 * s, 14 * s, 11 * s, INK, shadow=False)
+        out += "".join(f.line([(x - 220 * s - i * 40 * s, y + (i * 40 - 40) * s), (x - 340 * s - i * 40 * s, y + (i * 40 - 40) * s)], 6, WHITE) for i in range(3))
+        return out + "</g>", {"type": "drift", "amount": 45}
+    if k == "meter":  # contador de la luz echando humo
+        w, hh = 170 * s, 230 * s
+        out = f.poly(rrect(x - w / 2, y - hh / 2, x + w / 2, y + hh / 2, 10), col or "#d9d4c7")
+        out += f.poly(rrect(x - w * 0.36, y - hh * 0.32, x + w * 0.36, y - hh * 0.05, 4), "#15151c", shadow=False, lw=5)
+        out += f'<text x="{x:.0f}" y="{y - hh*0.1:.0f}" text-anchor="middle" font-family="var(--font-title)" font-size="{40*s:.0f}" fill="#ff2e2e">{_esc((e.get("text") or "999999")[:8])}</text>'
+        out += f.ell(x, y + hh * 0.22, 40 * s, 40 * s, WHITE, shadow=False) + f.line([(x, y + hh * 0.22), (x + 30 * s, y + hh * 0.1)], 6, "#ff2e2e")
+        out += "".join(f.ell(x + (i * 30 - 20) * s, y - hh * 0.6 - i * 70 * s, (40 + i * 18) * s, (34 + i * 15) * s, "#8a8d99", shadow=False) for i in range(3))
+        return out, {"type": "bob", "amount": 1.5}
     if k == "building":
         w, hh = 300 * s, 900 * s
         out = f.poly([(x - w / 2, gy), (x - w / 2, gy - hh), (x + w / 2, gy - hh), (x + w / 2, gy)], col or "#2b2d3a")

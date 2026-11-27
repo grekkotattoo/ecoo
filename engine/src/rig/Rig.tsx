@@ -156,7 +156,13 @@ export const ActorView: React.FC<{actor: Actor; rig: Rig; frame: number; fps: nu
     <>
     <ellipse cx={baseX} cy={actor.y + 4 * sc} rx={shW} ry={shW * 0.16} fill="#1b1030" opacity={0.28 * k} />
     <g transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${rot.toFixed(2)} 0 ${(cy * sc).toFixed(1)}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(${-ax} ${-ay})`}>
-      <RigView rig={rig} frame={frame} fps={fps} pose={pose} tracks={actor.tracks} variants={variants} />
+      {actor.look === 'charred' ? (
+        <g style={{filter: `brightness(0) drop-shadow(0 0 ${(10 + 6 * Math.abs(Math.sin(frame / 5))).toFixed(1)}px #c6ff00) drop-shadow(0 0 3px #c6ff00)`}}>
+          <RigView rig={rig} frame={frame} fps={fps} pose={pose} tracks={actor.tracks} variants={variants} />
+        </g>
+      ) : (
+        <RigView rig={rig} frame={frame} fps={fps} pose={pose} tracks={actor.tracks} variants={variants} />
+      )}
     </g>
     </>
   );

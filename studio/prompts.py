@@ -94,7 +94,7 @@ def storyboard_prompt(script: dict, chars: list[str], locs: list[str], feedback:
             f"Vocabulario: actions {_j(S.ACTIONS)}; framing {_j(S.FRAMING)}; camera {_j(S.CAMERA)}; transition {_j(S.TRANSITIONS)}; "
             f"effects {_j(S.EFFECTS)}; position {_j(S.POSITIONS)}; expression {_j(S.EXPRESSIONS)}.\n"
             'Formato: {"shots":[{"location":"","framing":"","camera":"","transition":"","effects":[],"text_pop":"",'
-            '"actors":[{"character":"","position":"","facing":"right|left","actions":[],"expression":""}],"lines":["l01"],'
+            '"actors":[{"character":"","position":"","facing":"right|left","actions":[],"expression":"","state":"normal|charred"}],"lines":["l01"],'
             '"seconds":2.5,"description":"","key_image":false}]}')
 
 

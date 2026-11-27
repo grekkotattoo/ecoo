@@ -7,7 +7,7 @@
   "status": "awaiting_approval",
   "test": false,
   "created": "2026-11-27T22:37:18+00:00",
-  "updated": "2026-11-27T22:39:51+00:00",
+  "updated": "2026-11-27T22:58:03+00:00",
   "phases": {
     "development": {
       "status": "done",
@@ -42,12 +42,12 @@
     "art_direction": {
       "status": "done",
       "attempts": 2,
-      "pid": 449,
-      "started": "2026-11-27T22:38:29+00:00",
+      "pid": 6445,
+      "started": "2026-11-27T22:57:24+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T22:38:29+00:00",
-      "output_hash": "8ce4656b1d9f71c8"
+      "finished": "2026-11-27T22:57:24+00:00",
+      "output_hash": "2e737ec023ad1991"
     },
     "characters": {
       "status": "done",
@@ -72,20 +72,20 @@
     "base_images": {
       "status": "done",
       "attempts": 1,
-      "pid": 490,
-      "started": "2026-11-27T22:39:01+00:00",
-      "finished": "2026-11-27T22:39:51+00:00",
-      "output_hash": "e02aee85a04e203e",
+      "pid": 6445,
+      "started": "2026-11-27T22:57:24+00:00",
+      "finished": "2026-11-27T22:58:03+00:00",
+      "output_hash": "489067d57d0575a3",
       "error": null,
       "task": null
     },
     "proposal": {
       "status": "done",
       "attempts": 1,
-      "pid": 490,
-      "started": "2026-11-27T22:39:51+00:00",
-      "finished": "2026-11-27T22:39:51+00:00",
-      "output_hash": "0012136b4e874a49",
+      "pid": 6445,
+      "started": "2026-11-27T22:58:03+00:00",
+      "finished": "2026-11-27T22:58:03+00:00",
+      "output_hash": "896c9ca7e4743bf2",
       "error": null,
       "task": null
     },
@@ -126,7 +126,20 @@
       "attempts": 0
     }
   },
-  "feedback": [],
+  "feedback": [
+    {
+      "scope": "images",
+      "text": "Que se vea la máquina nuclear gigante (reactor, tuberías, luces rojas, agujas-turbina, pegatina NO TOCAR PACO), el perro volando, el barrio apagándose y el cliente final como silueta negra carbonizada con el tatuaje brillando. Que quede guay.",
+      "by": "cli",
+      "ts": "2026-11-27T22:49:43+00:00"
+    },
+    {
+      "scope": "images",
+      "text": "Iteración 2: máquina centrada, pegatina legible, orden de capas 3D corregido.",
+      "by": "cli",
+      "ts": "2026-11-27T22:57:20+00:00"
+    }
+  ],
   "humor_revisions": 0,
   "approval": {
     "approved": false
@@ -134,5 +147,22 @@
   "waiting": {
     "type": "approval"
   },
-  "history": []
+  "history": [
+    {
+      "ts": "2026-11-27T22:49:43+00:00",
+      "episode": "EP001",
+      "action": "CHANGE_IMAGES",
+      "feedback": "Que se vea la máquina nuclear gigante (reactor, tuberías, luces rojas, agujas-turbina, pegatina NO TOCAR PACO), el perro volando, el barrio apagándose y el cliente final como silueta negra carbonizada con el tatuaje brillando. Que quede guay.",
+      "by": "cli",
+      "proposal_hash": "7feb4155b720d817"
+    },
+    {
+      "ts": "2026-11-27T22:57:20+00:00",
+      "episode": "EP001",
+      "action": "CHANGE_IMAGES",
+      "feedback": "Iteración 2: máquina centrada, pegatina legible, orden de capas 3D corregido.",
+      "by": "cli",
+      "proposal_hash": "f6dd1d330df91497"
+    }
+  ]
 }

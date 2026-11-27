@@ -183,7 +183,8 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
                     acts.append({"type": "nod", "start": int(dur * 0.55), "dur": 18})
             vis.sort(key=lambda k: k["f"])
             actors.append({"id": f"{a['character']}_{si}", "rig": a["character"], "x": x, "y": floor_y, "scale": sc, "flip": flip,
-                           "z": ai, "actions": acts, "expressions": expr, "visemes": vis, "blink": True, "idle": True})
+                           "z": ai, "actions": acts, "expressions": expr, "visemes": vis, "blink": True, "idle": True,
+                           **({"look": "charred"} if a.get("state") == "charred" else {})})
         effects = []
         for k, e in enumerate(s["effects"]):
             at = int(dur * (0.15 + 0.25 * k))

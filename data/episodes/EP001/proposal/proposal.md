@@ -16,8 +16,8 @@ Voz en off de anuncio de tecnología militar de 200.000 millones. Un tatuador pr
 ![Señor del microondas](images/char_vecino.png)
 ![Tatuador](images/char_tatuador.png)
 ![Cliente](images/char_cliente.png)
-![Estudio de tatuaje con reactor](images/bg_estudio_tatuaje.png)
-![Barrio apagado](images/bg_calle_barrio.png)
+![Estudio con la FISIÓN X-9000](images/bg_estudio_tatuaje.png)
+![Barrio apagándose](images/bg_calle_barrio.png)
 
 ## Guion
 - **narrador**: ¿Qué pasaría si te tatuaras con una máquina nuclear?
