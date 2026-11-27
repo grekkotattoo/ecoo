@@ -16,6 +16,22 @@
       "name": "El Primo",
       "episode": "EP001",
       "preview": "characters/primo/v002/preview_sheet.png"
+    },
+    {
+      "version": 3,
+      "hash": "be7f38fde9249e4e",
+      "created": "2026-11-27T22:00:47+00:00",
+      "name": "El Primo",
+      "episode": "EP001",
+      "preview": "characters/primo/v003/preview_sheet.png"
+    },
+    {
+      "version": 4,
+      "hash": "3fdce6a6bf68adc7",
+      "created": "2026-11-27T22:02:57+00:00",
+      "name": "El Primo",
+      "episode": "EP001",
+      "preview": "characters/primo/v004/preview_sheet.png"
     }
   ],
   "approved": null

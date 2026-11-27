@@ -16,6 +16,22 @@
       "name": "Inspectora de ITV",
       "episode": "EP001",
       "preview": "characters/inspectora/v002/preview_sheet.png"
+    },
+    {
+      "version": 3,
+      "hash": "b7a45834d2289376",
+      "created": "2026-11-27T22:00:47+00:00",
+      "name": "Inspectora de ITV",
+      "episode": "EP001",
+      "preview": "characters/inspectora/v003/preview_sheet.png"
+    },
+    {
+      "version": 4,
+      "hash": "0accf2b964752408",
+      "created": "2026-11-27T22:02:57+00:00",
+      "name": "Inspectora de ITV",
+      "episode": "EP001",
+      "preview": "characters/inspectora/v004/preview_sheet.png"
     }
   ],
   "approved": null

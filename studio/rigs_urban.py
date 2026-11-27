@@ -107,51 +107,69 @@ def _motif(m: str, s: float, col: str, lw: float, text: str = "") -> str:
         wdt = min(s * 1.5, len(text) * fs * 0.62 + 6)
         out += (f'<rect x="{-wdt/2:.1f}" y="{s*.05:.1f}" width="{wdt:.1f}" height="{fs*1.15:.1f}" fill="{WHITE}" {st}/>'
                 f'<text x="0" y="{s*.05 + fs*.95:.1f}" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="{fs:.1f}" fill="{INK}" '
-                f'textLength="{wdt - 4:.1f}" lengthAdjust="spacingAndGlyphs">{_esc(text)}</text>')
+                f'textLength="{wdt - 4:.1f}" lengthAdjust="spacingAndGlyphs" style="transform-box:fill-box;transform-origin:center;transform:scaleX(var(--tatflip,1))">{_esc(text)}</text>')
+    return out
+
+
+def _ink_text(x, y, txt, fs, tl, col, anchor="middle") -> str:
+    """Letras de tatuaje: bloque condensado con trazo del mismo color (tinta asentada, legible en pequeño)."""
+    return (f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="{anchor}" font-family="Anton, Impact, sans-serif" font-weight="700" '
+            f'font-size="{fs:.1f}" fill="{col}" stroke="{col}" stroke-width="{max(0.4, fs*0.02):.1f}" stroke-linejoin="round" '
+            f'textLength="{tl:.1f}" lengthAdjust="spacingAndGlyphs" opacity="0.95" '
+            f'style="transform-box:fill-box;transform-origin:center;transform:scaleX(var(--tatflip,1))">{_esc(txt)}</text>')
+
+
+def _barcode(x0, x1, h, col) -> str:
+    n, out = 11, ""
+    for i in range(n):
+        x = x0 + i * (x1 - x0) / n
+        out += f'<rect x="{x:.1f}" y="{-h/2:.1f}" width="{(x1 - x0) / n * (0.75 if i % 3 == 0 else 0.4):.1f}" height="{h:.1f}" fill="{col}"/>'
     return out
 
 
 def tattoo_on_limb(p0, p1, w: float, t: dict, lw: float, f: "Flat") -> str:
-    """Tatuaje sobre un segmento de extremidad: marco local x = a lo largo del miembro, y = a través."""
+    """Tatuaje sobre un segmento de extremidad: marco local x = a lo largo del miembro (hombro→mano), y = a través."""
     L = math.dist(p0, p1)
     ang = math.degrees(math.atan2(p1[1] - p0[1], p1[0] - p0[0]))
     m, col, txt = t["motif"], t["color"], t.get("text", "")
     inner = ""
     if m == "tribal":
-        k = 4
-        x0, x1 = L * 0.12, L * 0.88
+        # espina central + púas alternas afiladas: lectura de "tribal" incluso en plano general
+        x0, x1 = L * 0.08, L * 0.92
+        inner += (f'<path d="M{x0:.1f},0 Q{(x0+x1)/2:.1f},{-w*.18:.1f} {x1:.1f},0 Q{(x0+x1)/2:.1f},{w*.18:.1f} {x0:.1f},0 Z" fill="{col}"/>')
+        k = 5
         step = (x1 - x0) / k
         for i in range(k):
             a = x0 + i * step
-            inner += (f'<path d="M{a:.1f},{-w*.55:.1f} Q{a + step*.55:.1f},{-w*.1:.1f} {a + step*1.05:.1f},{w*.05:.1f} '
-                      f'Q{a + step*.45:.1f},{-w*.02:.1f} {a + step*.15:.1f},{w*.55:.1f} L{a - step*.1:.1f},{w*.55:.1f} '
-                      f'Q{a + step*.2:.1f},{-w*.15:.1f} {a - step*.15:.1f},{-w*.55:.1f} Z" fill="{col}"/>')
+            sg = -1 if i % 2 == 0 else 1
+            inner += (f'<path d="M{a:.1f},0 Q{a + step*.35:.1f},{sg*w*.15:.1f} {a + step*.9:.1f},{sg*w*.6:.1f} '
+                      f'Q{a + step*.55:.1f},{sg*w*.2:.1f} {a + step*.75:.1f},0 Z" fill="{col}"/>')
     elif m == "barcode":
-        n = 9
-        for i in range(n):
-            x = L * 0.3 + i * L * 0.4 / n
-            inner += f'<rect x="{x:.1f}" y="{-w*.55:.1f}" width="{(1.5 if i % 3 else 3.2):.1f}" height="{w*1.1:.1f}" fill="{col}"/>'
+        inner = _barcode(L * 0.28, L * 0.72, w * 0.8, col)
     elif m == "text":
-        fs = min(w * 0.82, 30)
-        tl = min(L * 0.8, len(txt) * fs * 0.62)
-        inner = (f'<text x="{L*.5:.1f}" y="{fs*.36:.1f}" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-weight="700" font-size="{fs:.1f}" fill="{col}" '
-                 f'textLength="{tl:.1f}" lengthAdjust="spacingAndGlyphs">{_esc(txt)}</text>')
+        fs = min(w * 0.88, L * 0.86 / max(1, len(txt) * 0.46))  # sin aplastar letras: si es largo, más pequeño
+        inner = _ink_text(L * .5, fs * .36, txt, fs, min(L * 0.86, len(txt) * fs * 0.52), col)
+    elif txt:
+        # motivo arriba + leyenda a lo largo del brazo (no se recorta como una banda)
+        inner = f'<g transform="translate({L*.24:.1f} 0) rotate(-90)">{_motif(m, w * 1.1, col, lw)}</g>'
+        fs = min(w * 0.7, L * 0.45 / max(1, len(txt) * 0.46))
+        inner += _ink_text(L * .64, fs * .36, txt, fs, min(L * 0.5, max(fs, len(txt) * fs * 0.58)), "#0d0d0d" if col == "#0d0d0d" else col)
     else:
-        inner = f'<g transform="translate({L*.5:.1f} 0) rotate(-90)">{_motif(m, w * 1.05, col, lw, txt)}</g>'
+        inner = f'<g transform="translate({L*.5:.1f} 0) rotate(-90)">{_motif(m, w * 1.15, col, lw)}</g>'
     c = f.nid()
     return (f'<g transform="translate({p0[0]:.1f} {p0[1]:.1f}) rotate({ang:.2f})"><clipPath id="{c}"><rect x="{-w*.1:.1f}" y="{-w/2:.1f}" width="{L + w*.2:.1f}" height="{w:.1f}"/></clipPath>'
             f'<g clip-path="url(#{c})">{inner}</g></g>')
 
 
 def tattoo_at(x: float, y: float, s: float, t: dict, lw: float) -> str:
-    """Tatuaje 'plano' (mano, cara, cuello): motivo derecho o texto horizontal."""
+    """Tatuaje 'plano' (mano, cara, cuello): motivo derecho, código de barras o texto horizontal."""
     if t["motif"] == "text":
-        fs = s * 0.5
-        tl = min(s * 1.6, len(t["text"]) * fs * 0.62)
-        return (f'<text x="{x:.1f}" y="{y + fs*.36:.1f}" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-weight="700" font-size="{fs:.1f}" fill="{t["color"]}" '
-                f'textLength="{tl:.1f}" lengthAdjust="spacingAndGlyphs">{_esc(t["text"])}</text>')
-    m = {"tribal": "flash", "barcode": "dot"}.get(t["motif"], t["motif"])
-    return f'<g transform="translate({x:.1f} {y:.1f})">{_motif(m, s, t["color"], lw, t.get("text", ""))}</g>'
+        fs = s * 0.6
+        return _ink_text(x, y + fs * .36, t["text"], fs, min(s * 1.7, max(fs, len(t["text"]) * fs * 0.58)), t["color"])
+    if t["motif"] == "barcode":
+        return f'<g transform="translate({x:.1f} {y:.1f})">{_barcode(-s*.6, s*.6, s*.7, t["color"])}</g>'
+    m = {"tribal": "flash"}.get(t["motif"], t["motif"])
+    return f'<g transform="translate({x:.1f} {y:.1f})">{_motif(m, s, t["color"], lw)}</g>'
 
 
 def rrect(x0, y0, x1, y1, r=0.0, n=4):
@@ -257,8 +275,8 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
         elbow = (shx + sx * 14, shY + 26 + arm * 0.5)
         hand = (elbow[0] + sx * 4, elbow[1] + arm * 0.5)
         aw = 20 if body not in ("stocky", "blob") else 26
-        aw_up = aw * (1.4 if t_up else 1.0)
-        aw_lo = aw * (1.4 if t_lo else 1.0)
+        aw_up = aw * (1.55 if t_up else 1.0)
+        aw_lo = aw * (1.55 if t_lo else 1.0)
         up = f.limb([(shx, shY + 24), elbow], aw_up, sleeve_up)
         lo = f.limb([elbow, hand], aw_lo, sleeve_lo)
         if out == "tshirt" and not t_up:  # manga corta
@@ -274,7 +292,7 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
         lo += f.poly(mitt, skin, lw=lw * 0.9) + f.poly(rrect(hx - sx * 30 - 8, hy - 10, hx - sx * 30 + 8, hy + 12, 7), skin, shadow=False, lw=lw * 0.8)
         lo += f.line([(hx - 7, hy + 8), (hx - 7, hy + 21)], 3.5) + f.line([(hx + 7, hy + 8), (hx + 7, hy + 21)], 3.5)
         if t_hand:
-            lo += tattoo_at(hx, hy - 2, 26, t_hand, lw)
+            lo += tattoo_at(hx, hy + 1, 30, t_hand, lw)
         part(f"arm{side}_up", "torso", (shx, shY + 24), z, up)
         part(f"arm{side}_lo", f"arm{side}_up", elbow, z, lo)
 

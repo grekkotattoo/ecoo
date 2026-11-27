@@ -155,7 +155,7 @@ export const ActorView: React.FC<{actor: Actor; rig: Rig; frame: number; fps: nu
   return (
     <>
     <ellipse cx={baseX} cy={actor.y + 4 * sc} rx={shW} ry={shW * 0.16} fill="#1b1030" opacity={0.28 * k} />
-    <g transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${rot.toFixed(2)} 0 ${(cy * sc).toFixed(1)}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(${-ax} ${-ay})`}>
+    <g transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${rot.toFixed(2)} 0 ${(cy * sc).toFixed(1)}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(${-ax} ${-ay})`} style={{['--tatflip' as string]: actor.flip ? -1 : 1}}>
       <RigView rig={rig} frame={frame} fps={fps} pose={pose} tracks={actor.tracks} variants={variants} />
     </g>
     </>

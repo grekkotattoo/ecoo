@@ -27,21 +27,21 @@
       "name": "Toni",
       "role": "Cliente orgulloso de su tribal casero",
       "voice_hint": "hombre 40 años, español de España, voz chulesca de barrio que se indigna rápido",
-      "version": 2
+      "version": 4
     },
     {
       "id": "inspectora",
       "name": "Inspectora de ITV",
       "role": "Funcionaria técnica e imperturbable",
       "voice_hint": "mujer 50 años, español de España, voz seca, monótona y técnica de funcionaria",
-      "version": 2
+      "version": 4
     },
     {
       "id": "primo",
       "name": "El Primo",
       "role": "Tatuador casero y dueño de la ITV",
       "voice_hint": "hombre 30 años, español de España, voz de vendedor enrollado y descarado",
-      "version": 2
+      "version": 4
     }
   ],
   "locations": [
@@ -113,15 +113,9 @@
   "images": [
     {
       "kind": "key_frame",
-      "shot": "s01",
-      "file": "key_s01.png",
-      "caption": "Toni llega a la línea de ITV y estira el brazo para lucir el tribal."
-    },
-    {
-      "kind": "key_frame",
       "shot": "s03",
       "file": "key_s03.png",
-      "caption": "Revisión con lupa; aparece la falta de ortografía; Toni rabia."
+      "caption": "La inspectora examina el antebrazo de Toni: 'NO REGREST'. Toni rabia."
     },
     {
       "kind": "key_frame",
@@ -133,7 +127,13 @@
       "kind": "key_frame",
       "shot": "s06",
       "file": "key_s06.png",
-      "caption": "Giro: el primo es el dueño de la ITV; Toni se desmaya."
+      "caption": "Giro: el primo es el dueño de la ITV; Toni se desmaya hacia el lado contrario."
+    },
+    {
+      "kind": "key_frame",
+      "shot": "s07",
+      "file": "key_s07.png",
+      "caption": "Remate: el antebrazo del primo dice 'APOT'. 'Otro primo.'"
     },
     {
       "kind": "character_sheet",
@@ -170,5 +170,5 @@
     "REVISAR HUMOR",
     "CANCELAR"
   ],
-  "hash": "1c2ddfdf138635ef"
+  "hash": "7481b307f6cc9428"
 }

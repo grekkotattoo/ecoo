@@ -35,7 +35,7 @@
       ],
       "seconds": 3.0,
       "description": "Toni llega a la línea de ITV y estira el brazo para lucir el tribal.",
-      "key_image": true,
+      "key_image": false,
       "text_pop": "¿QUÉ PASARÍA SI."
     },
     {
@@ -79,16 +79,27 @@
     {
       "id": "s03",
       "location": "estacion_itv",
-      "framing": "medium",
-      "camera": "orbit_left",
+      "framing": "close",
+      "camera": "static",
       "transition": "whip",
       "effects": [
         "textPop"
       ],
       "actors": [
         {
+          "character": "toni",
+          "position": "left",
+          "actions": [
+            "stretch",
+            "rage",
+            "talk"
+          ],
+          "expression": "angry",
+          "facing": "right"
+        },
+        {
           "character": "inspectora",
-          "position": "center",
+          "position": "right",
           "actions": [
             "lean",
             "talk",
@@ -96,16 +107,6 @@
           ],
           "expression": "disgusted",
           "facing": "left"
-        },
-        {
-          "character": "toni",
-          "position": "far_left",
-          "actions": [
-            "rage",
-            "talk"
-          ],
-          "expression": "angry",
-          "facing": "right"
         }
       ],
       "lines": [
@@ -113,7 +114,7 @@
         "l05"
       ],
       "seconds": 5.5,
-      "description": "Revisión con lupa; aparece la falta de ortografía; Toni rabia.",
+      "description": "La inspectora examina el antebrazo de Toni: 'NO REGREST'. Toni rabia.",
       "key_image": true,
       "text_pop": "NO REGREST"
     },
@@ -204,7 +205,7 @@
       "id": "s06",
       "location": "estacion_itv",
       "framing": "medium",
-      "camera": "vertigo",
+      "camera": "push_in",
       "transition": "cut",
       "effects": [
         "flash",
@@ -214,7 +215,7 @@
       "actors": [
         {
           "character": "primo",
-          "position": "center",
+          "position": "right",
           "actions": [
             "celebrate",
             "talk"
@@ -226,25 +227,26 @@
           "character": "toni",
           "position": "far_left",
           "actions": [
+            "take",
             "faint"
           ],
           "expression": "surprised",
-          "facing": "right"
+          "facing": "left"
         }
       ],
       "lines": [
         "l09"
       ],
       "seconds": 3.5,
-      "description": "Giro: el primo es el dueño de la ITV; Toni se desmaya.",
+      "description": "Giro: el primo es el dueño de la ITV; Toni se desmaya hacia el lado contrario.",
       "key_image": true,
       "text_pop": "DUEÑO"
     },
     {
       "id": "s07",
       "location": "estacion_itv",
-      "framing": "medium",
-      "camera": "rack_focus",
+      "framing": "close",
+      "camera": "static",
       "transition": "iris",
       "effects": [
         "impact",
@@ -265,8 +267,8 @@
           "character": "primo",
           "position": "right",
           "actions": [
-            "shrug",
-            "talk"
+            "talk",
+            "shrug"
           ],
           "expression": "tired",
           "facing": "left"
@@ -277,8 +279,8 @@
         "l11"
       ],
       "seconds": 3.5,
-      "description": "Remate: el tatuaje 'APOT' del primo. 'Otro primo.'",
-      "key_image": false,
+      "description": "Remate: el antebrazo del primo dice 'APOT'. 'Otro primo.'",
+      "key_image": true,
       "text_pop": "APOT"
     }
   ]

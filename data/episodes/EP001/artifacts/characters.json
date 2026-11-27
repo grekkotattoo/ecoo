@@ -157,18 +157,18 @@
   "library": {
     "toni": {
       "id": "toni",
-      "version": 2,
-      "hash": "c39630103b81c461"
+      "version": 4,
+      "hash": "4320d87c48425cb5"
     },
     "inspectora": {
       "id": "inspectora",
-      "version": 2,
-      "hash": "3c0cafb25d4f3530"
+      "version": 4,
+      "hash": "0accf2b964752408"
     },
     "primo": {
       "id": "primo",
-      "version": 2,
-      "hash": "551df4d0657bfc03"
+      "version": 4,
+      "hash": "3fdce6a6bf68adc7"
     }
   }
 }

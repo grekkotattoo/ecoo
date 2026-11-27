@@ -16,6 +16,22 @@
       "name": "Toni",
       "episode": "EP001",
       "preview": "characters/toni/v002/preview_sheet.png"
+    },
+    {
+      "version": 3,
+      "hash": "a9f931d592d29fb8",
+      "created": "2026-11-27T22:00:47+00:00",
+      "name": "Toni",
+      "episode": "EP001",
+      "preview": "characters/toni/v003/preview_sheet.png"
+    },
+    {
+      "version": 4,
+      "hash": "4320d87c48425cb5",
+      "created": "2026-11-27T22:02:57+00:00",
+      "name": "Toni",
+      "episode": "EP001",
+      "preview": "characters/toni/v004/preview_sheet.png"
     }
   ],
   "approved": null

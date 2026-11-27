@@ -8,10 +8,10 @@ Toni hace cola en una estación de ITV con el brazo por la ventanilla. La inspec
 - Duración estimada: 38.2 s
 
 ## Imágenes base
-![Toni llega a la línea de ITV y estira el brazo para lucir el tribal.](images/key_s01.png)
-![Revisión con lupa; aparece la falta de ortografía; Toni rabia.](images/key_s03.png)
+![La inspectora examina el antebrazo de Toni: 'NO REGREST'. Toni rabia.](images/key_s03.png)
 ![El medidor de arrepentimiento explota; sello rojo NO APTO.](images/key_s04.png)
-![Giro: el primo es el dueño de la ITV; Toni se desmaya.](images/key_s06.png)
+![Giro: el primo es el dueño de la ITV; Toni se desmaya hacia el lado contrario.](images/key_s06.png)
+![Remate: el antebrazo del primo dice 'APOT'. 'Otro primo.'](images/key_s07.png)
 ![Toni](images/char_toni.png)
 ![Inspectora de ITV](images/char_inspectora.png)
 ![El Primo](images/char_primo.png)
