@@ -85,7 +85,7 @@ export type Shot = {
   kind?: 'scene' | 'title' | 'end';
   background?: string;
   bgColor?: string;
-  camera?: {x?: Track; y?: Track; zoom?: Track; rot?: Track};
+  camera?: {x?: Track; y?: Track; zoom?: Track; rot?: Track; yaw?: Track; pitch?: Track; persp?: Track; focus?: Track; dof?: Track};
   actors?: Actor[];
   props?: PropItem[];
   effects?: Effect[];
@@ -103,6 +103,7 @@ export type Style = {
   boil: number; // 0..1 temblor de línea dibujada a mano
   boilFps: number;
   vignette: number;
+  dof?: number; // desenfoque por profundidad (px por cada 1000 de distancia al foco)
   grade?: {top: string; topOpacity: number; bottom: string; bottomOpacity: number};
   subtitle: {size: number; y: number; color: string; stroke: string; maxChars: number};
 };

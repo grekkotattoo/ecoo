@@ -74,11 +74,11 @@ def art_prompt(script: dict, style_summary: str, keep_ids: list[str] | None, fee
 
 def characters_prompt(script: dict, existing: list[dict], keep_ids: list[str] | None, feedback: list[str]) -> str:
     speakers = sorted({l["speaker"] for b in script["beats"] for l in b["lines"]} - {"narrador"})
-    return (f"Diseña los personajes (cartoon adulto premium: siluetas reconocibles, colores saturados y armónicos con buen contraste piel/ropa/fondo, expresivos). Personajes del guion: {_j(speakers)}. "
+    return (f"Diseña los personajes (acabado semirrealista de animación adulta premium: proporciones creíbles, pieles y colores naturales con acentos saturados, siluetas reconocibles, muy expresivos). Personajes del guion: {_j(speakers)}. "
             f"Contexto: {script['title']} — {_j([b['action'] for b in script['beats']])[:900]}.\n"
             f"Personajes recurrentes en biblioteca (reutiliza con 'reuse':'id' si encaja; continuidad): {_j(existing[:20])}.\n"
             f"{('Mantén estos ids: ' + _j(keep_ids)) if keep_ids else ''}{_fb(feedback)}"
-            f"Parámetros: {_j(S.CHAR_ENUMS)}; accessories ⊂ {_j(S.ACCESSORIES)}; colores #hex; height 0.75-1.35; head_scale 0.8-1.6; width 0.7-1.5.\n"
+            f"Parámetros: {_j(S.CHAR_ENUMS)}; accessories ⊂ {_j(S.ACCESSORIES)}; colores #hex; height 0.75-1.35; head_scale 0.8-1.6 (0.9-1.1 = proporción realista; >1.3 solo para caricatura extrema); width 0.7-1.5.\n"
             'Formato: {"characters":[{"id":"","name":"","role":"","description":"","voice_hint":"tipo de voz para ElevenLabs","reuse":null,'
             '"params":{"body":"","head":"","hair":"","eyes":"","nose":"","outfit":"","species":"","skin":"#hex","hair_color":"#hex",'
             '"top_color":"#hex","bottom_color":"#hex","accent_color":"#hex","eye_color":"#hex","height":1,"head_scale":1.2,"width":1,"accessories":[],"seed":1}}]}')
@@ -88,6 +88,7 @@ def storyboard_prompt(script: dict, chars: list[str], locs: list[str], feedback:
     lines = [{"id": l["id"], "who": l["speaker"], "txt": l["text"], "beat": b["id"], "loc": b["location"]} for b in script["beats"] for l in b["lines"]]
     return (f"Storyboard vertical 9:16. Líneas: {_j(lines)}. Personajes: {_j(chars)}. Localizaciones: {_j(locs)}.\n"
             "Reglas: todas las líneas asignadas a algún plano, en orden; cada plano con al menos un actor animado; variedad de encuadres; "
+            "ACTUACIÓN MUY EXAGERADA Y CARICATURESCA (take, rage, laugh, cower, celebrate, faint…) y cámara 3D llamativa (orbit, swoop, crane, vertigo, rack_focus); "
             "giro y remate con efecto o cámara marcada; 3-5 planos con key_image=true (los más representativos).\n"
             f"{_fb(feedback)}"
             f"Vocabulario: actions {_j(S.ACTIONS)}; framing {_j(S.FRAMING)}; camera {_j(S.CAMERA)}; transition {_j(S.TRANSITIONS)}; "

@@ -26,7 +26,7 @@ def style_props(style: dict) -> dict:
         "palette": style["palette"], "outline": {"color": style["outline"]["color"], "width": style["outline"]["width"]},
         "fonts": {"title": t["title"]["family"], "subtitle": t["subtitle"]["family"],
                   "urls": {t["title"]["family"]: f"asset://{t['title']['file']}", t["subtitle"]["family"]: f"asset://{t['subtitle']['file']}"}},
-        "grain": tex["grain"], "boil": tex["boil"], "boilFps": tex["boil_fps"], "vignette": tex["vignette"],
+        "grain": tex["grain"], "boil": tex["boil"], "dof": tex.get("dof", 0), "boilFps": tex["boil_fps"], "vignette": tex["vignette"],
         **({"grade": {"top": tex["grade"]["top"], "topOpacity": tex["grade"]["top_opacity"], "bottom": tex["grade"]["bottom"],
                       "bottomOpacity": tex["grade"]["bottom_opacity"]}} if tex.get("grade") else {}),
         "subtitle": {"size": t["subtitle_style"]["size"], "y": t["subtitle_style"]["y"], "color": t["subtitle_style"]["color"],
@@ -56,29 +56,49 @@ def chunk_subtitle(text: str, max_chars: int) -> list[str]:
 
 
 def _camera(kind: str, dur: int, seed: int) -> dict:
-    if kind == "push_in":
-        return {"zoom": [{"f": 0, "v": 1.0}, {"f": dur, "v": 1.14, "e": "inOut"}]}
-    if kind == "pull_out":
-        return {"zoom": [{"f": 0, "v": 1.16}, {"f": dur, "v": 1.0, "e": "inOut"}]}
-    if kind == "pan_left":
-        return {"x": [{"f": 0, "v": 140}, {"f": dur, "v": -140, "e": "inOut"}]}
-    if kind == "pan_right":
-        return {"x": [{"f": 0, "v": -140}, {"f": dur, "v": 140, "e": "inOut"}]}
-    if kind == "tilt_up":
-        return {"y": [{"f": 0, "v": 160}, {"f": dur, "v": -60, "e": "inOut"}]}
-    if kind == "tilt_down":
-        return {"y": [{"f": 0, "v": -160}, {"f": dur, "v": 40, "e": "inOut"}]}
-    if kind == "dutch":
-        return {"rot": [{"f": 0, "v": -2}, {"f": dur, "v": -7, "e": "inOut"}], "zoom": [{"f": 0, "v": 1.05}, {"f": dur, "v": 1.1}]}
-    if kind == "crash_zoom":
-        return {"zoom": [{"f": 0, "v": 1.0}, {"f": 6, "v": 1.45, "e": "out"}, {"f": dur, "v": 1.5}]}
-    if kind == "handheld":
-        keys_x, keys_y = [], []
-        for i, f in enumerate(range(0, dur + 1, 12)):
-            keys_x.append({"f": f, "v": math.sin(seed + i * 1.7) * 14})
-            keys_y.append({"f": f, "v": math.cos(seed * 2 + i * 1.3) * 10})
-        return {"x": keys_x, "y": keys_y}
-    return {}
+    """Movimientos de cámara 2.5D (perspectiva real sobre planos): dolly, órbita, grúa, roll, vértigo, DOF.
+    Ningún plano queda estático: 'static' es una deriva cinematográfica sutil."""
+    L = lambda a, b, e="inOut": [{"f": 0, "v": a}, {"f": dur, "v": b, "e": e}]
+    sgn = 1 if seed % 2 == 0 else -1
+    presets = {
+        "static":      {"yaw": L(-1.2 * sgn, 1.2 * sgn), "zoom": L(1.0, 1.04), "pitch": L(0.6, -0.4)},
+        "push_in":     {"zoom": L(1.0, 1.28), "pitch": L(2.0, -1.0), "yaw": L(-2 * sgn, 1 * sgn)},
+        "pull_out":    {"zoom": L(1.3, 1.0), "pitch": L(-1.5, 1.0), "yaw": L(2 * sgn, -1 * sgn)},
+        "pan_left":    {"x": L(160, -160), "yaw": L(-7, 7), "zoom": L(1.06, 1.08)},
+        "pan_right":   {"x": L(-160, 160), "yaw": L(7, -7), "zoom": L(1.06, 1.08)},
+        "tilt_up":     {"y": L(200, -60), "pitch": L(-9, 3), "zoom": L(1.08, 1.04)},
+        "tilt_down":   {"y": L(-200, 40), "pitch": L(9, -2), "zoom": L(1.08, 1.04)},
+        "dutch":       {"rot": L(-3, -9), "zoom": L(1.06, 1.14), "yaw": L(4, -2)},
+        "crash_zoom":  {"zoom": [{"f": 0, "v": 1.0}, {"f": 5, "v": 1.6, "e": "out"}, {"f": dur, "v": 1.66}], "rot": [{"f": 0, "v": 0}, {"f": 5, "v": 2.5, "e": "out"}, {"f": dur, "v": 3}]},
+        "handheld":    {},
+        "orbit_left":  {"yaw": L(-16, 12), "x": L(-120, 90), "zoom": L(1.1, 1.14)},
+        "orbit_right": {"yaw": L(16, -12), "x": L(120, -90), "zoom": L(1.1, 1.14)},
+        "crane_up":    {"pitch": L(12, -4), "y": L(260, -40), "zoom": L(1.12, 1.0)},
+        "crane_down":  {"pitch": L(-10, 3), "y": L(-240, 30), "zoom": L(1.0, 1.12)},
+        "vertigo":     {"persp": L(2400, 900), "zoom": L(1.0, 1.06)},
+        "swoop":       {"yaw": L(-22 * sgn, 0, "out"), "pitch": L(10, 0, "out"), "zoom": L(1.45, 1.05, "out"), "x": L(-200 * sgn, 0, "out")},
+        "rack_focus":  {"focus": L(-1800, 0), "dof": L(3.5, 3.5), "zoom": L(1.04, 1.1)},
+    }
+    cam = dict(presets.get(kind, presets["static"]))
+    if kind == "handheld" or kind not in ("crash_zoom",):
+        # temblor de cámara al hombro sutil en todos los planos (más fuerte en 'handheld')
+        amp = 1.0 if kind == "handheld" else 0.25
+        for key, scale in (("yaw", 1.6), ("pitch", 1.0), ("rot", 0.8)):
+            noise = [{"f": f, "v": math.sin(seed * 1.3 + i * 1.7 + len(key)) * scale * amp} for i, f in enumerate(range(0, dur + 1, 10))]
+            if key in cam:
+                base = cam[key]
+                noise = [{"f": n["f"], "v": n["v"] + _lin(base, n["f"])} for n in noise]
+            cam[key] = noise
+    return cam
+
+
+def _lin(track: list[dict], f: int) -> float:
+    if f <= track[0]["f"]:
+        return track[0]["v"]
+    for a, b in zip(track, track[1:]):
+        if a["f"] <= f <= b["f"]:
+            return a["v"] + (b["v"] - a["v"]) * (f - a["f"]) / max(1, b["f"] - a["f"])
+    return track[-1]["v"]
 
 
 def _action(name: str, start: int, dur: int, side: str, i: int) -> dict:
@@ -89,8 +109,11 @@ def _action(name: str, start: int, dur: int, side: str, i: int) -> dict:
     elif name in ("wave", "point"):
         a["params"] = {"side": side}
         a["dur"] = min(dur, 36)
-    elif name in ("jump", "shrug", "nod", "shakeHead", "spin", "stretch"):
-        a["dur"] = min(dur, {"jump": 24, "shrug": 22, "nod": 20, "shakeHead": 22, "spin": 20, "stretch": 16}[name])
+    elif name in ("jump", "shrug", "nod", "shakeHead", "spin", "stretch", "take", "facepalm", "cower"):
+        a["dur"] = min(dur, {"jump": 26, "shrug": 24, "nod": 22, "shakeHead": 24, "spin": 22, "stretch": 18, "take": 30, "facepalm": 40, "cower": 40}[name])
+    elif name == "sneak":
+        a["params"] = {"fromX": -380 if i % 2 == 0 else 380, "toX": 0}
+        a["dur"] = min(dur, 60)
     elif name == "pop":
         a["params"] = {"in": 10}
         a["start"] = 0

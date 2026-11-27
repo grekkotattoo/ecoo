@@ -33,5 +33,6 @@
 - D5 Voz: importación de ElevenLabs (por defecto) o API ElevenLabs (desactivada, con guardas).
 - D6 Lip-sync: Rhubarb si está instalado; si no, aproximación por energía/ZCR (honesta).
 - D7 Render incremental por planos con caché por hash; bundle del motor cacheado.
+- D10 Estilo v3 (decisión del usuario): acabado semirrealista + actuación caricaturesca exagerada + cámara 2.5D con DOF.
 - D9 Estilo v2 "cartoon adulto premium" (decisión del usuario): vectorial pro con techo de calidad asumido; para nivel ilustrador humano habría que importar arte por capas.
 - D8 Fuentes libres: Bangers (OFL-1.1) y Luckiest Guy (Apache-2.0), locales.

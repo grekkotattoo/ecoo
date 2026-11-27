@@ -12,6 +12,7 @@ from .rigs import Pen, _shade, light_of, mix, shadow_of
 
 W, H = 1080, 1920
 X0, X1 = -400, 1480  # margen para paneos de cámara
+BX0, BX1, BY0 = -2200, 3300, -1800  # fondo/cielo/suelo extendidos: la cámara 2.5D (órbita, vértigo) nunca ve el borde
 
 
 def _el(pen: Pen, e: dict, loc: dict, ink: str) -> tuple[str, dict | None]:
@@ -144,17 +145,17 @@ def build_background(loc: dict, style: dict, seed: int = 11) -> dict:
     # ---- cielo / pared
     if interior:
         gid, defs = _grad(pen, [(0, _shade(sky, 0.72), 1), (0.55, sky, 1), (1, light_of(sky), 1)])
-        svg = defs + f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 400:.0f}" fill="url(#{gid})"/>'
+        svg = defs + f'<rect x="{BX0}" y="{BY0}" width="{BX1 - BX0}" height="{gy - BY0 + 100:.0f}" fill="url(#{gid})"/>'
         pid = pen.nid("pt")
         svg += (f'<defs><pattern id="{pid}" width="90" height="90" patternUnits="userSpaceOnUse">'
                 f'<path d="M45,8 L60,45 L45,82 L30,45 Z" fill="{light_of(sky)}" opacity="0.22"/><circle cx="0" cy="0" r="5" fill="{_shade(sky, 0.85)}" opacity="0.5"/></pattern></defs>'
-                f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 300:.0f}" fill="url(#{pid})"/>')
+                f'<rect x="{BX0}" y="{BY0}" width="{BX1 - BX0}" height="{gy - BY0:.0f}" fill="url(#{pid})"/>')
         gid2, d2 = _grad(pen, [(0, "#1b1030", 0.55), (1, "#1b1030", 0)])
         svg += d2 + f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="520" fill="url(#{gid2})"/>'  # sombra de techo
         svg += pen.shape([(X0, gy - 70), (X1, gy - 70), (X1, gy), (X0, gy)], _shade(sky, 0.8), rim=False, weight=False)  # zócalo
     else:
         gid, defs = _grad(pen, [(0, mix(_shade(sky, 0.7), "#5a3d9a", 0.25), 1), (0.6, sky, 1), (1, horizon_c, 1)])
-        svg = defs + f'<rect x="{X0}" y="-300" width="{X1 - X0}" height="{gy + 400:.0f}" fill="url(#{gid})"/>'
+        svg = defs + f'<rect x="{BX0}" y="{BY0}" width="{BX1 - BX0}" height="{gy - BY0 + 100:.0f}" fill="url(#{gid})"/>'
         rg = pen.nid("sg")
         svg += (f'<defs><radialGradient id="{rg}"><stop offset="0" stop-color="#fff2c2" stop-opacity="0.8"/><stop offset="1" stop-color="#ffd9a8" stop-opacity="0"/></radialGradient></defs>'
                 f'<ellipse cx="760" cy="{gy * 0.45:.0f}" rx="900" ry="{gy * 0.7:.0f}" fill="url(#{rg})"/>')
@@ -166,7 +167,7 @@ def build_background(loc: dict, style: dict, seed: int = 11) -> dict:
     depth_of = {"far": 0.25, "mid": 0.55, "near": 0.9, "fg": 1.15}
     # ---- suelo en perspectiva
     gid, defs = _grad(pen, [(0, light_of(ground), 1), (0.4, ground, 1), (1, _shade(ground, 0.62), 1)])
-    ground_svg = defs + f'<path d="M{X0},{gy:.0f} L{X1},{gy - 4:.0f} L{X1},{H + 300} L{X0},{H + 300} Z" fill="url(#{gid})"/>'
+    ground_svg = defs + f'<path d="M{BX0},{gy:.0f} L{BX1},{gy - 4:.0f} L{BX1},{H + 1800} L{BX0},{H + 1800} Z" fill="url(#{gid})"/>'
     vx, vy = 540, gy - 520
     for i in range(-9, 10):
         bx = 540 + i * 170

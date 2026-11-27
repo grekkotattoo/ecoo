@@ -1,16 +1,15 @@
 {
   "_doc": "Biblia visual PERMANENTE de la serie. Todo episodio la hereda. Cambios = nueva versión (version++) y quedan en CHANGELOG.",
-  "version": 2,
-  "name": "Cartoon Adulto Premium",
+  "version": 3,
+  "name": "Semirrealista Premium + Actuación Caricaturesca",
   "illustration": {
-    "description": "Cartoon adulto premium 2D de calidad streaming: colores saturados y armónicos, iluminación cinematográfica (luz cálida arriba-izquierda, sombras de color violeta frío, luz de borde), línea de grosor variable (más gruesa en el lado de sombra, pinceladas afiladas en detalles), caras muy expresivas con ojos brillantes, fondos ricos con profundidad atmosférica. Nada infantil, nada 3D, nada fotorrealista.",
+    "description": "Ilustración 2D semirrealista de animación adulta premium: sombreado pictórico suave con volumen (sombras difuminadas, oclusión, luz de rebote, luz de borde cálida), línea fina del color de cada forma, piel con sombras cálidas, ojos almendrados con iris detallado, cejas y pelo por trazos, proporciones creíbles. Actuación y cámara exageradas: squash & stretch, takes, gestos amplios, cámara 2.5D con perspectiva, órbitas, grúas, vértigo y desenfoque de profundidad. Solo 2D (planos dibujados).",
     "forbidden": [
       "3D",
       "fotografía",
       "metraje real",
       "fotorrealismo",
       "estética infantil",
-      "degradados plásticos",
       "zoom sobre imagen fija como sustituto de animación"
     ]
   },
@@ -33,9 +32,9 @@
     "creature": "#80ed99"
   },
   "outline": {
-    "color": "#1b1424",
-    "width": 6,
-    "jitter": 0.6,
+    "color": "#2a1b1e",
+    "width": 5,
+    "jitter": 0.4,
     "join": "round",
     "variable_weight": true
   },
@@ -47,16 +46,17 @@
     "light_dir": "arriba-izquierda"
   },
   "texture": {
-    "grain": 0.22,
-    "boil": 0.12,
+    "grain": 0.28,
+    "boil": 0.0,
     "boil_fps": 8,
-    "vignette": 0.16,
+    "vignette": 0.2,
     "grade": {
       "top": "#ffcf8b",
       "top_opacity": 0.1,
       "bottom": "#5a3d9a",
       "bottom_opacity": 0.1
-    }
+    },
+    "dof": 2.2
   },
   "typography": {
     "title": {
@@ -102,11 +102,14 @@
     }
   },
   "expressiveness": {
-    "squash_stretch": true,
+    "squash_stretch": "fuerte",
     "anticipation": true,
     "overshoot": true,
     "smear_frames": false,
-    "blink": true
+    "blink": true,
+    "takes": true,
+    "follow_through": true,
+    "expression_pop": true
   },
   "proportions": {
     "head_to_body": [
@@ -124,5 +127,11 @@
     "kicker": "¿QUÉ PASARÍA SI...?",
     "bg": "#1b1424",
     "accent": "#ffb703"
+  },
+  "camera": {
+    "mode": "2.5D",
+    "perspective": 1600,
+    "default_dof": 2.2,
+    "never_static": true
   }
 }

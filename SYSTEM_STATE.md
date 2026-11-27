@@ -38,7 +38,7 @@
 |---|---|
 | Compilación del motor (una vez por versión) | 21,8 s |
 | Still 1080×1920 | 2,8 s |
-| Render completo | 8,5× tiempo real (7,3 s de vídeo en 62 s) |
+| Render completo (cámara 2.5D + DOF + acabado semirrealista) | 14,8× tiempo real (7,4 s en 109 s) → ≈10 min por episodio de 40 s |
 | Re-render sin cambios (caché por plano) | 0,7 s (≈88× más rápido) |
 | Episodio TEST completo de 11,6 s, de idea a entrega (máquina) | ≈2,5 min |
 | Tamaño de entrega | ≈0,45 MB/s de vídeo |

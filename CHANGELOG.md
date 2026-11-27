@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 1.2.0 — 2026-11-27 · Cámara 2.5D, actuación exagerada y acabado semirrealista
+- Cámara 2.5D real: cada capa es un plano a su profundidad en un espacio con perspectiva; dolly, órbita, grúa, roll, vértigo,
+  swoop, rack focus y desenfoque de profundidad (DOF). Ningún plano es estático (deriva + cámara al hombro sutil).
+- Actuación: amplitudes ×2 en todas las acciones, habla con cabeza/cejas/hombros/ambos brazos y acentos con squash;
+  nuevas acciones take, laugh, rage, cower, celebrate, facepalm, dance, sneak, faint; follow-through del pelo;
+  "pop" de cabeza y ojos al cambiar de expresión; mandíbula ligada a los visemas.
+- Acabado semirrealista (biblia v3): sombreado pictórico difuminado (sombra de forma, oclusión, luz de rebote), línea fina del color de la forma,
+  piel con sombras cálidas, ojos almendrados con iris, pliegue y pestañas, cejas pelo a pelo, labios con volumen, nariz con aletas,
+  manos con 4 dedos articulados, pelo por mechones, proporciones más creíbles.
+- Rendimiento: DOF dentro del SVG (cacheable) → de 47× a 14,8× tiempo real. Comando `studio motionsample`.
+
 ## 1.1.0 — 2026-11-27 · Acabado visual "Cartoon adulto premium"
 - Biblia visual v2: paleta saturada, sombras de color (violeta frío), luz de borde cálida, gradación cinematográfica, grano/viñeta más suaves.
 - Personajes v2: línea de grosor variable (engrosada en el lado de sombra), pinceladas afiladas en detalles, sombreado en 3 tonos + brillos,

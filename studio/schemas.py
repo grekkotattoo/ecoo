@@ -10,9 +10,11 @@ from typing import Any
 from .core import StudioError
 
 ACTIONS = ["idle", "walk", "run", "wave", "point", "talk", "shrug", "jump", "nod", "shakeHead", "tremble",
-           "lean", "lookAt", "spin", "fall", "stretch", "pop"]
+           "lean", "lookAt", "spin", "fall", "stretch", "pop",
+           "take", "laugh", "rage", "cower", "celebrate", "facepalm", "dance", "sneak", "faint"]
 EXPRESSIONS = ["neutral", "happy", "angry", "sad", "surprised", "scared", "smug", "crazy", "tired", "disgusted"]
-CAMERA = ["static", "push_in", "pull_out", "pan_left", "pan_right", "tilt_up", "tilt_down", "dutch", "crash_zoom", "handheld"]
+CAMERA = ["static", "push_in", "pull_out", "pan_left", "pan_right", "tilt_up", "tilt_down", "dutch", "crash_zoom", "handheld",
+          "orbit_left", "orbit_right", "crane_up", "crane_down", "vertigo", "swoop", "rack_focus"]
 TRANSITIONS = ["cut", "fade", "wipe", "iris", "whip", "smash"]
 EFFECTS = ["flash", "speedlines", "impact", "smoke", "sparks", "shake", "rain", "confetti", "vignettePulse", "textPop"]
 FRAMING = ["wide", "medium", "close", "extreme_close"]
@@ -147,7 +149,7 @@ def character_params(p: dict, ctx: str) -> dict:
         "skin": _color(p.get("skin"), "#f6c49d"), "hair_color": _color(p.get("hair_color"), "#2b2d42"),
         "top_color": _color(p.get("top_color"), "#e63946"), "bottom_color": _color(p.get("bottom_color"), "#1d3557"),
         "accent_color": _color(p.get("accent_color"), "#ffb703"), "eye_color": _color(p.get("eye_color"), "#3f88c5"),
-        "height": _num(p.get("height"), 0.75, 1.35, 1.0), "head_scale": _num(p.get("head_scale"), 0.8, 1.6, 1.15),
+        "height": _num(p.get("height"), 0.75, 1.35, 1.0), "head_scale": _num(p.get("head_scale"), 0.8, 1.6, 1.0),
         "width": _num(p.get("width"), 0.7, 1.5, 1.0),
         "accessories": [a for a in p.get("accessories", []) if a in ACCESSORIES][:4],
         "seed": int(_num(p.get("seed"), 0, 1e6, 7)),

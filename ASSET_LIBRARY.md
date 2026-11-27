@@ -28,8 +28,10 @@ Esqueleto: `torso, head, eyes, brows, mouth, hair, face_acc, armL/R_up, armL/R_l
 - Parámetros: cuerpo, cabeza, pelo, ojos, nariz, vestuario, especie, colores, proporciones, accesorios (13).
 
 ## Mecanismos de animación reutilizables (`engine/src/rig/actions.ts`)
-`idle, walk, run, wave, point, talk, shrug, jump, nod, shakeHead, tremble, lean, lookAt, spin, fall, stretch, pop` (aditivos, con envolventes, squash & stretch).
-Cámara: `static, push_in, pull_out, pan_left/right, tilt_up/down, dutch, crash_zoom, handheld`.
+`idle, walk, run, wave, point, talk, shrug, jump, nod, shakeHead, tremble, lean, lookAt, spin, fall, stretch, pop,
+take, laugh, rage, cower, celebrate, facepalm, dance, sneak, faint` (aditivos, exagerados, squash & stretch, follow-through del pelo, pop de expresión).
+Cámara 2.5D (perspectiva real sobre planos + DOF): `static (deriva), push_in, pull_out, pan_left/right, tilt_up/down, dutch, crash_zoom, handheld,
+orbit_left/right, crane_up/down, vertigo, swoop, rack_focus`.
 Transiciones: `cut, fade, wipe, iris, whip, smash`. Efectos: `flash, speedlines, impact, smoke, sparks, shake, rain, confetti, vignettePulse, textPop`.
 
 ## Importar audio de biblioteca

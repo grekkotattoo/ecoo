@@ -131,3 +131,52 @@ def style_sample(out_dir: Path | None = None) -> dict:
         render.still({"sheet": sheet}, "CharacterSheet", f)
         files.append(str(f))
     return {"files": files}
+
+
+def motion_sample(out_dir: Path | None = None) -> dict:
+    """Clip de muestra de cámara 2.5D + actuación exagerada (personajes genéricos). Mide coste de render real."""
+    import time as _t
+    from . import schemas
+    from .backgrounds import build_background
+    from .rigs import build_rig
+    P = paths()
+    out = out_dir or (P.cache / "style_sample")
+    out.mkdir(parents=True, exist_ok=True)
+    st = read_json(P.config / "style_bible.json")
+    v = load_config()["video"]["primary"]
+    base = style_sample.__wrapped__ if hasattr(style_sample, "__wrapped__") else None  # noqa: F841
+    a = build_rig("muestra_a", "A", schemas.character_params({"body": "pear", "head": "egg", "hair": "bald_ring", "nose": "long", "outfit": "suit", "skin": "#f2c29b",
+                                                              "hair_color": "#3d2c2e", "top_color": "#2b59c3", "bottom_color": "#1d3557", "accent_color": "#ffb703",
+                                                              "accessories": ["tie", "mustache", "glasses"], "seed": 4}, "a"), st)
+    b = build_rig("muestra_b", "B", schemas.character_params({"body": "skinny", "head": "oval", "hair": "bob", "nose": "pointy", "outfit": "dress", "skin": "#c98b62",
+                                                              "hair_color": "#b5172f", "top_color": "#7b2cbf", "bottom_color": "#3c096c", "eye_color": "#6a4c93",
+                                                              "height": 1.12, "accessories": ["earring"], "seed": 9}, "b"), st)
+    loc = schemas.art_direction({"locations": [{"id": "muestra_interior", "name": "Interior", "description": "x", "type": "interior", "sky": "#2ec4b6", "ground": "#8a5a44",
+                                                "horizon": 0.66, "elements": [{"kind": "window", "x": 0.25, "y": 0.33, "depth": 0.3}, {"kind": "frame", "x": 0.72, "y": 0.3, "color": "#e63946", "depth": 0.5},
+                                                                              {"kind": "lamp", "x": 0.55, "y": 0.12, "scale": 1.1, "depth": 0.6}, {"kind": "plant", "x": 0.06, "y": 0.6, "color": "#2d6a4f", "depth": 0.9},
+                                                                              {"kind": "chair", "x": 0.9, "y": 0.6, "depth": 1.2}]}]})["locations"][0]
+    bg = build_background(loc, st, seed=5)
+    ep = {"id": "EP000", "title": "MUESTRA", "question": "¿Qué pasaría si esto fuera una muestra de movimiento?", "test": True}
+    shots = []
+    for i, (cam, acts_a, acts_b, ea, eb) in enumerate([("swoop", ["talk"], ["take"], "smug", "surprised"), ("orbit_left", ["rage"], ["cower"], "angry", "scared"),
+                                                       ("vertigo", ["faint"], ["laugh"], "scared", "crazy")]):
+        shots.append({"id": f"s{i+1:02d}", "location": "muestra_interior", "framing": "medium", "camera": cam, "transition": "whip" if i else "cut",
+                      "effects": ["speedlines"] if cam == "vertigo" else [], "text_pop": "",
+                      "actors": [{"character": "muestra_a", "position": "left", "facing": "right", "actions": acts_a, "expression": ea},
+                                 {"character": "muestra_b", "position": "right", "facing": "left", "actions": acts_b, "expression": eb}],
+                      "lines": [f"l0{i+1}"], "seconds": 2.2, "description": "x", "key_image": True})
+    script = {"beats": [{"id": "b1", "location": "muestra_interior", "action": "", "lines": [
+        {"id": f"l0{i+1}", "speaker": "muestra_a" if i != 1 else "muestra_b", "text": "Muestra", "emotion": "neutral"} for i in range(3)]}]}
+    la = {f"l0{i+1}": {"duration": 1.6, "file": None, "visemes": [{"f": k * 3, "v": "CDBEHA"[k % 6]} for k in range(16)]} for i in range(3)}
+    spec, _ = timeline.build_spec(ep, {"shots": shots}, script, {"muestra_a": a, "muestra_b": b}, {"muestra_interior": bg}, st, la, v["fps"], v["width"], v["height"])
+    spec["shots"] = spec["shots"][1:-1]  # sin cartelas
+    t = 0
+    for s in spec["shots"]:
+        s["start"] = t
+        t += s["dur"]
+    spec["meta"]["durationInFrames"] = t
+    spec["subtitles"] = []
+    t0 = _t.time()
+    stats = render.render_video(spec, out / "movimiento.mp4")
+    render.contact_sheet(out / "movimiento.mp4", out / "movimiento_contactos.png", 4, 3)
+    return {"video": str(out / "movimiento.mp4"), "contact": str(out / "movimiento_contactos.png"), "render": stats, "wall_s": round(_t.time() - t0, 1)}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {continueRender, delayRender} from 'remotion';
+import {AbsoluteFill, continueRender, delayRender} from 'remotion';
 import {evalTrack} from './lib/anim';
 import {ActorView} from './rig/Rig';
 import {ScreenEffects, shakeOffset, WorldEffects} from './fx/Effects';
@@ -53,6 +53,13 @@ const PropView: React.FC<{p: PropItem; f: number; fps: number}> = ({p, f, fps}) 
   );
 };
 
+// ---------------------------------------------------------------- cámara 2.5D
+// Cada capa es un plano 2D situado a una profundidad real (translateZ) dentro de un espacio con
+// perspectiva CSS. La cámara se mueve en 3D (dolly, yaw/órbita, pitch/grúa, roll, truck/pedestal),
+// el parallax y la deformación de perspectiva salen solos. Desenfoque por profundidad (DOF) y efecto vértigo.
+const PERSP = 1600;
+export const depthToZ = (depth: number) => (depth - 1) * 2600;
+
 export const SceneView: React.FC<{spec: EpisodeSpec; shot: Shot; f: number}> = ({spec, shot, f}) => {
   const {width: W, height: H, fps} = spec.meta;
   const bg: Background | undefined = shot.background ? spec.backgrounds[shot.background] : undefined;
@@ -61,10 +68,15 @@ export const SceneView: React.FC<{spec: EpisodeSpec; shot: Shot; f: number}> = (
   const cx = evalTrack(cam.x, f, 0) + shk.x;
   const cy = evalTrack(cam.y, f, 0) + shk.y;
   const zoom = evalTrack(cam.zoom, f, 1);
-  const rot = evalTrack(cam.rot, f, 0) + shk.r;
-  // cámara: zoom alrededor del centro del encuadre + paneo
-  const camT = (depth: number) =>
-    `translate(${W / 2} ${H / 2}) rotate(${(rot * depth).toFixed(3)}) scale(${(1 + (zoom - 1) * depth).toFixed(4)}) translate(${(-W / 2 - cx * depth).toFixed(2)} ${(-H / 2 - cy * depth).toFixed(2)})`;
+  const roll = evalTrack(cam.rot, f, 0) + shk.r;
+  const yaw = evalTrack(cam.yaw, f, 0) + shk.r * 0.6;
+  const pitch = evalTrack(cam.pitch, f, 0);
+  const persp = evalTrack(cam.persp, f, PERSP);
+  const focusZ = evalTrack(cam.focus, f, 0);
+  const dof = evalTrack(cam.dof, f, spec.style.dof ?? 0);
+  // zoom → dolly real (la cámara avanza): el sujeto en z=0 escala ×zoom
+  const dolly = persp * (1 - 1 / Math.max(0.2, zoom));
+  const camera = `translateZ(${dolly.toFixed(1)}px) rotateX(${pitch.toFixed(3)}deg) rotateY(${yaw.toFixed(3)}deg) rotateZ(${roll.toFixed(3)}deg) translate(${(-cx).toFixed(1)}px, ${(-cy).toFixed(1)}px)`;
 
   type Drawable = {z: number; node: React.ReactNode};
   const front: Drawable[] = [];
@@ -76,29 +88,52 @@ export const SceneView: React.FC<{spec: EpisodeSpec; shot: Shot; f: number}> = (
   for (const p of shot.props ?? []) front.push({z: p.z ?? 0, node: <PropView key={`p-${p.id}`} p={p} f={f} fps={fps} />});
   front.sort((a, b) => a.z - b.z);
 
-  const bgLayers = (bg?.layers ?? []).filter((l) => l.depth < 1.0001);
-  const fgLayers = (bg?.layers ?? []).filter((l) => l.depth >= 1.0001);
-  const renderLayer = (l: BgLayer) => (
-    <g key={l.id} transform={camT(l.depth)} opacity={layerOpacity(l, f, fps)}>
-      <g transform={layerAnim(l, f, fps)}>
-        {l.image ? <SvgImage src={l.image} w={bg?.width ?? W} h={bg?.height ?? H} /> : null}
-        {l.svg ? <g dangerouslySetInnerHTML={{__html: l.svg}} /> : null}
-      </g>
+  const plane = (key: string, z: number, content: React.ReactNode, opacity = 1) => {
+    const s = (PERSP - z) / PERSP; // compensa la distancia: en reposo el plano llena el encuadre
+    // DOF dentro del SVG (no filtro CSS): el raster del plano se cachea entre fotogramas mientras el foco no cambie.
+    // Radio cuantizado a 0,5 px para maximizar la reutilización de caché. Se aplica en unidades del plano (÷ escala).
+    const blurPx = dof > 0 ? Math.min(12, (Math.abs(z - focusZ) / 1000) * dof) : 0;
+    const blur = Math.round((blurPx / s) * 2) / 2;
+    const fid = `dof_${key}_${blur}`;
+    return (
+      <div key={key} style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transform: `translateZ(${z.toFixed(1)}px) scale(${s.toFixed(4)})`, opacity}}>
+        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{overflow: 'visible', position: 'absolute', inset: 0}}>
+          {blur >= 0.5 ? (
+            <defs>
+              <filter id={fid} x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation={blur} />
+              </filter>
+            </defs>
+          ) : null}
+          <g filter={blur >= 0.5 ? `url(#${fid})` : spec.style.boil > 0 ? 'url(#boil)' : undefined}>{content}</g>
+        </svg>
+      </div>
+    );
+  };
+  const layers = bg?.layers ?? [];
+  const bgPlanes = layers.filter((l) => l.depth < 0.995);
+  const fgPlanes = layers.filter((l) => l.depth >= 0.995);
+  const layerContent = (l: BgLayer) => (
+    <g transform={layerAnim(l, f, fps)}>
+      {l.image ? <SvgImage src={l.image} w={bg?.width ?? W} h={bg?.height ?? H} /> : null}
+      {l.svg ? <g dangerouslySetInnerHTML={{__html: l.svg}} /> : null}
     </g>
   );
-
   return (
-    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0}}>
-      <rect width={W} height={H} fill={shot.bgColor ?? spec.style.palette.paper ?? '#f3e9d2'} />
-      <g filter={spec.style.boil > 0 ? 'url(#boil)' : undefined}>
-        {bgLayers.map(renderLayer)}
-        <g transform={camT(1)}>
-          {front.map((d) => d.node)}
-          <WorldEffects effects={shot.effects} f={f} w={W} h={H} />
-        </g>
-        {fgLayers.map(renderLayer)}
-      </g>
-      <ScreenEffects effects={shot.effects} f={f} w={W} h={H} />
-    </svg>
+    <AbsoluteFill style={{background: shot.bgColor ?? spec.style.palette.ink ?? '#1b1424', overflow: 'hidden', perspective: `${persp.toFixed(0)}px`, perspectiveOrigin: '50% 50%'}}>
+      <div style={{position: 'absolute', left: 0, top: 0, width: W, height: H, transformStyle: 'preserve-3d', transformOrigin: '50% 50%', transform: camera}}>
+        {bgPlanes.map((l) => plane(l.id, depthToZ(l.depth), layerContent(l), layerOpacity(l, f, fps)))}
+        {plane('actors', 0, (
+          <>
+            {front.map((d) => d.node)}
+            <WorldEffects effects={shot.effects} f={f} w={W} h={H} />
+          </>
+        ))}
+        {fgPlanes.map((l) => plane(l.id, depthToZ(Math.max(1.02, l.depth)), layerContent(l), layerOpacity(l, f, fps)))}
+      </div>
+      <svg width={W} height={H} style={{position: 'absolute', inset: 0}}>
+        <ScreenEffects effects={shot.effects} f={f} w={W} h={H} />
+      </svg>
+    </AbsoluteFill>
   );
 };

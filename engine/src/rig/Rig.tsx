@@ -106,8 +106,37 @@ export const ActorView: React.FC<{actor: Actor; rig: Rig; frame: number; fps: nu
     return list;
   }, [actor.actions, actor.idle]);
   const pose = evalActions(actions, frame, fps);
+  // follow-through: el pelo y accesorios reaccionan con retraso a la velocidad de la cabeza/cuerpo
+  const prev = evalActions(actions, frame - 4, fps);
+  const dHead = (pose.head?.rot ?? 0) - (prev.head?.rot ?? 0) + ((pose.root?.rot ?? 0) - (prev.root?.rot ?? 0));
+  const dY = (pose.root?.ty ?? 0) - (prev.root?.ty ?? 0);
+  for (const pid of ['hair', 'hair_back']) {
+    const h = pose[pid] ?? (pose[pid] = {});
+    h.rot = (h.rot ?? 0) - dHead * 1.4;
+    h.sy = (h.sy ?? 1) * (1 + Math.max(-0.08, Math.min(0.08, dY * 0.004)));
+  }
+  // "pop" caricaturesco al cambiar de expresión (squash & stretch de cabeza y ojos)
+  for (const ex of actor.expressions ?? []) {
+    const dt = frame - ex.f;
+    if (ex.f > 0 && dt >= 0 && dt < 12) {
+      const k = Math.sin((dt / 12) * Math.PI) * (1 - dt / 14);
+      const hd = pose.head ?? (pose.head = {});
+      hd.sy = (hd.sy ?? 1) * (1 + 0.16 * k);
+      hd.sx = (hd.sx ?? 1) * (1 - 0.08 * k);
+      const ey = pose.eyes ?? (pose.eyes = {});
+      ey.sy = (ey.sy ?? 1) * (1 + 0.35 * k);
+      ey.sx = (ey.sx ?? 1) * (1 + 0.15 * k);
+    }
+  }
   const seed = actor.id.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const variants = resolveVariants(rig, frame, actor.expressions, actor.visemes, actor.blink !== false, seed);
+  const jaw = {D: 0.05, H: 0.035, C: 0.03, E: 0.025, scream: 0.07, grin: 0.02}[variants.mouth as string] ?? 0;
+  if (jaw) {
+    const hd = pose.head ?? (pose.head = {});
+    hd.sy = (hd.sy ?? 1) * (1 + jaw);
+    const m = pose.mouth ?? (pose.mouth = {});
+    m.sy = (m.sy ?? 1) * (1 + jaw * 3);
+  }
   const root = pose.root ?? {};
   const x = evalTrack(actor.tracks?.['root.x'], frame, actor.x) + (root.tx ?? 0);
   const y = evalTrack(actor.tracks?.['root.y'], frame, actor.y) + (root.ty ?? 0);

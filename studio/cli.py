@@ -208,6 +208,11 @@ def cmd_stylesample(a):
     out(bench.style_sample())
 
 
+def cmd_motionsample(a):
+    from . import bench
+    out(bench.motion_sample())
+
+
 def cmd_serve(a):
     from . import server
     cfg = load_config()["server"]
@@ -241,6 +246,7 @@ def main(argv=None):
     s = sub.add_parser("selftest"); s.add_argument("--out"); s.set_defaults(fn=cmd_selftest)
     s = sub.add_parser("cache"); s.add_argument("action", choices=["prune"]); s.add_argument("--days", type=float, default=14); s.set_defaults(fn=cmd_cache)
     sub.add_parser("stylesample", help="muestra del acabado visual (personajes genéricos, no de la serie)").set_defaults(fn=cmd_stylesample)
+    sub.add_parser("motionsample", help="clip de muestra de cámara 2.5D + actuación (personajes genéricos)").set_defaults(fn=cmd_motionsample)
     s = sub.add_parser("serve"); s.add_argument("--host"); s.add_argument("--port", type=int); s.set_defaults(fn=cmd_serve)
     a = p.parse_args(argv)
     paths().ensure()

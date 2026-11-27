@@ -60,12 +60,16 @@ def mix(a: str, b: str, t: float) -> str:
     return _hex(ra + (rb - ra) * t, ga + (gb - ga) * t, ba + (bb - ba) * t)
 
 
-def shadow_of(c: str) -> str:
-    """Sombra de color (no gris): oscurece y desplaza hacia violeta frío — look de animación premium."""
+def shadow_of(c: str, skin: bool = False) -> str:
+    """Sombra de color (no gris). Piel: cálida/rojiza (dispersión subsuperficial). Resto: violeta frío."""
+    if skin:
+        return mix(_shade(c, 0.74), "#a0302a", 0.22)
     return mix(_shade(c, 0.70), "#3b2a6b", 0.22)
 
 
-def core_of(c: str) -> str:
+def core_of(c: str, skin: bool = False) -> str:
+    if skin:
+        return mix(_shade(c, 0.55), "#6b1f1f", 0.30)
     return mix(_shade(c, 0.52), "#2a1d4f", 0.30)
 
 
@@ -145,36 +149,46 @@ class Pen:
         return min(xs), min(ys), max(xs), max(ys)
 
     def shape(self, pts, fill, shadow=True, sw=None, closed=True, rim=True, weight=True, gloss=False, flat=False) -> str:
-        """Forma con acabado completo: degradado, sombra cel + núcleo, rim light, línea variable."""
+        """Forma con acabado pictórico: degradado de luz, sombra de forma DIFUMINADA, oclusión en el borde,
+        luz de rebote, luz de borde suave, brillo especular opcional y línea fina del color de la forma."""
         d = self.smooth(pts, closed) if len(pts) > 5 else ("M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts) + (" Z" if closed else ""))
         sw = self.w if sw is None else sw
+        skin = getattr(self, "skin", None) == fill
+        line_c = mix(core_of(fill, skin), self.ink, 0.45)
         if not shadow or flat:
-            stroke = f' stroke="{self.ink}" stroke-width="{sw}" stroke-linejoin="round" stroke-linecap="round"' if sw else ""
+            stroke = f' stroke="{line_c}" stroke-width="{sw * 0.55:.1f}" stroke-linejoin="round" stroke-linecap="round"' if sw else ""
             return f'<path d="{d}" fill="{fill}"{stroke}/>'
         x0, y0, x1, y1 = self.bbox(pts)
         w, h = max(1, x1 - x0), max(1, y1 - y0)
-        g, c, r = self.nid("g"), self.nid("c"), self.nid("r")
-        out = (f'<defs><linearGradient id="{g}" x1="0" y1="0" x2="1" y2="1">'
-               f'<stop offset="0" stop-color="{light_of(fill)}"/><stop offset="0.55" stop-color="{fill}"/><stop offset="1" stop-color="{_shade(fill, 0.93)}"/></linearGradient>'
-               f'<linearGradient id="{r}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{RIM}" stop-opacity="0.95"/>'
-               f'<stop offset="0.35" stop-color="{RIM}" stop-opacity="0"/></linearGradient>'
+        m = max(w, h)
+        g, c, r, fb = self.nid("g"), self.nid("c"), self.nid("r"), self.nid("f")
+        blur = max(2.5, min(w, h) * 0.09)
+        out = (f'<defs><linearGradient id="{g}" x1="0.15" y1="0" x2="0.85" y2="1">'
+               f'<stop offset="0" stop-color="{light_of(fill)}"/><stop offset="0.5" stop-color="{fill}"/><stop offset="1" stop-color="{_shade(fill, 0.9)}"/></linearGradient>'
+               f'<linearGradient id="{r}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{RIM}" stop-opacity="0.8"/>'
+               f'<stop offset="0.3" stop-color="{RIM}" stop-opacity="0"/></linearGradient>'
+               f'<filter id="{fb}" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="{blur:.1f}"/></filter>'
                f'<clipPath id="{c}"><path d="{d}"/></clipPath></defs>')
-        # sombra cel (lado inferior-derecho) + núcleo de sombra más profundo
-        out += (f'<g clip-path="url(#{c})"><path d="{d}" fill="{core_of(fill)}"/>'
-                f'<path d="{d}" fill="{shadow_of(fill)}" transform="translate({-w * 0.07:.1f} {-h * 0.05:.1f})"/>'
-                f'<path d="{d}" fill="url(#{g})" transform="translate({-w * 0.17:.1f} {-h * 0.11:.1f})"/>')
+        out += f'<path d="{d}" fill="url(#{g})"/>'
+        soft = min(w, h) >= 34  # en formas pequeñas el desenfoque no se aprecia: se omite (rendimiento)
+        filt = f' filter="url(#{fb})"' if soft else ""
+        out += (f'<g clip-path="url(#{c})"><g{filt}>'
+                f'<path d="{d}" fill="none" stroke="{shadow_of(fill, skin)}" stroke-width="{m * (0.30 if soft else 0.18):.1f}" opacity="0.85" transform="translate({w * 0.11:.1f} {h * 0.09:.1f})"/>'
+                f'<path d="{d}" fill="none" stroke="{core_of(fill, skin)}" stroke-width="{m * 0.07:.1f}" opacity="0.55" transform="translate({w * 0.04:.1f} {h * 0.035:.1f})"/>'
+                f'<path d="{d}" fill="none" stroke="{light_of(fill)}" stroke-width="{m * 0.12:.1f}" opacity="0.5" transform="translate({-w * 0.08:.1f} {-h * 0.07:.1f})"/></g>')
         if gloss:
-            out += f'<ellipse cx="{x0 + w * 0.32:.1f}" cy="{y0 + h * 0.22:.1f}" rx="{w * 0.16:.1f}" ry="{h * 0.08:.1f}" fill="#ffffff" opacity="0.35" transform="rotate(-25 {x0 + w * 0.32:.1f} {y0 + h * 0.22:.1f})"/>'
+            sg = self.nid("sp")
+            out += (f'<defs><radialGradient id="{sg}"><stop offset="0" stop-color="#ffffff" stop-opacity="0.75"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs>'
+                    f'<ellipse cx="{x0 + w * 0.33:.1f}" cy="{y0 + h * 0.25:.1f}" rx="{w * 0.2:.1f}" ry="{h * 0.12:.1f}" fill="url(#{sg})"/>')
         if rim:
-            out += f'<path d="{d}" fill="none" stroke="url(#{r})" stroke-width="{max(4, sw * 1.4):.1f}"/>'
+            out += f'<path d="{d}" fill="none" stroke="url(#{r})" stroke-width="{max(3, sw * 0.9):.1f}"/>'
         out += "</g>"
-        # línea: fina en general + engrosada en el lado de sombra (abajo-derecha)
-        out += f'<path d="{d}" fill="none" stroke="{self.ink}" stroke-width="{sw * 0.8:.1f}" stroke-linejoin="round" stroke-linecap="round"/>'
+        out += f'<path d="{d}" fill="none" stroke="{line_c}" stroke-width="{sw * 0.5:.1f}" stroke-linejoin="round" stroke-linecap="round"/>'
         if weight:
             k = self.nid("k")
             cx, cy = x0 + w / 2, y0 + h / 2
             out += (f'<defs><clipPath id="{k}"><path d="M{cx - w:.0f},{cy + h * 1.6:.0f} L{cx + w * 1.6:.0f},{cy - h:.0f} L{cx + w * 2:.0f},{cy + h * 2:.0f} Z"/></clipPath></defs>'
-                    f'<path d="{d}" fill="none" stroke="{self.ink}" stroke-width="{sw * 1.9:.1f}" stroke-linejoin="round" clip-path="url(#{k})"/>')
+                    f'<path d="{d}" fill="none" stroke="{line_c}" stroke-width="{sw * 0.95:.1f}" stroke-linejoin="round" clip-path="url(#{k})"/>')
         return out
 
     def brush(self, pts, w=None, color=None, taper=(0.15, 0.15), opacity=1.0) -> str:
@@ -238,6 +252,7 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
     if p["species"] == "robot":
         skin = "#b8c4d0"
     blush = mix(skin, "#ff5a6e", 0.45)
+    pen.skin = skin
     parts: list[dict] = []
 
     def part(pid, parent, pivot, z, svg=None, variants=None, default=None):
@@ -327,13 +342,19 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
         lo = pen.shape(pen.limb(*elbow, hand[0], hand[1] - 8, thick * 0.86, thick * 0.74), sleeve if out not in ("tank",) else skin)
         if out not in ("tank",):  # puño de la manga
             lo += pen.shape(pen.blob(hand[0], hand[1] - 12, thick * 0.46, 9, n=10), _shade(sleeve, 0.85), rim=False, weight=False, sw=lw * 0.6)
-        # mano: palma + pulgar + separaciones de dedos
-        hx, hy = hand[0], hand[1] + 16
-        palm = pen.blob(hx, hy, 25, 26, n=12, square=0.2, bottom_bulge=1.1)
-        thumb = pen.limb(hx - sx * 14, hy - 8, hx - sx * 34, hy + 4, 15, 12)
-        lo += pen.shape(thumb, skin, rim=False, weight=False, sw=lw * 0.7) + pen.shape(palm, skin, sw=lw * 0.75)
-        for k in (-1, 0, 1):
-            lo += pen.brush([(hx + k * 9, hy + 24), (hx + k * 9.5, hy + 10)], 3.2, taper=(0.05, 0.6))
+        # mano realista: palma + 4 dedos articulados (ligeramente abiertos) + pulgar, nudillos
+        hx, hy = hand[0], hand[1] + 12
+        palm = pen.blob(hx, hy, 22, 22, n=12, square=0.25)
+        fingers = ""
+        for i, (dx, ln, ang) in enumerate(((-13, 24, -10), (-4.5, 28, -3), (4.5, 27, 3), (13, 22, 10))):
+            fx = hx + dx * sx
+            a0 = math.radians(90 + ang * sx)
+            ex_, ey_ = fx + math.cos(a0) * ln, hy + 14 + math.sin(a0) * ln
+            fingers += pen.shape(pen.limb(fx, hy + 12, ex_, ey_, 10, 8.5), skin, sw=lw * 0.6, rim=False, weight=False)
+            fingers += pen.brush([(fx + (ex_ - fx) * 0.45 - 3, hy + 12 + (ey_ - hy - 12) * 0.45), (fx + (ex_ - fx) * 0.45 + 3, hy + 12 + (ey_ - hy - 12) * 0.45)], 1.6, shadow_of(skin, True), opacity=0.7)
+        thumb = pen.limb(hx - sx * 16, hy - 4, hx - sx * 30, hy + 20, 12, 9.5)
+        lo += fingers + pen.shape(palm, skin, sw=lw * 0.6, weight=False) + pen.shape(thumb, skin, sw=lw * 0.6, rim=False, weight=False)
+        lo += "".join(f'<circle cx="{hx + k * 8.5 * sx:.1f}" cy="{hy + 10:.1f}" r="2" fill="{shadow_of(skin, True)}" opacity="0.6"/>' for k in (-1.5, -0.5, 0.5, 1.5))
         part(f"arm{side}_up", "torso", (shx, shY + 22), z, up)
         part(f"arm{side}_lo", f"arm{side}_up", elbow, z, lo)
 
@@ -363,8 +384,13 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
     nose = p["nose"]
     ny = headCy + ry * 0.16
     head_svg += f'<ellipse cx="{cx + 10:.1f}" cy="{ny + 22:.1f}" rx="16" ry="6" fill="{shadow_of(skin)}" opacity="0.7"/>'  # sombra bajo la nariz
+    if nose in ("round", "long", "pointy"):  # puente con luz + aletas + orificios (volumen realista)
+        head_svg += pen.brush([(cx - 4, ny - 46), (cx - 2, ny - 18)], 7, light_of(skin), opacity=0.6, taper=(0.3, 0.5))
+        head_svg += pen.brush([(cx + 8, ny - 40), (cx + 12, ny - 6)], 4, shadow_of(skin, True), opacity=0.6, taper=(0.3, 0.5))
     if nose == "round":
-        head_svg += pen.shape(pen.blob(cx + 6, ny, 19, 16, n=10), _shade(skin, 0.96), sw=lw * 0.7, gloss=True)
+        head_svg += pen.shape(pen.blob(cx + 3, ny + 2, 17, 14, n=10), _shade(skin, 0.98), sw=lw * 0.45, gloss=True, weight=False)
+        head_svg += "".join(f'<ellipse cx="{cx + k * 9:.1f}" cy="{ny + 13:.1f}" rx="4.5" ry="2.6" fill="{core_of(skin, True)}" opacity="0.85"/>' for k in (-1, 1))
+        head_svg += "".join(pen.brush([(cx + k * 14, ny - 2), (cx + k * 20, ny + 8), (cx + k * 14, ny + 14)], 2.4, shadow_of(skin, True), opacity=0.8) for k in (-1, 1))
     elif nose == "long":
         head_svg += pen.shape([(cx - 2, ny - 32), (cx + 54, ny + 6), (cx + 50, ny + 16), (cx + 2, ny + 14)], _shade(skin, 0.97), sw=lw * 0.7, gloss=True)
     elif nose == "pointy":
@@ -385,7 +411,7 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
 
     # ---------------- ojos (variantes)
     ex, ey = rx * 0.38, headCy - ry * 0.10
-    er = {"big": R * 0.235, "dots": R * 0.09, "tired": R * 0.2, "wild": R * 0.26}[p["eyes"]]
+    er = {"big": R * 0.21, "dots": R * 0.09, "tired": R * 0.18, "wild": R * 0.24}[p["eyes"]]
     ig = pen.nid("i")
     sg = pen.nid("s")
     eye_defs = (f'<defs><radialGradient id="{ig}" cx="0.45" cy="0.4" r="0.6"><stop offset="0" stop-color="{light_of(eye_col)}"/>'
@@ -393,43 +419,51 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
                 f'<linearGradient id="{sg}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9d2e6"/><stop offset="0.35" stop-color="#ffffff"/></linearGradient></defs>')
 
     def eye_one(x, r, kind, sx):
+        """Ojo almendrado realista: esclerótica con sombra del párpado, iris recortado, pliegue, pestañas."""
         s = ""
         if p["eyes"] == "dots" and kind in ("open", "wide", "half", "angry", "sad"):
             ry_ = r * (1.8 if kind != "half" else 0.9) * (1.2 if kind == "wide" else 1)
             s += f'<ellipse cx="{x:.1f}" cy="{ey:.1f}" rx="{r*1.25:.1f}" ry="{ry_:.1f}" fill="{ink}"/>'
             s += f'<circle cx="{x - r*0.35:.1f}" cy="{ey - ry_*0.4:.1f}" r="{r*0.45:.1f}" fill="#ffffff"/>'
             return s
+        lid_c = mix(core_of(skin, True), ink, 0.55)
         if kind == "closed":
-            return pen.brush([(x - r * 1.05, ey - r * 0.05), (x, ey + r * 0.38), (x + r * 1.05, ey - r * 0.05)], lw * 1.1) + \
-                pen.brush([(x + sx * r * 0.95, ey), (x + sx * r * 1.35, ey - r * 0.25)], lw * 0.6, taper=(0.1, 0.9))
+            return pen.brush([(x - r * 1.2, ey), (x, ey + r * 0.32), (x + r * 1.2, ey - r * 0.05)], lw * 0.9, lid_c) + \
+                pen.brush([(x - r * 1.0, ey - r * 0.55), (x, ey - r * 0.85), (x + r * 1.0, ey - r * 0.6)], 2.2, shadow_of(skin, True), opacity=0.8) + \
+                "".join(pen.brush([(x + k * r * 0.35, ey + r * 0.25), (x + k * r * 0.42 + sx * 3, ey + r * 0.55)], 2.2, lid_c, taper=(0.1, 0.9)) for k in (-1.5, -0.5, 0.5, 1.5))
         if kind == "happy":
-            return pen.brush([(x - r, ey + r * 0.35), (x, ey - r * 0.45), (x + r, ey + r * 0.35)], lw * 1.2)
-        s += f'<ellipse cx="{x:.1f}" cy="{ey:.1f}" rx="{r:.1f}" ry="{r*1.14:.1f}" fill="url(#{sg})" stroke="{ink}" stroke-width="{lw*0.55:.1f}"/>'
-        ir = r * (0.42 if kind in ("wide", "crazy") else 0.62)
-        px = x + (-sx * r * 0.12 if kind != "crazy" else sx * r * 0.22)
-        py = ey + r * 0.10
-        s += f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{ir:.1f}" fill="url(#{ig})"/>'
-        s += f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{ir*0.52:.1f}" fill="#120d14"/>'
-        s += f'<circle cx="{px - ir*0.38:.1f}" cy="{py - ir*0.42:.1f}" r="{ir*0.32:.1f}" fill="#ffffff"/>'
-        s += f'<circle cx="{px + ir*0.38:.1f}" cy="{py + ir*0.35:.1f}" r="{ir*0.14:.1f}" fill="#ffffff" opacity="0.85"/>'
-        lid_top = ey - r * 1.14
-        if kind in ("half",) or (p["eyes"] == "tired" and kind == "open"):
-            s += f'<path d="M{x-r-2:.1f},{ey+r*0.05:.1f} A{r+2:.1f},{r*1.14+2:.1f} 0 0 1 {x+r+2:.1f},{ey+r*0.05:.1f} Z" fill="{_shade(skin,0.95)}"/>'
-            s += pen.brush([(x - r * 1.05, ey + r * 0.05), (x, ey - r * 0.08), (x + r * 1.05, ey + r * 0.05)], lw * 1.0)
-        elif kind == "angry":
-            inner = x - sx * r
-            outer = x + sx * r
-            s += f'<path d="M{outer:.1f},{lid_top - 6:.1f} L{inner:.1f},{lid_top - 6:.1f} L{inner:.1f},{ey - r*0.05:.1f} Z" fill="{skin}"/>'
-            s += pen.brush([(outer + sx * 2, ey - r * 0.95), (inner - sx * 2, ey - r * 0.1)], lw * 1.15)
-        elif kind == "sad":
-            inner = x - sx * r
-            outer = x + sx * r
-            s += f'<path d="M{outer:.1f},{lid_top - 6:.1f} L{inner:.1f},{lid_top - 6:.1f} L{outer:.1f},{ey - r*0.15:.1f} Z" fill="{skin}"/>'
-            s += pen.brush([(inner - sx * 2, ey - r * 0.95), (outer + sx * 2, ey - r * 0.2)], lw * 1.0)
-        else:  # párpado superior grueso con pestaña
-            s += pen.brush([(x - r * 1.08, ey - r * 0.25), (x - r * 0.4, ey - r * 1.12), (x + r * 0.4, ey - r * 1.12), (x + r * 1.08, ey - r * 0.25)], lw * 1.05, taper=(0.2, 0.2))
-            s += pen.brush([(x + sx * r * 0.95, ey - r * 0.55), (x + sx * r * 1.38, ey - r * 0.85)], lw * 0.6, taper=(0.1, 0.9))
-        s += pen.brush([(x - r * 0.6, ey + r * 1.2), (x, ey + r * 1.32), (x + r * 0.6, ey + r * 1.2)], 2.4, shadow_of(skin), opacity=0.9)  # ojera
+            return pen.brush([(x - r * 1.1, ey + r * 0.3), (x, ey - r * 0.4), (x + r * 1.1, ey + r * 0.3)], lw * 1.0, lid_c) + \
+                pen.brush([(x - r * 0.9, ey + r * 0.75), (x, ey + r * 0.95), (x + r * 0.9, ey + r * 0.75)], 2.2, shadow_of(skin, True), opacity=0.8)
+        # apertura del párpado superior por lado (interior/exterior) según la expresión
+        top_in, top_out = {"open": (1.0, 1.0), "wide": (1.35, 1.35), "crazy": (1.4, 1.2), "half": (0.42, 0.42),
+                           "angry": (0.35, 0.95), "sad": (1.0, 0.45)}.get(kind, (1.0, 1.0))
+        if p["eyes"] == "tired" and kind == "open":
+            top_in = top_out = 0.6
+        bot = 0.8 if kind != "wide" else 1.0
+        xi, xo = x - sx * r * 1.15, x + sx * r * 1.15   # comisura interior / exterior
+        yi, yo = ey + r * 0.08, ey - r * 0.08
+        d = (f"M{xi:.1f},{yi:.1f} C{x - sx * r * 0.6:.1f},{ey - r * 1.25 * top_in:.1f} {x + sx * r * 0.55:.1f},{ey - r * 1.25 * top_out:.1f} {xo:.1f},{yo:.1f} "
+             f"C{x + sx * r * 0.5:.1f},{ey + r * 1.05 * bot:.1f} {x - sx * r * 0.6:.1f},{ey + r * 1.05 * bot:.1f} {xi:.1f},{yi:.1f} Z")
+        cid = pen.nid("ec")
+        s += f'<defs><clipPath id="{cid}"><path d="{d}"/></clipPath></defs><path d="{d}" fill="url(#{sg})"/>'
+        ir = r * (0.5 if kind in ("wide", "crazy") else 0.66)
+        px = x + (-sx * r * 0.1 if kind != "crazy" else sx * r * 0.25)
+        py = ey + r * 0.06
+        s += (f'<g clip-path="url(#{cid})"><circle cx="{px:.1f}" cy="{py:.1f}" r="{ir:.1f}" fill="url(#{ig})"/>'
+              f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{ir:.1f}" fill="none" stroke="{core_of(eye_col)}" stroke-width="2.2"/>'
+              f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{ir * 0.45:.1f}" fill="#0d0a10"/>'
+              f'<path d="{d}" fill="none" stroke="{shadow_of(skin, True)}" stroke-width="{r * 0.55:.1f}" opacity="0.45" transform="translate(0 {-r * 0.32:.1f})"/>'
+              f'<circle cx="{px - ir * 0.35:.1f}" cy="{py - ir * 0.4:.1f}" r="{ir * 0.26:.1f}" fill="#ffffff" opacity="0.95"/>'
+              f'<circle cx="{px + ir * 0.35:.1f}" cy="{py + ir * 0.32:.1f}" r="{ir * 0.12:.1f}" fill="#ffffff" opacity="0.8"/></g>')
+        # línea de pestañas superior (gruesa), inferior (fina), pliegue del párpado y pestañas exteriores
+        s += (f'<path d="M{xi:.1f},{yi:.1f} C{x - sx * r * 0.6:.1f},{ey - r * 1.25 * top_in:.1f} {x + sx * r * 0.55:.1f},{ey - r * 1.25 * top_out:.1f} {xo:.1f},{yo:.1f}" '
+              f'fill="none" stroke="{lid_c}" stroke-width="{lw * 0.95:.1f}" stroke-linecap="round"/>')
+        s += (f'<path d="M{xo:.1f},{yo:.1f} C{x + sx * r * 0.5:.1f},{ey + r * 1.05 * bot:.1f} {x - sx * r * 0.6:.1f},{ey + r * 1.05 * bot:.1f} {xi:.1f},{yi:.1f}" '
+              f'fill="none" stroke="{lid_c}" stroke-width="1.6" opacity="0.7"/>')
+        crease = 1.25 * max(top_in, top_out) + 0.35
+        s += pen.brush([(x - sx * r * 0.8, ey - r * (crease - 0.1)), (x, ey - r * crease), (x + sx * r * 0.95, ey - r * (crease - 0.25))], 2.4, shadow_of(skin, True), opacity=0.75)
+        s += "".join(pen.brush([(xo - sx * r * k, yo - r * (0.3 + k * 0.4)), (xo - sx * r * k + sx * r * 0.3, yo - r * (0.55 + k * 0.45))], 2.4, lid_c, taper=(0.05, 0.9)) for k in (0.05, 0.3))
+        s += pen.brush([(x - r * 0.7, ey + r * 1.25), (x, ey + r * 1.38), (x + r * 0.7, ey + r * 1.25)], 2.0, shadow_of(skin, True), opacity=0.55)  # ojera
         return s
 
     def eye_pair(kind: str) -> str:
@@ -449,12 +483,19 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
     brow_c = hairc if p["hair"] != "none" else _shade(ink, 1.3)
 
     def brows(kind: str) -> str:
+        """Cejas pelo a pelo: masa base translúcida + trazos finos con dirección de crecimiento."""
         s = ""
         for sx in (-1, 1):
             x = cx + sx * ex
             inner, outer = x - sx * bl * 0.85, x + sx * bl * 0.85
             dy = {"neutral": (0, -2), "angry": (16, -10), "sad": (-14, 8), "raised": (-16, -12), "skeptical": ((-20, -16) if sx > 0 else (6, 6))}[kind]
-            s += pen.brush([(inner, by + dy[0]), (x, by - 6 + (dy[0] + dy[1]) / 2), (outer, by + dy[1])], 11, brow_c, taper=(0.35, 0.6))
+            pts = [(inner, by + dy[0]), (x, by - 6 + (dy[0] + dy[1]) / 2), (outer, by + dy[1])]
+            s += pen.brush(pts, 10, brow_c, taper=(0.35, 0.6), opacity=0.55)
+            for i in range(9):
+                t = i / 8
+                bx = inner + (outer - inner) * t
+                byy = pts[0][1] + (pts[2][1] - pts[0][1]) * t - 6 * math.sin(t * math.pi)
+                s += pen.brush([(bx, byy + 4), (bx + sx * 9, byy - 3)], 2.6, brow_c if i % 2 else core_of(brow_c), taper=(0.1, 0.8))
         return s
 
     part("brows", "head", (cx, by), 13, variants={k: brows(k) for k in ("neutral", "angry", "sad", "raised", "skeptical")}, default="neutral")
@@ -464,7 +505,7 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
     mw = rx * 0.42
     inner_c = "#3a0f1d"
     tongue = "#e8647f"
-    lip = mix(skin, "#c0394f", 0.35)
+    lip = mix(skin, "#b5414f", 0.38)
 
     def open_mouth(w2, hh, teeth=True, tongue_on=True, round_=False):
         rx_, ry_ = (w2, hh / 2 + 4)
@@ -483,9 +524,13 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
         return s
 
     def mouth(k: str) -> str:
-        if k == "X":
-            return pen.brush([(cx - mw * 0.75, my), (cx - mw * 0.2, my + 5), (cx + mw * 0.4, my + 4), (cx + mw * 0.8, my - 2)], lw * 0.9) + \
-                pen.brush([(cx - mw * 0.3, my + 16), (cx + mw * 0.3, my + 16)], 2.5, shadow_of(skin), opacity=0.7)
+        if k == "X":  # labios en reposo con volumen: superior en sombra, inferior iluminado con brillo
+            up = [(cx - mw * 0.85, my + 2), (cx - mw * 0.3, my - 9), (cx, my - 5), (cx + mw * 0.3, my - 9), (cx + mw * 0.85, my + 2), (cx, my + 4)]
+            lo = [(cx - mw * 0.8, my + 3), (cx, my + 5), (cx + mw * 0.8, my + 3), (cx + mw * 0.45, my + 16), (cx, my + 19), (cx - mw * 0.45, my + 16)]
+            return (pen.shape(up, _shade(lip, 0.85), sw=lw * 0.4, rim=False, weight=False) + pen.shape(lo, lip, sw=lw * 0.4, rim=False, weight=False, gloss=True) +
+                    pen.brush([(cx - mw * 0.85, my + 2), (cx - mw * 0.3, my + 4), (cx + mw * 0.3, my + 4), (cx + mw * 0.85, my + 2)], 2.6, core_of(lip)) +
+                    pen.brush([(cx - mw * 0.25, my + 28), (cx + mw * 0.25, my + 28)], 3, shadow_of(skin, True), opacity=0.6) +
+                    pen.brush([(cx - 6, my - 26), (cx - 4, my - 11)], 3, shadow_of(skin, True), opacity=0.45) + pen.brush([(cx + 6, my - 26), (cx + 4, my - 11)], 3, shadow_of(skin, True), opacity=0.45))
         if k == "A":
             return pen.shape([(cx - mw * 0.6, my - 3), (cx + mw * 0.6, my - 3), (cx + mw * 0.5, my + 6), (cx - mw * 0.5, my + 6)], lip, rim=False, weight=False, sw=lw * 0.6)
         table = {"B": (mw * 0.75, 12, True, False), "C": (mw * 0.8, 26, True, True), "D": (mw, 44, True, True), "E": (mw * 0.5, 32, False, True),
@@ -554,11 +599,19 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
         hsvg += f'<ellipse cx="{cx - rx*0.3:.1f}" cy="{top_y + ry*0.25:.1f}" rx="{rx*0.25:.1f}" ry="{ry*0.08:.1f}" fill="#ffffff" opacity="0.45" transform="rotate(-20 {cx - rx*0.3:.1f} {top_y + ry*0.25:.1f})"/>'
     if back:
         part("hair_back", "head", (cx, headCy), 9, back)
-    if hair not in ("none", "bald_ring", "mohawk"):  # mechones y reflejo
-        for k in (-0.5, -0.15, 0.2):
-            hsvg += pen.brush([(cx + rx * k, top_y + ry * 0.06), (cx + rx * (k + 0.16), top_y + ry * 0.3)], 6, hl, opacity=0.75, taper=(0.3, 0.7))
-        for k in (-0.7, 0.05, 0.6):
-            hsvg += pen.brush([(cx + rx * k, top_y + ry * 0.2), (cx + rx * (k + 0.08), top_y + ry * 0.4)], 3, core_of(hairc), taper=(0.2, 0.8))
+    if hair not in ("none", "bald_ring", "mohawk"):  # pelo por mechones: trazos finos con dirección + reflejo especular
+        rng = random.Random(p.get("seed", 7) * 31)
+        for i in range(26):
+            t = rng.random()
+            x0_ = cx + rx * (-0.95 + 1.9 * t)
+            y0_ = top_y + ry * (0.02 + 0.08 * abs(t - 0.5))
+            bend = (t - 0.5) * rx * 0.5
+            y1_ = top_y + ry * (0.32 + 0.18 * rng.random())
+            col = hl if i % 3 == 0 else (core_of(hairc) if i % 3 == 1 else _shade(hairc, 1.12))
+            hsvg += pen.brush([(x0_, y0_), (x0_ + bend * 0.6, (y0_ + y1_) / 2), (x0_ + bend, y1_)], 2.2 + rng.random() * 2.2, col, taper=(0.15, 0.85), opacity=0.55 + 0.35 * rng.random())
+        sp = pen.nid("hs")
+        hsvg += (f'<defs><radialGradient id="{sp}"><stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs>'
+                 f'<ellipse cx="{cx - rx * 0.3:.1f}" cy="{top_y + ry * 0.16:.1f}" rx="{rx * 0.45:.1f}" ry="{ry * 0.07:.1f}" fill="url(#{sp})" transform="rotate(-12 {cx - rx * 0.3:.1f} {top_y + ry * 0.16:.1f})"/>')
     if hair == "none" and p["species"] != "robot":  # brillo de calva
         hsvg += f'<ellipse cx="{cx - rx*0.32:.1f}" cy="{top_y + ry*0.22:.1f}" rx="{rx*0.22:.1f}" ry="{ry*0.07:.1f}" fill="#ffffff" opacity="0.4" transform="rotate(-25 {cx - rx*0.32:.1f} {top_y + ry*0.22:.1f})"/>'
     acc = p["accessories"]
