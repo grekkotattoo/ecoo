@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudio ¿Qué pasaría si…?</title>
+<style>
+:root{--bg:#f4efe4;--panel:#fffdf8;--ink:#1d1a17;--muted:#6f655b;--line:#e3dacb;--accent:#e0a800;--ok:#1b8a5a;--warn:#c77700;--bad:#c62a3a;--chip:#efe6d4;--shadow:0 1px 2px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05)}
+@media (prefers-color-scheme:dark){:root{--bg:#141210;--panel:#1d1a17;--ink:#f1e9dc;--muted:#a3988b;--line:#2f2a25;--chip:#2a2520;--shadow:none}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{display:flex;align-items:center;gap:16px;padding:14px 24px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+header h1{font-size:18px;margin:0;letter-spacing:.3px}header h1 b{color:var(--accent)}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+.spacer{flex:1}.muted{color:var(--muted)}.small{font-size:13px}
+nav{display:flex;gap:4px;flex-wrap:wrap}nav button{background:none;border:0;padding:8px 12px;border-radius:8px;color:var(--muted);cursor:pointer;font:inherit}
+nav button.on{background:var(--chip);color:var(--ink);font-weight:600}
+main{max-width:1280px;margin:0 auto;padding:20px 24px 60px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.card h2{font-size:15px;margin:0 0 10px}.kpi{font-size:26px;font-weight:700}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;background:var(--chip);white-space:nowrap}
+.s-awaiting_approval{background:#ffe8a3;color:#5a4300}.s-delivered{background:#c9f0dc;color:#0b5233}.s-error,.s-blocked_qa{background:#ffd0d4;color:#7a1220}
+.s-producing,.s-approved,.s-drafting{background:#d6e6ff;color:#173e7a}.s-waiting_audio,.s-waiting_assistant,.s-waiting_budget{background:#efe0ff;color:#4a2378}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;color:var(--muted);font-weight:600}
+.alert{border-left:4px solid var(--accent);padding:10px 12px;background:var(--chip);border-radius:8px;margin:8px 0}
+.prop{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px}
+@media (max-width:900px){.prop{grid-template-columns:1fr}main{padding:16px}header{padding:10px 16px;flex-wrap:wrap;gap:6px 12px}header h1{font-size:16px}.spacer{display:none}nav{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}nav button{white-space:nowrap;padding:6px 10px}}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gallery figure{margin:0;background:var(--chip);border-radius:10px;overflow:hidden;cursor:zoom-in}
+.gallery img{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}.gallery figcaption{font-size:12px;padding:6px 8px;color:var(--muted)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+button.b{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+button.b:hover{border-color:var(--ink)}button.primary{background:var(--ok);color:#fff;border-color:var(--ok);grid-column:1/-1;font-size:16px}
+button.danger{color:var(--bad)}button:disabled{opacity:.5;cursor:wait}
+textarea{width:100%;min-height:70px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:10px;font:inherit}
+.script li{margin:4px 0}.bar{height:8px;background:var(--chip);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent)}
+.phases{display:flex;gap:2px;flex-wrap:wrap}.phases span{width:14px;height:8px;border-radius:2px;background:var(--line)}
+.phases .done{background:var(--ok)}.phases .failed{background:var(--bad)}.phases .waiting,.phases .running{background:var(--accent)}
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:20}#lightbox img{max-height:94vh;max-width:94vw;border-radius:8px}
+.toggle{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+select,input[type=number]{font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1><b>¿QUÉ PASARÍA SI…?</b> · Estudio</h1>
+  <span id="ap" class="small muted"></span>
+  <div class="spacer"></div>
+  <nav id="nav"></nav>
+</header>
+<main id="app"><div class="empty">Cargando…</div></main>
+<div id="lightbox" onclick="this.style.display='none'"><img alt=""></div>
+<script>
+const TABS=[["home","Panel"],["proposal","Aprobación"],["queue","Producción"],["ideas","Ideas"],["library","Biblioteca"],["costs","Costes"],["history","Historial"],["settings","Configuración"]];
+let tab=(()=>{try{return localStorage.getItem('tab')||'home'}catch(e){return 'home'}})(),S=null,busy=false;
+const ST={drafting:"Preparando propuesta",waiting_assistant:"Esperando al asistente",awaiting_approval:"Pendiente de tu aprobación",approved:"Aprobado",producing:"En producción",waiting_audio:"Esperando audios",waiting_budget:"Bloqueado por presupuesto",blocked_qa:"Bloqueado por QA",error:"Error",delivered:"Entregado",cancelled:"Cancelado"};
+const NEED={approval:"Aprobar propuesta",audio:"Subir audios de voz",assistant_task:"Tarea creativa para el asistente",budget:"Autorizar gasto / presupuesto",fix:"Revisar error"};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pill=s=>`<span class="pill s-${esc(s)}">${esc(ST[s]||s)}</span>`;
+async function api(path,body){const r=await fetch(path,body?{method:'POST',headers:{'Content-Type':'application/json','X-Studio':'1'},body:JSON.stringify(body)}:{});const j=await r.json();if(!r.ok)throw new Error(j.error||r.status);return j}
+async function load(){try{S=await api('/api/state');render()}catch(e){document.getElementById('app').innerHTML=`<div class="card">No se pudo cargar el estado: ${esc(e.message)}</div>`}}
+function nav(){document.getElementById('nav').innerHTML=TABS.map(([k,l])=>`<button class="${k===tab?'on':''}" onclick="go('${k}')">${l}${k==='proposal'&&S.proposal?' •':''}</button>`).join('')}
+function go(t){tab=t;try{localStorage.setItem('tab',t)}catch(e){}render()}
+function render(){nav();const a=S.autopilot;document.getElementById('ap').innerHTML=`<span class="dot" style="background:${a.alive?'var(--ok)':'var(--muted)'}"></span>Autopiloto ${a.alive?'activo':'detenido'}`;document.getElementById('app').innerHTML=(V[tab]||V.home)()}
+const V={
+home(){const e=S.episodes,c=S.costs;const by=s=>e.filter(x=>x.status===s).length;
+return `<div class="grid">
+<div class="card"><h2>Pendiente de aprobar</h2><div class="kpi">${by('awaiting_approval')}</div><div class="small muted">máximo 1 a la vez</div></div>
+<div class="card"><h2>En producción</h2><div class="kpi">${e.filter(x=>['approved','producing','waiting_audio'].includes(x.status)).length}</div></div>
+<div class="card"><h2>Entregados</h2><div class="kpi">${by('delivered')}</div></div>
+<div class="card"><h2>Ideas en cola</h2><div class="kpi">${S.ideas.filter(i=>i.status==='queued').length}</div></div>
+<div class="card"><h2>Gasto este mes</h2><div class="kpi">$${c.spent_month_usd.toFixed(2)}</div><div class="small muted">de $${c.budgets.monthly} · pagos ${c.authorize_paid?'autorizados':'bloqueados'}</div></div></div>
+<div class="card" style="margin-top:14px"><h2>Necesita tu atención</h2>${S.needs_human.length?S.needs_human.map(n=>`<div class="alert"><b>${esc(NEED[n.need]||n.need)}</b> ${n.episode?'· '+esc(n.episode):''} ${n.title?'— '+esc(n.title):''}
+${n.need==='approval'?` <button class="b" onclick="go('proposal')">Ver propuesta</button>`:''}
+${n.need==='audio'?`<div class="small">Guarda los audios (${esc((n.lines||[]).join(', '))}) en <code>${esc(n.inbox)}</code> y pulsa <button class="b" onclick="adv('${n.episode}')">Continuar</button></div>`:''}
+${n.need==='assistant_task'?`<div class="small">Abre Claude Code / Codex en el repo y di: <code>resuelve las tareas del estudio</code> (tarea ${esc(n.task)})</div>`:''}
+${n.need==='fix'?`<div class="small">${esc((n.error||'').slice(0,300))} <button class="b" onclick="adv('${n.episode}')">Reintentar</button></div>`:''}
+${n.need==='budget'?`<div class="small">${esc(n.detail)}</div>`:''}</div>`).join(''):'<div class="muted">Nada. El estudio no necesita nada de ti ahora mismo.</div>'}
+<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="b" onclick="tick()">Ejecutar un ciclo del autopiloto</button><button class="b" onclick="genIdeas()">Generar ideas</button></div></div>`},
+proposal(){const p=S.proposal;if(!p)return `<div class="card empty">No hay propuestas pendientes de aprobación.</div>`;
+const img=i=>`/files/episodes/${p.id}/proposal/images/${i.file}`;const sec=k=>p.images.filter(i=>i.kind===k);
+const fig=i=>`<figure onclick="zoom('${img(i)}')"><img loading="lazy" src="${img(i)}" alt="${esc(i.caption)}"><figcaption>${esc(i.caption)}</figcaption></figure>`;
+return `<div class="prop"><div>
+<div class="card"><div class="small muted">Episodio ${String(p.episode).padStart(3,'0')} ${p.test?'· PRUEBA TÉCNICA':''}</div><h2 style="font-size:24px;margin:4px 0">${esc(p.title)}</h2>
+<div style="font-size:18px;margin-bottom:10px"><b>${esc(p.question)}</b></div><p>${esc(p.summary)}</p>
+<div class="small"><b>Humor:</b> ${esc(p.humor_type)} · <b>Giro:</b> ${esc(p.twist)} · <b>Duración estimada:</b> ${p.estimated_seconds}s</div></div>
+<div class="card" style="margin-top:14px"><h2>Imágenes base</h2><div class="gallery">${sec('key_frame').map(fig).join('')}</div></div>
+<div class="card" style="margin-top:14px"><h2>Personajes</h2><div class="gallery">${sec('character_sheet').map(fig).join('')}</div></div>
+<div class="card" style="margin-top:14px"><h2>Escenarios</h2><div class="gallery">${sec('background').map(fig).join('')}</div></div>
+<div class="card" style="margin-top:14px"><h2>Guion</h2><ul class="script">${p.script.map(l=>`<li><b>${esc(l.speaker)}:</b> ${esc(l.text)}</li>`).join('')}</ul><div class="small muted">Remate: ${esc(p.punchline)}</div></div>
+</div><div><div class="card" style="position:sticky;top:76px"><h2>Tu decisión</h2>
+<div class="small muted" style="margin-bottom:8px">Puntuación de humor ${p.humor.overall}/10 ${p.humor.passed?'✅':'⚠️'}</div><div class="bar"><i style="width:${p.humor.overall*10}%"></i></div>
+<p class="small muted">Nada se anima ni se renderiza hasta que apruebes. Si cambias algo, lo demás se conserva.</p>
+<textarea id="fb" placeholder="Indicaciones (opcional para cambios)"></textarea>
+<div class="actions" style="margin-top:10px">
+<button class="b primary" onclick="act('APROBAR')">APROBAR</button>
+<button class="b" onclick="act('CAMBIAR IDEA')">Cambiar idea</button><button class="b" onclick="act('CAMBIAR IMÁGENES')">Cambiar imágenes</button>
+<button class="b" onclick="act('CAMBIAR PERSONAJES')">Cambiar personajes</button><button class="b" onclick="act('REVISAR GUION')">Revisar guion</button>
+<button class="b" onclick="act('REVISAR HUMOR')">Revisar humor</button><button class="b danger" onclick="act('CANCELAR')">Cancelar</button></div></div></div></div>`},
+queue(){return `<div class="card"><h2>Episodios</h2>${S.episodes.length?`<table><tr><th>ID</th><th>Título</th><th>Estado</th><th>Fases</th><th></th></tr>${S.episodes.slice().reverse().map(e=>`<tr><td>${e.id}${e.test?' <span class="pill">test</span>':''}</td><td>${esc(e.title)}<div class="small muted">${esc(e.question)}</div>${e.error?`<div class="small" style="color:var(--bad)">${esc(e.error.slice(0,200))}</div>`:''}</td><td>${pill(e.status)}</td>
+<td><div class="phases">${Object.entries(e.phases).map(([k,v])=>`<span class="${v}" title="${k}: ${v}"></span>`).join('')}</div></td>
+<td>${e.status==='delivered'?`<a href="/files/deliveries/${e.id}/" onclick="return false" class="small muted">entregado</a>`:['error','waiting_audio','blocked_qa','approved','drafting','waiting_assistant','waiting_budget'].includes(e.status)?`<button class="b" onclick="adv('${e.id}')">Continuar</button>`:''}</td></tr>`).join('')}</table>`:'<div class="empty">Sin episodios todavía. Activa el modo producción.</div>'}</div>`},
+ideas(){return `<div class="card"><h2>Ideas (${S.ideas.length})</h2><div style="display:flex;gap:8px;margin-bottom:10px"><input id="ideafb" placeholder="Orientación opcional" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)"><button class="b" onclick="genIdeas()">Generar</button></div>
+${S.ideas.length?`<table><tr><th>ID</th><th>Pregunta</th><th>Estado</th></tr>${S.ideas.slice().reverse().map(i=>`<tr><td>${i.id}</td><td><b>${esc(i.title)}</b><div class="small muted">${esc(i.question)}</div></td><td><span class="pill">${esc(i.status)}</span></td></tr>`).join('')}</table>`:'<div class="empty">Cola vacía.</div>'}</div>`},
+library(){const L=S.library;const g=(k,items)=>items.length?`<div class="gallery">${items.map(c=>`<figure ${c.preview?`onclick="zoom('/files/library/${c.preview}')"`:''}>${c.preview?`<img loading="lazy" src="/files/library/${c.preview}">`:'<div class="empty small">sin vista previa</div>'}<figcaption>${esc(c.name)} · v${c.latest}${c.approved?' · ✅ aprobado v'+c.approved:''}</figcaption></figure>`).join('')}</div>`:'<div class="muted">Vacío.</div>';
+return `<div class="card"><h2>Personajes</h2>${g('c',L.characters)}</div><div class="card" style="margin-top:14px"><h2>Escenarios</h2><table>${L.backgrounds.map(b=>`<tr><td>${esc(b.id)}</td><td>v${b.latest}</td><td>${b.approved?'✅ v'+b.approved:''}</td></tr>`).join('')||'<tr><td class="muted">Vacío.</td></tr>'}</table></div>
+<div class="card" style="margin-top:14px"><h2>Audio (música / efectos)</h2><table>${L.audio.map(a=>`<tr><td>${esc(a.id)}</td><td>${a.kind}</td><td>${esc((a.tags||[]).join(', '))}</td><td class="small muted">${esc(a.license)}</td></tr>`).join('')||'<tr><td class="muted">Vacío. Importa con <code>studio library import-audio</code>.</td></tr>'}</table></div>`},
+costs(){const c=S.costs;return `<div class="grid">${Object.entries(c.by_category_usd).map(([k,v])=>`<div class="card"><h2>${esc(k)}</h2><div class="kpi">$${v.toFixed(3)}</div><div class="small muted">tope ${c.budgets.categories[k]!=null?'$'+c.budgets.categories[k]:'—'}/mes</div></div>`).join('')}</div>
+<div class="card" style="margin-top:14px"><h2>Tokens</h2><div class="small">Asistente (estimado): ${c.assistant_tokens_estimated.in.toLocaleString()} entrada · ${c.assistant_tokens_estimated.out.toLocaleString()} salida<br>API externa (medido): ${c.external_llm_tokens.in.toLocaleString()} entrada · ${c.external_llm_tokens.out.toLocaleString()} salida · ${c.external_llm_tokens.cache_read.toLocaleString()} caché</div>
+<p class="small muted">El estudio no conoce tu saldo real: solo registra lo que gasta. Los pagos están ${c.authorize_paid?'<b>autorizados</b>':'<b>bloqueados</b>'}.</p></div>`},
+history(){return `<div class="card"><h2>Entregas</h2>${S.history.length?`<table>${S.history.slice().reverse().map(h=>`<tr><td>${esc(h.episode)}</td><td>${esc(h.title)}</td><td class="small muted">${esc(h.ts)}</td></tr>`).join('')}</table>`:'<div class="muted">Aún no hay entregas.</div>'}</div>
+<div class="card" style="margin-top:14px"><h2>Decisiones registradas</h2>${S.approvals.length?`<table>${S.approvals.slice().reverse().map(a=>`<tr><td>${esc(a.episode)}</td><td><b>${esc(a.action)}</b><div class="small muted">${esc(a.feedback)}</div></td><td class="small muted">${esc(a.by)} · ${esc(a.ts)}</td></tr>`).join('')}</table>`:'<div class="muted">Ninguna.</div>'}</div>`},
+settings(){const c=S.config;const sel=(k,opts)=>`<select onchange="cfg('${k}',this.value)">${opts.map(o=>`<option ${c[k]===o?'selected':''}>${o}</option>`).join('')}</select>`;
+const tg=k=>`<input type="checkbox" ${c[k]?'checked':''} onchange="cfg('${k}',this.checked)">`;
+return `<div class="card"><h2>Configuración</h2>
+<div class="toggle"><div>Cerebro creativo<div class="small muted">claude_code = sin coste API (lo resuelve tu sesión)</div></div>${sel('llm.provider',['claude_code','anthropic'])}</div>
+<div class="toggle"><div>Voces<div class="small muted">import = subes los audios de ElevenLabs</div></div>${sel('voice.provider',['import','elevenlabs'])}</div>
+<div class="toggle"><div>ElevenLabs API activada</div>${tg('voice.elevenlabs.enabled')}</div>
+<div class="toggle"><div>Imágenes<div class="small muted">svg = vectorial animable, coste 0</div></div>${sel('images.provider',['svg','openai'])}</div>
+<div class="toggle"><div><b>Autorizar operaciones de pago</b><div class="small muted">Sin esto nada se cobra nunca</div></div>${tg('costs.authorize_paid')}</div>
+<div class="toggle"><div>Presupuesto por episodio (USD)</div><input type="number" step="0.5" value="${c['costs.budgets.per_episode']}" onchange="cfg('costs.budgets.per_episode',this.value)"></div>
+<div class="toggle"><div>Presupuesto mensual (USD)</div><input type="number" step="1" value="${c['costs.budgets.monthly']}" onchange="cfg('costs.budgets.monthly',this.value)"></div></div>`}};
+function zoom(src){const l=document.getElementById('lightbox');l.querySelector('img').src=src;l.style.display='flex'}
+async function run(fn){if(busy)return;busy=true;document.querySelectorAll('button').forEach(b=>b.disabled=true);try{await fn()}catch(e){alert(e.message)}finally{busy=false;await load()}}
+const act=a=>{if(a==='CANCELAR'&&!confirm('¿Cancelar este episodio?'))return;run(()=>api('/api/action',{episode:S.proposal.id,action:a,feedback:document.getElementById('fb').value}))};
+const adv=id=>run(()=>api('/api/advance',{episode:id}));const tick=()=>run(()=>api('/api/tick',{}));
+const genIdeas=()=>run(()=>api('/api/ideas',{n:5,feedback:(document.getElementById('ideafb')||{}).value||''}));
+const cfg=(key,value)=>run(()=>api('/api/config',{key,value}));
+load();setInterval(()=>{const t=(document.activeElement||{}).tagName;if(!busy&&!['TEXTAREA','INPUT','SELECT'].includes(t))load()},5000);
+</script>
+</body>
+</html>

@@ -1,3 +1,23 @@
 node_modules
 out
 .DS_Store
+__pycache__/
+.pytest_cache/
+*.pyc
+# secretos y configuración local
+.env
+config/studio.local.json
+# datos pesados / regenerables (el estado JSON sí se versiona)
+data/cache/
+data/backups/
+data/logs/
+data/inbox/
+data/deliveries/
+data/tasks/done/*.invalid.json
+data/episodes/*/renders/
+data/episodes/*/audio/
+data/episodes/*/proposal/images/
+data/state/*.lock
+data/episodes/*/.lock
+library/audio/music/*.wav
+library/audio/sfx/*.wav

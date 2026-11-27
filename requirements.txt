@@ -1,0 +1,4 @@
+# Núcleo del estudio (Python ≥3.11). ffmpeg/ffprobe y Node 20+ son dependencias de sistema.
+numpy>=1.26
+pillow>=10        # solo tests/benchmark
+pytest>=8         # solo tests

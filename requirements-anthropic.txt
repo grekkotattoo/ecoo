@@ -1,0 +1,2 @@
+# Opcional: solo si llm.provider = "anthropic" (SDK oficial)
+anthropic

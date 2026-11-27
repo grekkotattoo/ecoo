@@ -1,0 +1,40 @@
+{
+  "_doc": "Biblia visual PERMANENTE de la serie. Todo episodio la hereda. Cambios = nueva versión (version++) y quedan en CHANGELOG.",
+  "version": 1,
+  "name": "Underground Cartoon Adulto",
+  "illustration": {
+    "description": "Cartoon adulto 2D, influencia de cómic underground: contornos gruesos irregulares, sombras planas duras (cel), texturas de papel y trama, colores cinematográficos desaturados con acentos ácidos. Caricatura expresiva, proporciones exageradas. Nada infantil, nada 3D, nada fotorrealista.",
+    "forbidden": ["3D", "fotografía", "metraje real", "fotorrealismo", "estética infantil", "degradados plásticos", "zoom sobre imagen fija como sustituto de animación"]
+  },
+  "palette": {
+    "paper": "#efe3c8",
+    "ink": "#1d1a17",
+    "shadow": "#3a2f2a",
+    "accent": "#ffd23f",
+    "acid": "#b6e03a",
+    "blood": "#d7263d",
+    "night": "#23395b",
+    "teal": "#1b998b",
+    "skin_light": "#f2c9a0",
+    "skin_mid": "#d49a6a",
+    "skin_dark": "#8d5a3b",
+    "creature": "#9bc26b"
+  },
+  "outline": {"color": "#1d1a17", "width": 6, "jitter": 1.6, "join": "round"},
+  "shading": {"type": "cel", "shadow_opacity": 0.28, "shadow_offset": [-10, 8], "highlight": false},
+  "texture": {"grain": 0.55, "boil": 0.35, "boil_fps": 8, "vignette": 0.35},
+  "typography": {
+    "title": {"family": "Bangers", "file": "library/fonts/Bangers.woff", "license": "OFL-1.1"},
+    "subtitle": {"family": "Luckiest Guy", "file": "library/fonts/LuckiestGuy.woff", "license": "Apache-2.0"},
+    "subtitle_style": {"size": 66, "y": 0.70, "color": "#ffffff", "stroke": "#1d1a17", "max_chars": 30}
+  },
+  "composition": {
+    "aspect": "9:16",
+    "safe_area": {"top": 0.10, "bottom": 0.20, "sides": 0.06},
+    "rules": ["Personaje principal en tercio central", "Subtítulos entre 62% y 78% de altura", "Fondos con 3+ capas de profundidad para parallax", "Siempre algo animado en el plano además de la cámara"]
+  },
+  "lighting": {"default": "dramática lateral", "moods": {"normal": "#ffffff00", "noche": "#23395b55", "infierno": "#d7263d44", "absurdo": "#b6e03a33"}},
+  "expressiveness": {"squash_stretch": true, "anticipation": true, "overshoot": true, "smear_frames": false, "blink": true},
+  "proportions": {"head_to_body": [0.35, 0.6], "height_range": [0.75, 1.35], "hands": "manoplas de 4 dedos", "eyes": "grandes y separados, pupila pequeña"},
+  "title_card": {"kicker": "¿QUÉ PASARÍA SI...?", "bg": "#1d1a17"}
+}
