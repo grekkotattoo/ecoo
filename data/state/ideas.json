@@ -99,11 +99,11 @@
       "twist": "Le dan NO APTO; Toni descubre que el dueño de la estación de ITV es su primo, que cobra por tatuar y por suspender sus propios tatuajes.",
       "tags": [],
       "id": "I0006",
-      "status": "in_episode",
+      "status": "produced",
       "source": "user",
       "created": "2026-11-27T19:43:54+00:00",
       "episode": "EP001",
-      "updated": "2026-11-27T19:43:58+00:00"
+      "updated": "2026-11-27T22:14:54+00:00"
     },
     {
       "title": "Los kanjis hablan",
@@ -113,10 +113,11 @@
       "twist": "El tatuador se ríe de todos hasta que su propio kanji dice: 'Yo tampoco sé japonés'.",
       "tags": [],
       "id": "I0007",
-      "status": "queued",
+      "status": "in_episode",
       "source": "user",
       "created": "2026-11-27T19:43:54+00:00",
-      "episode": null
+      "episode": "EP002",
+      "updated": "2026-11-27T22:06:22+00:00"
     },
     {
       "title": "Tatuaje con seis dedos",

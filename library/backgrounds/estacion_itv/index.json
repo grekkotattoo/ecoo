@@ -6,8 +6,9 @@
       "hash": "85650a021b35b4a7",
       "created": "2026-11-27T19:44:41+00:00",
       "name": "Estación de ITV de tatuajes",
-      "episode": "EP001"
+      "episode": "EP001",
+      "approved_at": "2026-11-27T22:06:22+00:00"
     }
   ],
-  "approved": null
+  "approved": 1
 }

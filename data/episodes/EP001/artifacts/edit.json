@@ -1,0 +1,59 @@
+{
+  "edl": [
+    {
+      "shot": "title",
+      "in_s": 0.0,
+      "dur_s": 2.2,
+      "transition": "cut"
+    },
+    {
+      "shot": "s01",
+      "in_s": 2.2,
+      "dur_s": 4.733333333333333,
+      "transition": "fade"
+    },
+    {
+      "shot": "s02",
+      "in_s": 6.933333333333334,
+      "dur_s": 6.133333333333334,
+      "transition": "cut"
+    },
+    {
+      "shot": "s03",
+      "in_s": 13.066666666666666,
+      "dur_s": 8.066666666666666,
+      "transition": "whip"
+    },
+    {
+      "shot": "s04",
+      "in_s": 21.133333333333333,
+      "dur_s": 6.333333333333333,
+      "transition": "smash"
+    },
+    {
+      "shot": "s05",
+      "in_s": 27.466666666666665,
+      "dur_s": 5.733333333333333,
+      "transition": "whip"
+    },
+    {
+      "shot": "s06",
+      "in_s": 33.2,
+      "dur_s": 4.8,
+      "transition": "cut"
+    },
+    {
+      "shot": "s07",
+      "in_s": 38.0,
+      "dur_s": 4.933333333333334,
+      "transition": "iris"
+    },
+    {
+      "shot": "end",
+      "in_s": 42.93333333333333,
+      "dur_s": 1.4,
+      "transition": "fade"
+    }
+  ],
+  "subtitles": 23
+}

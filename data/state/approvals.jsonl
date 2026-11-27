@@ -5,3 +5,4 @@
 {"ts": "2026-11-27T22:02:16+00:00", "episode": "EP001", "action": "REVISE_SCRIPT", "feedback": "Mantener guion. Planos cortos en los tatuajes NO REGREST y APOT para que se lean.", "by": "cli", "proposal_hash": "afc731f09ee8a19d"}
 {"ts": "2026-11-27T22:02:57+00:00", "episode": "EP001", "action": "CHANGE_CHARACTERS", "feedback": "Mismos personajes; regenerar con letras de tatuaje que no salen en espejo al girar.", "by": "cli", "proposal_hash": "c949c7e50ee86cf3"}
 {"ts": "2026-11-27T22:03:36+00:00", "episode": "EP001", "action": "REVISE_SCRIPT", "feedback": "Mantener guion. Planos cortos con cámara fija en NO REGREST y APOT (el push_in recortaba los brazos).", "by": "cli", "proposal_hash": "069f0c749d9fbcca"}
+{"ts": "2026-11-27T22:06:22+00:00", "episode": "EP001", "action": "APPROVE", "feedback": "Aprobado por el usuario", "by": "cli", "proposal_hash": "7481b307f6cc9428"}

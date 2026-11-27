@@ -1,0 +1,12 @@
+{
+  "music": null,
+  "sfx": 0,
+  "sfx_missing_in_library": [
+    "impact",
+    "pop",
+    "sting",
+    "whoosh"
+  ],
+  "file": "mix.wav",
+  "hash": "807242d29661c25f"
+}

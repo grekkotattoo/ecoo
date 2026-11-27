@@ -1,0 +1,95 @@
+{
+  "id": "EP002",
+  "number": 2,
+  "idea_id": "I0007",
+  "title": "Los kanjis hablan",
+  "question": "¿Qué pasaría si todos los kanjis tatuados empezaran a leerse en voz alta?",
+  "status": "waiting_assistant",
+  "test": false,
+  "created": "2026-11-27T22:06:22+00:00",
+  "updated": "2026-11-27T22:14:54+00:00",
+  "phases": {
+    "development": {
+      "status": "waiting",
+      "attempts": 2,
+      "pid": 8298,
+      "started": "2026-11-27T22:14:54+00:00",
+      "task": "EP002-development-4f942823",
+      "error": null
+    },
+    "script": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "humor_review": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "art_direction": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "characters": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "storyboard": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "base_images": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "proposal": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "voice": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "audio_sync": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "animation": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "edit": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "sound": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "render": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "master": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "qa": {
+      "status": "pending",
+      "attempts": 0
+    },
+    "delivery": {
+      "status": "pending",
+      "attempts": 0
+    }
+  },
+  "feedback": [],
+  "humor_revisions": 0,
+  "approval": {
+    "approved": false
+  },
+  "waiting": {
+    "type": "assistant",
+    "task": "EP002-development-4f942823"
+  },
+  "history": []
+}

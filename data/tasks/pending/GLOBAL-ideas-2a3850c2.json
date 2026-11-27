@@ -1,0 +1,9 @@
+{
+  "id": "GLOBAL-ideas-2a3850c2",
+  "kind": "ideas",
+  "episode": null,
+  "created": "2026-11-27T22:06:22+00:00",
+  "system": "Serie: ¿QUÉ PASARÍA SI...? Cortos animados 2D verticales (9:16) para ADULTOS, en español de España. TEMÁTICA FIJA: el mundo del TATUAJE (estudios, tatuadores, clientes, diseños, modas, dolor, arrepentimientos, precios, tatuajes que cobran vida, jerga y vicios del sector). Humor absurdo, surrealista, retorcido, satírico e irónico; situaciones imposibles tratadas con lógica implacable; giro inesperado y remate inteligente. Nada infantil. Sin humor de relleno, sin moralejas. Evita odio hacia colectivos reales y personas reales identificables. Responde SOLO con JSON válido.\nTarea: generación de ideas.",
+  "prompt": "Propón 5 ideas NUEVAS. Prohibido repetir o parafrasear estas preguntas ya usadas: [\"¿Qué pasaría si los gatos empezaran a cobrar por ronronear?\",\"¿Qué pasaría si los ascensores pudieran opinar sobre adónde vas?\",\"¿Qué pasaría si la siesta se declarara especie en peligro de extinción?\",\"¿Qué pasaría si tu sombra pidiera el divorcio?\",\"¿Qué pasaría si tu nevera decidiera qué comes según tus pecados?\",\"¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?\",\"¿Qué pasaría si todos los kanjis tatuados empezaran a leerse en voz alta?\",\"¿Qué pasaría si un tatuaje diseñado por IA cobrara vida?\",\"¿Qué pasaría si los tatuajes con nombres de pareja se actualizaran solos?\",\"¿Qué pasaría si el tatuador cumpliera literalmente 'algo pequeñito que signifique algo'?\"].\n\nFormato: {\"ideas\":[{\"title\":\"≤6 palabras\",\"question\":\"¿Qué pasaría si...?\",\"premise\":\"2 frases\",\"humor_type\":\"absurdo|surrealista|satírico|negro|ironía\",\"twist\":\"giro final\",\"tags\":[\"...\"]}]}",
+  "answer_with": "studio task submit GLOBAL-ideas-2a3850c2 <fichero.json>"
+}

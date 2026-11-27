@@ -1,0 +1,99 @@
+{
+  "video": "/home/user/ecoo/data/episodes/EP001/renders/EP001_la_itv_de_los_tatuajes_1080x1920.mp4",
+  "ts": "2026-11-27T22:14:54+00:00",
+  "passed": true,
+  "critical": 0,
+  "warnings": 1,
+  "checks": [
+    {
+      "check": "resolucion",
+      "level": "ok",
+      "detail": "1080x1920 (esperado 1080x1920)"
+    },
+    {
+      "check": "fps",
+      "level": "ok",
+      "detail": "30.000 (esperado 30)"
+    },
+    {
+      "check": "codec",
+      "level": "ok",
+      "detail": "h264"
+    },
+    {
+      "check": "pix_fmt",
+      "level": "ok",
+      "detail": "yuv420p"
+    },
+    {
+      "check": "duracion",
+      "level": "ok",
+      "detail": "44.333s (spec 44.333s)"
+    },
+    {
+      "check": "duracion_objetivo",
+      "level": "ok",
+      "detail": "44.3s (objetivo 20-51s)"
+    },
+    {
+      "check": "integridad",
+      "level": "ok",
+      "detail": "decodificación completa sin errores"
+    },
+    {
+      "check": "fotogramas_negros",
+      "level": "ok",
+      "detail": "0 tramos negros"
+    },
+    {
+      "check": "congelados",
+      "level": "ok",
+      "detail": "0 tramos sin movimiento >1.5s"
+    },
+    {
+      "check": "audio",
+      "level": "ok",
+      "detail": "aac 48000Hz 2ch"
+    },
+    {
+      "check": "nivel_audio",
+      "level": "ok",
+      "detail": "-16.0 LUFS (objetivo -14)"
+    },
+    {
+      "check": "sincronia_av",
+      "level": "ok",
+      "detail": "audio 44.333s vs vídeo 44.333s"
+    },
+    {
+      "check": "recursos",
+      "level": "ok",
+      "detail": "todos presentes"
+    },
+    {
+      "check": "continuidad_planos",
+      "level": "ok",
+      "detail": "timeline continuo"
+    },
+    {
+      "check": "animacion_real",
+      "level": "ok",
+      "detail": "todos los planos tienen animación propia"
+    },
+    {
+      "check": "subtitulos",
+      "level": "warning",
+      "detail": "ancho estimado excede márgenes"
+    },
+    {
+      "check": "sincronia_dialogo",
+      "level": "ok",
+      "detail": "subtítulos alineados al audio (±1 frame)"
+    },
+    {
+      "check": "continuidad_personajes",
+      "level": "ok",
+      "detail": "rigs idénticos a la versión aprobada"
+    }
+  ]
+}

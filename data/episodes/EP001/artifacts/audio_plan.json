@@ -1,0 +1,121 @@
+{
+  "total_s": 44.333333333333336,
+  "dialogue": [
+    {
+      "line": "l01",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l01/v001.wav",
+      "at": 2.533333333333333,
+      "duration": 3.84
+    },
+    {
+      "line": "l02",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l02/v001.wav",
+      "at": 7.266666666666667,
+      "duration": 2.88
+    },
+    {
+      "line": "l03",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l03/v001.wav",
+      "at": 10.333333333333334,
+      "duration": 2.16
+    },
+    {
+      "line": "l04",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l04/v001.wav",
+      "at": 13.4,
+      "duration": 5.76
+    },
+    {
+      "line": "l05",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l05/v001.wav",
+      "at": 19.366666666666667,
+      "duration": 1.2
+    },
+    {
+      "line": "l06",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l06/v001.wav",
+      "at": 21.466666666666665,
+      "duration": 5.44
+    },
+    {
+      "line": "l07",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l07/v001.wav",
+      "at": 27.8,
+      "duration": 3.2
+    },
+    {
+      "line": "l08",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l08/v001.wav",
+      "at": 31.2,
+      "duration": 1.44
+    },
+    {
+      "line": "l09",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l09/v001.wav",
+      "at": 33.53333333333333,
+      "duration": 3.92
+    },
+    {
+      "line": "l10",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l10/v001.wav",
+      "at": 38.333333333333336,
+      "duration": 2.24
+    },
+    {
+      "line": "l11",
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l11/v001.wav",
+      "at": 40.766666666666666,
+      "duration": 1.6
+    }
+  ],
+  "sfx": [
+    {
+      "tag": "sting",
+      "at": 0.0,
+      "gain": -6
+    },
+    {
+      "tag": "pop",
+      "at": 2.9,
+      "gain": -6
+    },
+    {
+      "tag": "pop",
+      "at": 14.266666666666667,
+      "gain": -6
+    },
+    {
+      "tag": "whoosh",
+      "at": 13.066666666666666,
+      "gain": -8
+    },
+    {
+      "tag": "impact",
+      "at": 22.066666666666666,
+      "gain": -4
+    },
+    {
+      "tag": "whoosh",
+      "at": 27.466666666666665,
+      "gain": -8
+    },
+    {
+      "tag": "pop",
+      "at": 36.3,
+      "gain": -6
+    },
+    {
+      "tag": "impact",
+      "at": 38.733333333333334,
+      "gain": -4
+    },
+    {
+      "tag": "pop",
+      "at": 39.96666666666667,
+      "gain": -6
+    }
+  ],
+  "music_tags": [
+    "comedy"
+  ]
+}

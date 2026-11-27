@@ -1,0 +1,9 @@
+{
+  "id": "EP002-development-4f942823",
+  "kind": "development",
+  "episode": "EP002",
+  "created": "2026-11-27T22:06:22+00:00",
+  "system": "Serie: ¿QUÉ PASARÍA SI...? Cortos animados 2D verticales (9:16) para ADULTOS, en español de España. TEMÁTICA FIJA: el mundo del TATUAJE (estudios, tatuadores, clientes, diseños, modas, dolor, arrepentimientos, precios, tatuajes que cobran vida, jerga y vicios del sector). Humor absurdo, surrealista, retorcido, satírico e irónico; situaciones imposibles tratadas con lógica implacable; giro inesperado y remate inteligente. Nada infantil. Sin humor de relleno, sin moralejas. Evita odio hacia colectivos reales y personas reales identificables. Responde SOLO con JSON válido.\nTarea: desarrollo creativo.",
+  "prompt": "Desarrolla esta idea para un corto de 20-45 s: {\"title\":\"Los kanjis hablan\",\"question\":\"¿Qué pasaría si todos los kanjis tatuados empezaran a leerse en voz alta?\",\"premise\":\"Un día los kanjis de la gente empiezan a decir en alto lo que realmente pone. 'Fuerza y honor' resulta ser 'pollo agridulce' y 'menú del día'.\",\"humor_type\":\"ironía\",\"twist\":\"El tatuador se ríe de todos hasta que su propio kanji dice: 'Yo tampoco sé japonés'.\"}.\nFormato: {\"logline\":\"\",\"synopsis\":\"\",\"humor_type\":\"\",\"twist\":\"\",\"tone_notes\":\"\",\"beats\":[{\"description\":\"\"}]} (3-6 beats: planteamiento rápido, escalada absurda, giro, remate).",
+  "answer_with": "studio task submit EP002-development-4f942823 <fichero.json>"
+}

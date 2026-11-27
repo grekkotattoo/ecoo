@@ -4,10 +4,10 @@
   "idea_id": "I0006",
   "title": "La ITV de los tatuajes",
   "question": "¿Qué pasaría si los tatuajes tuvieran que pasar la ITV?",
-  "status": "awaiting_approval",
+  "status": "delivered",
   "test": false,
   "created": "2026-11-27T13:21:37+00:00",
-  "updated": "2026-11-27T22:04:04+00:00",
+  "updated": "2026-11-27T22:14:54+00:00",
   "phases": {
     "development": {
       "status": "done",
@@ -90,40 +90,94 @@
       "task": null
     },
     "voice": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 3,
+      "pid": 8298,
+      "started": "2026-11-27T22:07:35+00:00",
+      "error": null,
+      "finished": "2026-11-27T22:07:36+00:00",
+      "output_hash": "79352f179523a6d3",
+      "task": null
     },
     "audio_sync": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:07:36+00:00",
+      "finished": "2026-11-27T22:07:36+00:00",
+      "output_hash": "c023ca98cbd93fbe",
+      "error": null,
+      "task": null
     },
     "animation": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:07:36+00:00",
+      "finished": "2026-11-27T22:07:36+00:00",
+      "output_hash": "74213ed73107f908",
+      "error": null,
+      "task": null
     },
     "edit": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:07:36+00:00",
+      "finished": "2026-11-27T22:07:36+00:00",
+      "output_hash": "e9e2e7df3f2a8cdb",
+      "error": null,
+      "task": null
     },
     "sound": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:07:36+00:00",
+      "finished": "2026-11-27T22:07:37+00:00",
+      "output_hash": "42baaf80651f7756",
+      "error": null,
+      "task": null
     },
     "render": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:07:37+00:00",
+      "finished": "2026-11-27T22:14:39+00:00",
+      "output_hash": "2874c1416e9508a7",
+      "error": null,
+      "task": null
     },
     "master": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:14:39+00:00",
+      "finished": "2026-11-27T22:14:44+00:00",
+      "output_hash": "8f1ababe6823f248",
+      "error": null,
+      "task": null
     },
     "qa": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:14:44+00:00",
+      "finished": "2026-11-27T22:14:54+00:00",
+      "output_hash": "58c27ed531ee7a12",
+      "error": null,
+      "task": null
     },
     "delivery": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 8298,
+      "started": "2026-11-27T22:14:54+00:00",
+      "finished": "2026-11-27T22:14:54+00:00",
+      "output_hash": "55b16256a0371b24",
+      "error": null,
+      "task": null
     }
   },
   "feedback": [
@@ -166,11 +220,17 @@
   ],
   "humor_revisions": 0,
   "approval": {
-    "approved": false
+    "approved": true,
+    "proposal_hash": "7481b307f6cc9428",
+    "at": "2026-11-27T22:06:22+00:00",
+    "by": "cli",
+    "asset_hashes": {
+      "toni": "4320d87c48425cb5",
+      "inspectora": "0accf2b964752408",
+      "primo": "3fdce6a6bf68adc7"
+    }
   },
-  "waiting": {
-    "type": "approval"
-  },
+  "waiting": null,
   "history": [
     {
       "ts": "2026-11-27T19:43:58+00:00",
@@ -227,6 +287,14 @@
       "feedback": "Mantener guion. Planos cortos con cámara fija en NO REGREST y APOT (el push_in recortaba los brazos).",
       "by": "cli",
       "proposal_hash": "069f0c749d9fbcca"
+    },
+    {
+      "ts": "2026-11-27T22:06:22+00:00",
+      "episode": "EP001",
+      "action": "APPROVE",
+      "feedback": "Aprobado por el usuario",
+      "by": "cli",
+      "proposal_hash": "7481b307f6cc9428"
     }
   ]
 }
