@@ -1,0 +1,13 @@
+{
+  "id": "calle_barrio",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "d7bc0ea0ded31b5a",
+      "created": "2026-11-27T13:22:22+00:00",
+      "name": "Calle del barrio",
+      "episode": "EP001"
+    }
+  ],
+  "approved": null
+}

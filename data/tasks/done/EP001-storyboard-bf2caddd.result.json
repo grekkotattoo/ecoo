@@ -1,0 +1,290 @@
+{
+  "shots": [
+    {
+      "location": "salon_piso",
+      "framing": "wide",
+      "camera": "push_in",
+      "transition": "fade",
+      "effects": [
+        "textPop"
+      ],
+      "text_pop": "¿QUÉ PASARÍA SI...?",
+      "actors": [
+        {
+          "character": "lucas",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "idle",
+            "lean"
+          ],
+          "expression": "tired"
+        },
+        {
+          "character": "miguelon",
+          "position": "center",
+          "facing": "left",
+          "actions": [
+            "stretch"
+          ],
+          "expression": "neutral"
+        }
+      ],
+      "lines": [
+        "l01"
+      ],
+      "seconds": 3,
+      "description": "Lucas acaricia a Miguelón en el sofá.",
+      "key_image": false
+    },
+    {
+      "location": "salon_piso",
+      "framing": "close",
+      "camera": "crash_zoom",
+      "transition": "smash",
+      "effects": [
+        "flash",
+        "textPop"
+      ],
+      "text_pop": "PIP · 0,90 €/min",
+      "actors": [
+        {
+          "character": "miguelon",
+          "position": "center",
+          "facing": "left",
+          "actions": [
+            "pop",
+            "talk"
+          ],
+          "expression": "smug"
+        }
+      ],
+      "lines": [
+        "l02"
+      ],
+      "seconds": 2.8,
+      "description": "Un datáfono asoma bajo el cojín; Miguelón cobra.",
+      "key_image": true
+    },
+    {
+      "location": "salon_piso",
+      "framing": "medium",
+      "camera": "handheld",
+      "transition": "cut",
+      "effects": [
+        "impact"
+      ],
+      "text_pop": "",
+      "actors": [
+        {
+          "character": "lucas",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "take",
+            "talk"
+          ],
+          "expression": "surprised"
+        },
+        {
+          "character": "miguelon",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "idle"
+          ],
+          "expression": "smug"
+        }
+      ],
+      "lines": [
+        "l03"
+      ],
+      "seconds": 2,
+      "description": "Take exagerado de Lucas.",
+      "key_image": false
+    },
+    {
+      "location": "salon_piso",
+      "framing": "medium",
+      "camera": "orbit_right",
+      "transition": "whip",
+      "effects": [
+        "sparks"
+      ],
+      "text_pop": "",
+      "actors": [
+        {
+          "character": "miguelon",
+          "position": "center",
+          "facing": "right",
+          "actions": [
+            "talk",
+            "point"
+          ],
+          "expression": "tired"
+        },
+        {
+          "character": "lucas",
+          "position": "far_left",
+          "facing": "right",
+          "actions": [
+            "rage",
+            "talk"
+          ],
+          "expression": "angry"
+        }
+      ],
+      "lines": [
+        "l04",
+        "l05"
+      ],
+      "seconds": 4.5,
+      "description": "Miguelón estampa la huella en un talonario; Lucas rabia.",
+      "key_image": false
+    },
+    {
+      "location": "calle_barrio",
+      "framing": "wide",
+      "camera": "crane_up",
+      "transition": "wipe",
+      "effects": [
+        "confetti",
+        "speedlines"
+      ],
+      "text_pop": "SIN CONVENIO NO HAY PRRR",
+      "actors": [
+        {
+          "character": "miguelon",
+          "position": "center",
+          "facing": "right",
+          "actions": [
+            "celebrate",
+            "jump"
+          ],
+          "expression": "crazy"
+        },
+        {
+          "character": "lucas",
+          "position": "far_left",
+          "facing": "right",
+          "actions": [
+            "cower"
+          ],
+          "expression": "sad"
+        }
+      ],
+      "lines": [
+        "l06"
+      ],
+      "seconds": 3.5,
+      "description": "Huelga gatuna con pancartas; Lucas en la cola pagando.",
+      "key_image": true
+    },
+    {
+      "location": "salon_piso",
+      "framing": "medium",
+      "camera": "swoop",
+      "transition": "smash",
+      "effects": [
+        "shake",
+        "vignettePulse"
+      ],
+      "text_pop": "HACIENDA",
+      "actors": [
+        {
+          "character": "inspector",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "walk",
+            "point"
+          ],
+          "expression": "neutral"
+        },
+        {
+          "character": "lucas",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "tremble",
+            "talk"
+          ],
+          "expression": "scared"
+        }
+      ],
+      "lines": [
+        "l07",
+        "l08"
+      ],
+      "seconds": 4.5,
+      "description": "El inspector abre la escritura: titular, el gato.",
+      "key_image": true
+    },
+    {
+      "location": "salon_piso",
+      "framing": "close",
+      "camera": "vertigo",
+      "transition": "cut",
+      "effects": [
+        "flash",
+        "impact",
+        "textPop"
+      ],
+      "text_pop": "HUMANO DOMÉSTICO",
+      "actors": [
+        {
+          "character": "inspector",
+          "position": "left",
+          "facing": "right",
+          "actions": [
+            "talk"
+          ],
+          "expression": "neutral"
+        },
+        {
+          "character": "lucas",
+          "position": "right",
+          "facing": "left",
+          "actions": [
+            "faint"
+          ],
+          "expression": "surprised"
+        }
+      ],
+      "lines": [
+        "l09"
+      ],
+      "seconds": 3.2,
+      "description": "Giro: Lucas figura como gasto deducible; se desmaya.",
+      "key_image": true
+    },
+    {
+      "location": "salon_piso",
+      "framing": "extreme_close",
+      "camera": "rack_focus",
+      "transition": "iris",
+      "effects": [
+        "textPop"
+      ],
+      "text_pop": "PIP",
+      "actors": [
+        {
+          "character": "miguelon",
+          "position": "center",
+          "facing": "right",
+          "actions": [
+            "laugh",
+            "nod"
+          ],
+          "expression": "smug"
+        }
+      ],
+      "lines": [
+        "l10"
+      ],
+      "seconds": 2.5,
+      "description": "Remate: Miguelón ronronea satisfecho. Pip.",
+      "key_image": false
+    }
+  ]
+}

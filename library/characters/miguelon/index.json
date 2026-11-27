@@ -1,0 +1,14 @@
+{
+  "id": "miguelon",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "c1e3c2bce1cee43d",
+      "created": "2026-11-27T13:22:35+00:00",
+      "name": "Miguelón",
+      "episode": "EP001",
+      "preview": "characters/miguelon/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}

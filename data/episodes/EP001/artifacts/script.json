@@ -1,0 +1,102 @@
+{
+  "title": "Los gatos cobran por ronronear",
+  "beats": [
+    {
+      "id": "b1",
+      "location": "salon_piso",
+      "action": "Lucas acaricia a Miguelón en el sofá. 'Pip': un datáfono asoma bajo el cojín.",
+      "lines": [
+        {
+          "id": "l01",
+          "speaker": "narrador",
+          "text": "¿Qué pasaría si los gatos cobraran por ronronear?",
+          "emotion": "neutral"
+        },
+        {
+          "id": "l02",
+          "speaker": "miguelon",
+          "text": "Noventa céntimos el minuto. Sin contacto.",
+          "emotion": "smug"
+        },
+        {
+          "id": "l03",
+          "speaker": "lucas",
+          "text": "¿Desde cuándo cobras?",
+          "emotion": "surprised"
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "location": "salon_piso",
+      "action": "Miguelón saca un talonario y estampa su huella.",
+      "lines": [
+        {
+          "id": "l04",
+          "speaker": "miguelon",
+          "text": "Tarifa nocturna. Recargo en domingo. ¿Quieres factura?",
+          "emotion": "tired"
+        },
+        {
+          "id": "l05",
+          "speaker": "lucas",
+          "text": "Pues sí, la verdad.",
+          "emotion": "angry"
+        }
+      ]
+    },
+    {
+      "id": "b3",
+      "location": "calle_barrio",
+      "action": "Gatos en huelga con pancartas: 'SIN CONVENIO NO HAY PRRR'. Humanos en cola pagando con el móvil.",
+      "lines": [
+        {
+          "id": "l06",
+          "speaker": "narrador",
+          "text": "En una semana: sindicato, huelga y colas para pagar.",
+          "emotion": "neutral"
+        }
+      ]
+    },
+    {
+      "id": "b4",
+      "location": "salon_piso",
+      "action": "Un inspector de Hacienda abre la escritura del piso.",
+      "lines": [
+        {
+          "id": "l07",
+          "speaker": "inspector",
+          "text": "Inspección fiscal. El titular del piso es... el gato.",
+          "emotion": "surprised"
+        },
+        {
+          "id": "l08",
+          "speaker": "lucas",
+          "text": "¿Cómo que el gato?",
+          "emotion": "scared"
+        }
+      ]
+    },
+    {
+      "id": "b5",
+      "location": "salon_piso",
+      "action": "El inspector lee la declaración. Lucas mira a cámara. Miguelón ronronea. Pip.",
+      "lines": [
+        {
+          "id": "l09",
+          "speaker": "inspector",
+          "text": "Gastos deducibles: comida, arena... y humano doméstico.",
+          "emotion": "neutral"
+        },
+        {
+          "id": "l10",
+          "speaker": "miguelon",
+          "text": "Y vacunado.",
+          "emotion": "smug"
+        }
+      ]
+    }
+  ],
+  "punchline": "Gastos deducibles: comida, arena y humano doméstico.",
+  "word_count": 59
+}

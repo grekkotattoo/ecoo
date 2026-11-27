@@ -1,0 +1,64 @@
+{
+  "ideas": [
+    {
+      "title": "Los gatos cobran por ronronear",
+      "question": "¿Qué pasaría si los gatos empezaran a cobrar por ronronear?",
+      "premise": "Un gato doméstico instala un datáfono en el sofá y factura cada ronroneo por minutos. En una semana los gatos tienen sindicato, tarifa nocturna y asesor fiscal.",
+      "humor_type": "satírico",
+      "twist": "Hacienda abre una inspección… y descubre que el dueño lleva años siendo el mascota fiscal del gato.",
+      "tags": [
+        "animales",
+        "economía",
+        "sátira"
+      ]
+    },
+    {
+      "title": "El ascensor que opina",
+      "question": "¿Qué pasaría si los ascensores pudieran opinar sobre adónde vas?",
+      "premise": "El ascensor de un edificio de oficinas empieza a negarse a subir a quien considera que no merece llegar a la planta 7. Las reuniones se celebran en el rellano porque nadie supera la entrevista.",
+      "humor_type": "absurdo",
+      "twist": "El único que llega arriba es el becario; el ascensor lo había ascendido a director general para tener con quién hablar.",
+      "tags": [
+        "oficina",
+        "tecnología",
+        "trabajo"
+      ]
+    },
+    {
+      "title": "Funeral de la última siesta",
+      "question": "¿Qué pasaría si la siesta se declarara especie en peligro de extinción?",
+      "premise": "Un ministerio protege la última siesta salvaje de España en un parque natural vallado. Los turistas pagan por verla dormir desde un mirador, en silencio absoluto.",
+      "humor_type": "surrealista",
+      "twist": "Un guía bosteza, la siesta se reproduce y el país entero se queda dormido en directo durante el telediario.",
+      "tags": [
+        "España",
+        "naturaleza",
+        "burocracia"
+      ]
+    },
+    {
+      "title": "Tu sombra pide el divorcio",
+      "question": "¿Qué pasaría si tu sombra pidiera el divorcio?",
+      "premise": "Una mañana la sombra de Marcos contrata abogado y reclama la mitad de todo lo que él pisa. El juez exige reparto de custodia del sol: mañanas para él, tardes para ella.",
+      "humor_type": "ironía",
+      "twist": "Marcos gana el juicio a mediodía exacto, cuando su sombra no existe para comparecer.",
+      "tags": [
+        "relaciones",
+        "juicio",
+        "surrealismo"
+      ]
+    },
+    {
+      "title": "La nevera con agenda propia",
+      "question": "¿Qué pasaría si tu nevera decidiera qué comes según tus pecados?",
+      "premise": "Un electrodoméstico inteligente analiza tu historial de búsqueda y te sirve dieta en función de tu moral. Quien miente en LinkedIn solo recibe apio.",
+      "humor_type": "negro",
+      "twist": "La nevera se encierra a sí misma por haber guardado un yogur caducado y se declara culpable.",
+      "tags": [
+        "tecnología",
+        "comida",
+        "moral"
+      ]
+    }
+  ]
+}

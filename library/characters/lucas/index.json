@@ -1,0 +1,14 @@
+{
+  "id": "lucas",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "6db95cfe8ecfc166",
+      "created": "2026-11-27T13:22:35+00:00",
+      "name": "Lucas",
+      "episode": "EP001",
+      "preview": "characters/lucas/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}

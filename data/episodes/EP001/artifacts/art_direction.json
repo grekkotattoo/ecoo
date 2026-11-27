@@ -1,0 +1,155 @@
+{
+  "mood": "Sátira burocrática en piso de clase media y calle de barrio con protesta gatuna; tono seco, colores ácidos.",
+  "locations": [
+    {
+      "id": "salon_piso",
+      "name": "Salón del piso",
+      "description": "Salón pequeño de piso de alquiler: sofá gastado, lámpara de pie, estantería con carpetas, cuadro torcido y ventana con persiana.",
+      "type": "interior",
+      "sky": "#f4f1ea",
+      "ground": "#1a1b24",
+      "accent": "#c6ff00",
+      "horizon": 0.68,
+      "mood": "normal",
+      "elements": [
+        {
+          "kind": "window",
+          "x": 0.75,
+          "y": 0.35,
+          "scale": 1.0,
+          "color": "#00d1ff",
+          "depth": 0.3,
+          "text": ""
+        },
+        {
+          "kind": "frame",
+          "x": 0.3,
+          "y": 0.3,
+          "scale": 0.8,
+          "color": "#ff2e88",
+          "depth": 0.3,
+          "text": "HOGAR"
+        },
+        {
+          "kind": "shelf",
+          "x": 0.15,
+          "y": 0.5,
+          "scale": 1.0,
+          "color": "#ff6b00",
+          "depth": 0.4,
+          "text": ""
+        },
+        {
+          "kind": "lamp",
+          "x": 0.88,
+          "y": 0.6,
+          "scale": 1.0,
+          "color": "#c6ff00",
+          "depth": 0.5,
+          "text": ""
+        },
+        {
+          "kind": "table",
+          "x": 0.5,
+          "y": 0.78,
+          "scale": 1.0,
+          "color": "#ff6b00",
+          "depth": 0.7,
+          "text": ""
+        }
+      ],
+      "custom_svg": null,
+      "ai_prompt": "flat 2D adult cartoon living room, worn sofa, floor lamp, shelf with tax folders, crooked frame, thick black outlines, one hard shadow, acid green accents, vertical 9:16"
+    },
+    {
+      "id": "calle_barrio",
+      "name": "Calle del barrio",
+      "description": "Calle de barrio con persianas metálicas grafiteadas, contenedores y carteles de huelga felina.",
+      "type": "city",
+      "sky": "#00d1ff",
+      "ground": "#1a1b24",
+      "accent": "#ff2e88",
+      "horizon": 0.68,
+      "mood": "absurdo",
+      "elements": [
+        {
+          "kind": "building",
+          "x": 0.2,
+          "y": 0.4,
+          "scale": 1.2,
+          "color": "#ff6b00",
+          "depth": 0.2,
+          "text": ""
+        },
+        {
+          "kind": "building",
+          "x": 0.8,
+          "y": 0.38,
+          "scale": 1.1,
+          "color": "#ff2e88",
+          "depth": 0.2,
+          "text": ""
+        },
+        {
+          "kind": "shutter",
+          "x": 0.3,
+          "y": 0.62,
+          "scale": 1.0,
+          "color": "#f4f1ea",
+          "depth": 0.5,
+          "text": ""
+        },
+        {
+          "kind": "graffiti",
+          "x": 0.32,
+          "y": 0.6,
+          "scale": 0.8,
+          "color": "#c6ff00",
+          "depth": 0.55,
+          "text": "PRRR"
+        },
+        {
+          "kind": "poster",
+          "x": 0.7,
+          "y": 0.58,
+          "scale": 0.9,
+          "color": "#c6ff00",
+          "depth": 0.5,
+          "text": "SIN CONVENIO NO HAY "
+        },
+        {
+          "kind": "dumpster",
+          "x": 0.88,
+          "y": 0.75,
+          "scale": 1.0,
+          "color": "#1a1b24",
+          "depth": 0.7,
+          "text": ""
+        },
+        {
+          "kind": "sign",
+          "x": 0.12,
+          "y": 0.72,
+          "scale": 0.8,
+          "color": "#ff6b00",
+          "depth": 0.8,
+          "text": "HUELGA"
+        }
+      ],
+      "custom_svg": null,
+      "ai_prompt": "flat 2D adult cartoon city street, metal shutters with graffiti, dumpsters, cat strike banners 'SIN CONVENIO NO HAY PRRR', thick black outlines, acid colors, vertical 9:16"
+    }
+  ],
+  "library": {
+    "salon_piso": {
+      "id": "salon_piso",
+      "version": 1,
+      "hash": "13380bc06800955a"
+    },
+    "calle_barrio": {
+      "id": "calle_barrio",
+      "version": 1,
+      "hash": "d7bc0ea0ded31b5a"
+    }
+  }
+}

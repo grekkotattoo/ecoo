@@ -1,0 +1,86 @@
+{
+  "title": "Los gatos cobran por ronronear",
+  "punchline": "Gastos deducibles: comida, arena y humano doméstico.",
+  "beats": [
+    {
+      "location": "salon_piso",
+      "action": "Lucas acaricia a Miguelón en el sofá. 'Pip': un datáfono asoma bajo el cojín.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "¿Qué pasaría si los gatos cobraran por ronronear?",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "miguelon",
+          "text": "Noventa céntimos el minuto. Sin contacto.",
+          "emotion": "smug"
+        },
+        {
+          "speaker": "lucas",
+          "text": "¿Desde cuándo cobras?",
+          "emotion": "surprised"
+        }
+      ]
+    },
+    {
+      "location": "salon_piso",
+      "action": "Miguelón saca un talonario y estampa su huella.",
+      "lines": [
+        {
+          "speaker": "miguelon",
+          "text": "Tarifa nocturna. Recargo en domingo. ¿Quieres factura?",
+          "emotion": "tired"
+        },
+        {
+          "speaker": "lucas",
+          "text": "Pues sí, la verdad.",
+          "emotion": "angry"
+        }
+      ]
+    },
+    {
+      "location": "calle_barrio",
+      "action": "Gatos en huelga con pancartas: 'SIN CONVENIO NO HAY PRRR'. Humanos en cola pagando con el móvil.",
+      "lines": [
+        {
+          "speaker": "narrador",
+          "text": "En una semana: sindicato, huelga y colas para pagar.",
+          "emotion": "neutral"
+        }
+      ]
+    },
+    {
+      "location": "salon_piso",
+      "action": "Un inspector de Hacienda abre la escritura del piso.",
+      "lines": [
+        {
+          "speaker": "inspector",
+          "text": "Inspección fiscal. El titular del piso es... el gato.",
+          "emotion": "surprised"
+        },
+        {
+          "speaker": "lucas",
+          "text": "¿Cómo que el gato?",
+          "emotion": "scared"
+        }
+      ]
+    },
+    {
+      "location": "salon_piso",
+      "action": "El inspector lee la declaración. Lucas mira a cámara. Miguelón ronronea. Pip.",
+      "lines": [
+        {
+          "speaker": "inspector",
+          "text": "Gastos deducibles: comida, arena... y humano doméstico.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "miguelon",
+          "text": "Y vacunado.",
+          "emotion": "smug"
+        }
+      ]
+    }
+  ]
+}

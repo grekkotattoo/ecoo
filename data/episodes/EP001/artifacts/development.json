@@ -1,0 +1,29 @@
+{
+  "logline": "Un gato descubre que su ronroneo tiene valor de mercado y convierte el sofá en una empresa con facturación por minutos.",
+  "synopsis": "Lucas acaricia a su gato Miguelón y oye un 'pip': un datáfono asoma bajo el cojín. Cada minuto de ronroneo se cobra, con tarifa nocturna y recargo por fin de semana. En días, los gatos del barrio fundan un sindicato, convocan huelga de ronroneos y los humanos, desesperados, pagan. Hacienda abre una inspección por ingresos no declarados. El inspector revisa la documentación y descubre que el titular de la casa, la hipoteca y la cuenta bancaria es el gato: Lucas figura en su declaración como mascota desgravable.",
+  "humor_type": "satírico",
+  "twist": "La inspección revela que Lucas no es el dueño: es la mascota fiscal del gato, que lo desgrava como gasto deducible.",
+  "tone_notes": "Seco, deadpan, ritmo de anuncio bancario. El gato nunca exagera: actúa como un autónomo cansado. Lucas, resignado. Nada infantil.",
+  "beats": [
+    {
+      "id": "b1",
+      "description": "Lucas acaricia a Miguelón en el sofá; suena 'pip' y un datáfono asoma bajo el cojín: '0,90 € el minuto'."
+    },
+    {
+      "id": "b2",
+      "description": "Escalada: tarifa nocturna, recargo dominical, Lucas pide factura y el gato saca un talonario con su huella."
+    },
+    {
+      "id": "b3",
+      "description": "Los gatos del barrio en huelga con pancartas: 'SIN CONVENIO NO HAY PRRR'. Los humanos hacen cola pagando con Bizum."
+    },
+    {
+      "id": "b4",
+      "description": "Llega un inspector de Hacienda con maletín; examina la escritura del piso: titular, Miguelón."
+    },
+    {
+      "id": "b5",
+      "description": "Remate: el inspector lee la declaración del gato: 'Gastos deducibles: comida, arena… y humano doméstico (Lucas)'. Lucas mira a cámara. El gato ronronea. Pip."
+    }
+  ]
+}

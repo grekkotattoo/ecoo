@@ -1,0 +1,14 @@
+{
+  "id": "inspector",
+  "versions": [
+    {
+      "version": 1,
+      "hash": "f285abc562e58646",
+      "created": "2026-11-27T13:22:35+00:00",
+      "name": "Inspector de Hacienda",
+      "episode": "EP001",
+      "preview": "characters/inspector/v001/preview_sheet.png"
+    }
+  ],
+  "approved": null
+}
