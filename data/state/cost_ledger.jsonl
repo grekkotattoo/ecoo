@@ -11,3 +11,4 @@
 {"ts": "2026-11-27T19:44:41+00:00", "kind": "actual", "category": "assistant_tokens", "usd": 0.0, "episode": "EP001", "idem": null, "detail": {"task": "art_direction", "tokens_in_est": 516, "tokens_out_est": 413, "estimated": true}}
 {"ts": "2026-11-27T19:44:54+00:00", "kind": "actual", "category": "assistant_tokens", "usd": 0.0, "episode": "EP001", "idem": null, "detail": {"task": "characters", "tokens_in_est": 651, "tokens_out_est": 537, "estimated": true}}
 {"ts": "2026-11-27T19:45:09+00:00", "kind": "actual", "category": "assistant_tokens", "usd": 0.0, "episode": "EP001", "idem": null, "detail": {"task": "storyboard", "tokens_in_est": 836, "tokens_out_est": 939, "estimated": true}}
+{"ts": "2026-11-27T21:43:58+00:00", "kind": "actual", "category": "assistant_tokens", "usd": 0.0, "episode": "EP001", "idem": null, "detail": {"task": "characters", "tokens_in_est": 892, "tokens_out_est": 771, "estimated": true}}

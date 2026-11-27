@@ -27,21 +27,21 @@
       "name": "Toni",
       "role": "Cliente orgulloso de su tribal casero",
       "voice_hint": "hombre 40 años, español de España, voz chulesca de barrio que se indigna rápido",
-      "version": 1
+      "version": 2
     },
     {
       "id": "inspectora",
       "name": "Inspectora de ITV",
       "role": "Funcionaria técnica e imperturbable",
       "voice_hint": "mujer 50 años, español de España, voz seca, monótona y técnica de funcionaria",
-      "version": 1
+      "version": 2
     },
     {
       "id": "primo",
       "name": "El Primo",
       "role": "Tatuador casero y dueño de la ITV",
       "voice_hint": "hombre 30 años, español de España, voz de vendedor enrollado y descarado",
-      "version": 1
+      "version": 2
     }
   ],
   "locations": [
@@ -170,5 +170,5 @@
     "REVISAR HUMOR",
     "CANCELAR"
   ],
-  "hash": "19ec80fdee074218"
+  "hash": "1c2ddfdf138635ef"
 }

@@ -1,0 +1,153 @@
+{
+  "characters": [
+    {
+      "id": "toni",
+      "name": "Toni",
+      "role": "Cliente orgulloso de su tribal casero",
+      "description": "Cuarentón de gimnasio de barrio, camiseta de tirantes para lucir el tribal, gafas de sol en la cabeza y cadena. Lleva el tribal casero en el brazo derecho, 'NO REGREST' en el antebrazo y un corazón 'MAMÁ'.",
+      "voice_hint": "hombre 40 años, español de España, voz chulesca de barrio que se indigna rápido",
+      "reuse": null,
+      "params": {
+        "body": "stocky",
+        "head": "square",
+        "hair": "spiky",
+        "eyes": "big",
+        "nose": "round",
+        "outfit": "tank",
+        "species": "human",
+        "skin": "#d99a6c",
+        "hair_color": "#1e1a16",
+        "top_color": "#f4f1ea",
+        "bottom_color": "#2b2f3a",
+        "accent_color": "#c6ff00",
+        "eye_color": "#3a2a1a",
+        "height": 1.05,
+        "head_scale": 1.1,
+        "width": 1.25,
+        "accessories": [
+          "sunglasses",
+          "chain"
+        ],
+        "seed": 41,
+        "tattoos": [
+          {
+            "zone": "arm_R_up",
+            "motif": "tribal",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "arm_R_lo",
+            "motif": "text",
+            "text": "NO REGREST",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "arm_L_lo",
+            "motif": "heart",
+            "text": "MAMÁ",
+            "color": "#0d0d0d"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inspectora",
+      "name": "Inspectora de ITV",
+      "role": "Funcionaria técnica e imperturbable",
+      "description": "Mujer de cincuenta años, uniforme azul de ITV, moño tirante, gafas y cara de haber visto demasiados tribales. Único tatuaje: un código de barras en el cuello y 'ITV' en la mano.",
+      "voice_hint": "mujer 50 años, español de España, voz seca, monótona y técnica de funcionaria",
+      "reuse": null,
+      "params": {
+        "body": "tall",
+        "head": "long",
+        "hair": "bun",
+        "eyes": "tired",
+        "nose": "pointy",
+        "outfit": "uniform",
+        "species": "human",
+        "skin": "#e8b894",
+        "hair_color": "#5a4636",
+        "top_color": "#2f5d9a",
+        "bottom_color": "#1f3a63",
+        "accent_color": "#00d1ff",
+        "eye_color": "#2a2a2a",
+        "height": 1.15,
+        "head_scale": 1.0,
+        "width": 0.9,
+        "accessories": [
+          "glasses"
+        ],
+        "seed": 52,
+        "tattoos": [
+          {
+            "zone": "neck",
+            "motif": "barcode",
+            "color": "#1f3a63"
+          },
+          {
+            "zone": "hand_R",
+            "motif": "text",
+            "text": "ITV",
+            "color": "#1f3a63"
+          }
+        ]
+      }
+    },
+    {
+      "id": "primo",
+      "name": "El Primo",
+      "role": "Tatuador casero y dueño de la ITV",
+      "description": "Treintañero comercial y sin vergüenza, gorra hacia atrás, polo de la estación, bigote fino y brazos llenos de tatuajes torcidos. Tatuajes torcidos hechos por 'otro primo': 'APOT' en el antebrazo, ancla 'PRIMO', estrella en la mano y rosa en el cuello.",
+      "voice_hint": "hombre 30 años, español de España, voz de vendedor enrollado y descarado",
+      "reuse": null,
+      "params": {
+        "body": "pear",
+        "head": "egg",
+        "hair": "slick",
+        "eyes": "wild",
+        "nose": "long",
+        "outfit": "tshirt",
+        "species": "human",
+        "skin": "#c98b5e",
+        "hair_color": "#0d0d0d",
+        "top_color": "#ff6b00",
+        "bottom_color": "#2b2f3a",
+        "accent_color": "#ff2e88",
+        "eye_color": "#2a1a0a",
+        "height": 0.95,
+        "head_scale": 1.1,
+        "width": 1.05,
+        "accessories": [
+          "cap",
+          "mustache",
+          "earring"
+        ],
+        "seed": 63,
+        "tattoos": [
+          {
+            "zone": "arm_R_lo",
+            "motif": "text",
+            "text": "APOT",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "arm_R_up",
+            "motif": "anchor",
+            "text": "PRIMO",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "hand_R",
+            "motif": "star",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "neck",
+            "motif": "rose",
+            "color": "#0d0d0d"
+          }
+        ]
+      }
+    }
+  ]
+}

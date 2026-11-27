@@ -57,6 +57,103 @@ class Flat:
         return f'<path d="{self.d(pts, closed=False)}" fill="none" stroke="{color}" stroke-width="{w:.1f}" stroke-linecap="round" stroke-linejoin="round"/>'
 
 
+# ---------------------------------------------------------------- tatuajes
+TAT_RED, TAT_GREEN, TAT_YEL, TAT_NAVY = "#d7192f", "#1f8a3a", "#f5c400", "#1f3a63"
+
+
+def _esc(t: str) -> str:
+    return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def _motif(m: str, s: float, col: str, lw: float, text: str = "") -> str:
+    """Motivo de tatuaje centrado en (0,0), 'arriba' = -y, tamaño ~s. Trazo fino de tatuador."""
+    sw = max(1.6, lw * 0.32)
+    st = f'stroke="{INK}" stroke-width="{sw:.1f}" stroke-linejoin="round"'
+    if m == "heart":
+        out = (f'<path d="M0,{s*.42:.1f} C{-s*.95:.1f},{-s*.12:.1f} {-s*.42:.1f},{-s*.78:.1f} 0,{-s*.28:.1f} '
+               f'C{s*.42:.1f},{-s*.78:.1f} {s*.95:.1f},{-s*.12:.1f} 0,{s*.42:.1f} Z" fill="{TAT_RED}" {st}/>')
+    elif m == "star":
+        import math as _m
+        pts = " ".join(f"{_m.cos(_m.radians(-90 + i*36))*(s*.55 if i % 2 == 0 else s*.23):.1f},{_m.sin(_m.radians(-90 + i*36))*(s*.55 if i % 2 == 0 else s*.23):.1f}" for i in range(10))
+        out = f'<polygon points="{pts}" fill="{col}" {st}/>'
+    elif m == "anchor":
+        a = f'stroke="{col}" stroke-width="{sw*1.6:.1f}" fill="none" stroke-linecap="round"'
+        out = (f'<circle cx="0" cy="{-s*.42:.1f}" r="{s*.1:.1f}" {a}/><path d="M0,{-s*.32:.1f} L0,{s*.45:.1f} M{-s*.25:.1f},{-s*.18:.1f} L{s*.25:.1f},{-s*.18:.1f} '
+               f'M{-s*.4:.1f},{s*.12:.1f} Q{-s*.3:.1f},{s*.5:.1f} 0,{s*.48:.1f} Q{s*.3:.1f},{s*.5:.1f} {s*.4:.1f},{s*.12:.1f}" {a}/>')
+    elif m == "skull":
+        out = (f'<path d="M{-s*.42:.1f},{-s*.05:.1f} A{s*.42:.1f},{s*.42:.1f} 0 1 1 {s*.42:.1f},{-s*.05:.1f} L{s*.26:.1f},{s*.18:.1f} L{s*.22:.1f},{s*.42:.1f} '
+               f'L{-s*.22:.1f},{s*.42:.1f} L{-s*.26:.1f},{s*.18:.1f} Z" fill="{WHITE}" {st}/>'
+               f'<circle cx="{-s*.17:.1f}" cy="{-s*.06:.1f}" r="{s*.12:.1f}" fill="{INK}"/><circle cx="{s*.17:.1f}" cy="{-s*.06:.1f}" r="{s*.12:.1f}" fill="{INK}"/>'
+               f'<path d="M{-s*.1:.1f},{s*.42:.1f} L{-s*.1:.1f},{s*.28:.1f} M{s*.1:.1f},{s*.42:.1f} L{s*.1:.1f},{s*.28:.1f}" stroke="{INK}" stroke-width="{sw:.1f}"/>')
+    elif m == "rose":
+        out = (f'<path d="M{-s*.15:.1f},{s*.2:.1f} Q{-s*.55:.1f},{s*.55:.1f} {-s*.5:.1f},{s*.15:.1f} Z M{s*.15:.1f},{s*.2:.1f} Q{s*.55:.1f},{s*.55:.1f} {s*.5:.1f},{s*.15:.1f} Z" fill="{TAT_GREEN}" {st}/>'
+               f'<circle cx="0" cy="{-s*.08:.1f}" r="{s*.36:.1f}" fill="{TAT_RED}" {st}/>'
+               f'<path d="M{-s*.15:.1f},{-s*.05:.1f} Q0,{-s*.32:.1f} {s*.16:.1f},{-s*.08:.1f} Q0,{s*.15:.1f} {-s*.08:.1f},{-s*.1:.1f}" fill="none" stroke="{INK}" stroke-width="{sw:.1f}"/>')
+    elif m == "swallow":
+        out = (f'<path d="M{-s*.55:.1f},{-s*.25:.1f} L{-s*.05:.1f},{-s*.02:.1f} L{s*.25:.1f},{-s*.3:.1f} L{s*.55:.1f},{-s*.22:.1f} L{s*.3:.1f},{s*.02:.1f} '
+               f'L{s*.5:.1f},{s*.45:.1f} L{s*.08:.1f},{s*.18:.1f} L{-s*.3:.1f},{s*.3:.1f} Z" fill="{TAT_NAVY}" {st}/>'
+               f'<path d="M{-s*.05:.1f},{-s*.02:.1f} L{s*.3:.1f},{s*.02:.1f} L{s*.08:.1f},{s*.18:.1f} Z" fill="{TAT_RED}"/>')
+    elif m == "dot":
+        out = f'<circle cx="0" cy="0" r="{max(2.0, s*.12):.1f}" fill="{col}"/>'
+    elif m == "flash":
+        out = (f'<polygon points="{s*.12:.1f},{-s*.55:.1f} {-s*.3:.1f},{s*.05:.1f} {-s*.02:.1f},{s*.05:.1f} {-s*.14:.1f},{s*.55:.1f} {s*.32:.1f},{-s*.08:.1f} {s*.03:.1f},{-s*.08:.1f}" '
+               f'fill="{TAT_YEL}" {st}/>')
+    elif m == "teardrop":
+        out = f'<path d="M0,{-s*.45:.1f} Q{s*.32:.1f},{s*.05:.1f} 0,{s*.3:.1f} Q{-s*.32:.1f},{s*.05:.1f} 0,{-s*.45:.1f} Z" fill="{col}"/>'
+    else:
+        out = ""
+    if text and m in ("heart", "anchor", "rose", "skull", "swallow", "star"):
+        fs = s * 0.34
+        wdt = min(s * 1.5, len(text) * fs * 0.62 + 6)
+        out += (f'<rect x="{-wdt/2:.1f}" y="{s*.05:.1f}" width="{wdt:.1f}" height="{fs*1.15:.1f}" fill="{WHITE}" {st}/>'
+                f'<text x="0" y="{s*.05 + fs*.95:.1f}" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="{fs:.1f}" fill="{INK}" '
+                f'textLength="{wdt - 4:.1f}" lengthAdjust="spacingAndGlyphs">{_esc(text)}</text>')
+    return out
+
+
+def tattoo_on_limb(p0, p1, w: float, t: dict, lw: float, f: "Flat") -> str:
+    """Tatuaje sobre un segmento de extremidad: marco local x = a lo largo del miembro, y = a través."""
+    L = math.dist(p0, p1)
+    ang = math.degrees(math.atan2(p1[1] - p0[1], p1[0] - p0[0]))
+    m, col, txt = t["motif"], t["color"], t.get("text", "")
+    inner = ""
+    if m == "tribal":
+        k = 4
+        x0, x1 = L * 0.12, L * 0.88
+        step = (x1 - x0) / k
+        for i in range(k):
+            a = x0 + i * step
+            inner += (f'<path d="M{a:.1f},{-w*.55:.1f} Q{a + step*.55:.1f},{-w*.1:.1f} {a + step*1.05:.1f},{w*.05:.1f} '
+                      f'Q{a + step*.45:.1f},{-w*.02:.1f} {a + step*.15:.1f},{w*.55:.1f} L{a - step*.1:.1f},{w*.55:.1f} '
+                      f'Q{a + step*.2:.1f},{-w*.15:.1f} {a - step*.15:.1f},{-w*.55:.1f} Z" fill="{col}"/>')
+    elif m == "barcode":
+        n = 9
+        for i in range(n):
+            x = L * 0.3 + i * L * 0.4 / n
+            inner += f'<rect x="{x:.1f}" y="{-w*.55:.1f}" width="{(1.5 if i % 3 else 3.2):.1f}" height="{w*1.1:.1f}" fill="{col}"/>'
+    elif m == "text":
+        fs = min(w * 0.82, 30)
+        tl = min(L * 0.8, len(txt) * fs * 0.62)
+        inner = (f'<text x="{L*.5:.1f}" y="{fs*.36:.1f}" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-weight="700" font-size="{fs:.1f}" fill="{col}" '
+                 f'textLength="{tl:.1f}" lengthAdjust="spacingAndGlyphs">{_esc(txt)}</text>')
+    else:
+        inner = f'<g transform="translate({L*.5:.1f} 0) rotate(-90)">{_motif(m, w * 1.05, col, lw, txt)}</g>'
+    c = f.nid()
+    return (f'<g transform="translate({p0[0]:.1f} {p0[1]:.1f}) rotate({ang:.2f})"><clipPath id="{c}"><rect x="{-w*.1:.1f}" y="{-w/2:.1f}" width="{L + w*.2:.1f}" height="{w:.1f}"/></clipPath>'
+            f'<g clip-path="url(#{c})">{inner}</g></g>')
+
+
+def tattoo_at(x: float, y: float, s: float, t: dict, lw: float) -> str:
+    """Tatuaje 'plano' (mano, cara, cuello): motivo derecho o texto horizontal."""
+    if t["motif"] == "text":
+        fs = s * 0.5
+        tl = min(s * 1.6, len(t["text"]) * fs * 0.62)
+        return (f'<text x="{x:.1f}" y="{y + fs*.36:.1f}" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-weight="700" font-size="{fs:.1f}" fill="{t["color"]}" '
+                f'textLength="{tl:.1f}" lengthAdjust="spacingAndGlyphs">{_esc(t["text"])}</text>')
+    m = {"tribal": "flash", "barcode": "dot"}.get(t["motif"], t["motif"])
+    return f'<g transform="translate({x:.1f} {y:.1f})">{_motif(m, s, t["color"], lw, t.get("text", ""))}</g>'
+
+
 def rrect(x0, y0, x1, y1, r=0.0, n=4):
     """Rectángulo con esquinas achaflanadas (look gráfico)."""
     r = min(r, (x1 - x0) / 2, (y1 - y0) / 2)
@@ -148,22 +245,36 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
         torso += f.ell(cx, shY + 80, 12, 12, "#f5c400", shadow=False, lw=lw * 0.6)
     part("torso", None, (cx, hipY), 5, torso)
 
-    # ---------------- brazos fideo + manos grandes
-    sleeve = skin if out == "tank" else top
+    # ---------------- brazos fideo + manos grandes (con tatuajes)
+    tats = p.get("tattoos") or []
     for side, sx, z in (("L", -1, 1), ("R", 1, 8)):
+        tz = {t["zone"]: t for t in tats if t["zone"].startswith(("arm_" + side, "hand_" + side))}
+        t_up, t_lo, t_hand = tz.get(f"arm_{side}_up"), tz.get(f"arm_{side}_lo"), tz.get(f"hand_{side}")
+        sleeve_up = skin if (out == "tank" or t_up) else top
+        sleeve_lo = skin if (out in ("tank", "tshirt") or t_lo or t_up) else top
         shx = cx + sx * (tw * 0.85 if body not in ("round", "blob") else tw * 0.8)
         arm = 118 * h
         elbow = (shx + sx * 14, shY + 26 + arm * 0.5)
         hand = (elbow[0] + sx * 4, elbow[1] + arm * 0.5)
         aw = 20 if body not in ("stocky", "blob") else 26
-        up = f.limb([(shx, shY + 24), elbow], aw, sleeve)
-        lo = f.limb([elbow, hand], aw, sleeve)
-        if stripe:
+        aw_up = aw * (1.4 if t_up else 1.0)
+        aw_lo = aw * (1.4 if t_lo else 1.0)
+        up = f.limb([(shx, shY + 24), elbow], aw_up, sleeve_up)
+        lo = f.limb([elbow, hand], aw_lo, sleeve_lo)
+        if out == "tshirt" and not t_up:  # manga corta
+            up += f.limb([(shx, shY + 24), (shx + sx * 7, shY + 24 + arm * 0.32)], aw_up + 6, top)
+        if t_up:
+            up += tattoo_on_limb((shx, shY + 24), elbow, aw_up, t_up, lw, f)
+        if t_lo:
+            lo += tattoo_on_limb(elbow, hand, aw_lo, t_lo, lw, f)
+        if stripe and sleeve_lo == top:
             lo += f.line([(elbow[0] + sx * 7, elbow[1]), (hand[0] + sx * 7, hand[1] - 6)], 4, WHITE)
         hx, hy = hand[0], hand[1] + 14
         mitt = rrect(hx - 21, hy - 16, hx + 21, hy + 22, 14)
         lo += f.poly(mitt, skin, lw=lw * 0.9) + f.poly(rrect(hx - sx * 30 - 8, hy - 10, hx - sx * 30 + 8, hy + 12, 7), skin, shadow=False, lw=lw * 0.8)
         lo += f.line([(hx - 7, hy + 8), (hx - 7, hy + 21)], 3.5) + f.line([(hx + 7, hy + 8), (hx + 7, hy + 21)], 3.5)
+        if t_hand:
+            lo += tattoo_at(hx, hy - 2, 26, t_hand, lw)
         part(f"arm{side}_up", "torso", (shx, shY + 24), z, up)
         part(f"arm{side}_lo", f"arm{side}_up", elbow, z, lo)
 
@@ -201,6 +312,11 @@ def build_rig(char_id: str, name: str, p: dict, style: dict, version: int = 1) -
     if "beard" in p["accessories"]:
         head += f.poly([(cx - rx * 0.62, headCy + ry * 0.32), (cx - rx * 0.3, headCy + ry * 0.36), (cx + rx * 0.3, headCy + ry * 0.36), (cx + rx * 0.62, headCy + ry * 0.32),
                         (cx + rx * 0.45, headCy + ry * 1.0), (cx, headCy + ry * 1.25), (cx - rx * 0.45, headCy + ry * 1.0)], hairc)
+    for t in tats:
+        if t["zone"] == "neck":
+            head += tattoo_at(cx - rx * 0.6, headCy + ry * 0.72, 38, t, lw)
+        elif t["zone"] == "face":
+            head += tattoo_at(cx - rx * 0.4, headCy + ry * 0.2, 20 if t["motif"] != "text" else 34, t, lw)
     part("head", "torso", (cx, shY + 8), 10, head)
 
     # ---------------- ojos mínimos y cínicos

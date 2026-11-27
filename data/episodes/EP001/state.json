@@ -7,7 +7,7 @@
   "status": "awaiting_approval",
   "test": false,
   "created": "2026-11-27T13:21:37+00:00",
-  "updated": "2026-11-27T19:45:42+00:00",
+  "updated": "2026-11-27T21:44:25+00:00",
   "phases": {
     "development": {
       "status": "done",
@@ -51,13 +51,13 @@
     },
     "characters": {
       "status": "done",
-      "attempts": 2,
-      "pid": 352,
-      "started": "2026-11-27T19:44:54+00:00",
+      "attempts": 3,
+      "pid": 2979,
+      "started": "2026-11-27T21:43:58+00:00",
       "task": null,
       "error": null,
-      "finished": "2026-11-27T19:44:54+00:00",
-      "output_hash": "b8e4ca2ebc1469d9"
+      "finished": "2026-11-27T21:43:58+00:00",
+      "output_hash": "8d365362ff02b400"
     },
     "storyboard": {
       "status": "done",
@@ -72,20 +72,20 @@
     "base_images": {
       "status": "done",
       "attempts": 1,
-      "pid": 373,
-      "started": "2026-11-27T19:45:09+00:00",
-      "finished": "2026-11-27T19:45:42+00:00",
-      "output_hash": "16be849ed7d8a8f1",
+      "pid": 2979,
+      "started": "2026-11-27T21:43:58+00:00",
+      "finished": "2026-11-27T21:44:25+00:00",
+      "output_hash": "69eb16f9f0237d68",
       "error": null,
       "task": null
     },
     "proposal": {
       "status": "done",
       "attempts": 1,
-      "pid": 373,
-      "started": "2026-11-27T19:45:42+00:00",
-      "finished": "2026-11-27T19:45:42+00:00",
-      "output_hash": "20c66452dc8b09be",
+      "pid": 2979,
+      "started": "2026-11-27T21:44:25+00:00",
+      "finished": "2026-11-27T21:44:25+00:00",
+      "output_hash": "b44d863864495b46",
       "error": null,
       "task": null
     },
@@ -126,7 +126,14 @@
       "attempts": 0
     }
   },
-  "feedback": [],
+  "feedback": [
+    {
+      "scope": "characters",
+      "text": "La serie es de tatuajes: los personajes deben llevar tatuajes visibles que cuenten el chiste (tribal casero de Toni con 'NO REGREST', 'APOT' en el brazo del primo).",
+      "by": "cli",
+      "ts": "2026-11-27T21:43:47+00:00"
+    }
+  ],
   "humor_revisions": 0,
   "approval": {
     "approved": false
@@ -142,6 +149,14 @@
       "feedback": "",
       "by": "cli",
       "proposal_hash": "4540eadb05384f08"
+    },
+    {
+      "ts": "2026-11-27T21:43:47+00:00",
+      "episode": "EP001",
+      "action": "CHANGE_CHARACTERS",
+      "feedback": "La serie es de tatuajes: los personajes deben llevar tatuajes visibles que cuenten el chiste (tribal casero de Toni con 'NO REGREST', 'APOT' en el brazo del primo).",
+      "by": "cli",
+      "proposal_hash": "19ec80fdee074218"
     }
   ]
 }

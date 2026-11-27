@@ -4,7 +4,7 @@
       "id": "toni",
       "name": "Toni",
       "role": "Cliente orgulloso de su tribal casero",
-      "description": "Cuarentón de gimnasio de barrio, camiseta de tirantes para lucir el tribal, gafas de sol en la cabeza y cadena.",
+      "description": "Cuarentón de gimnasio de barrio, camiseta de tirantes para lucir el tribal, gafas de sol en la cabeza y cadena. Lleva el tribal casero en el brazo derecho, 'NO REGREST' en el antebrazo y un corazón 'MAMÁ'.",
       "reuse": null,
       "voice_hint": "hombre 40 años, español de España, voz chulesca de barrio que se indigna rápido",
       "params": {
@@ -28,14 +28,34 @@
           "sunglasses",
           "chain"
         ],
-        "seed": 41
+        "seed": 41,
+        "tattoos": [
+          {
+            "zone": "arm_R_up",
+            "motif": "tribal",
+            "text": "",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "arm_R_lo",
+            "motif": "text",
+            "text": "NO REGREST",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "arm_L_lo",
+            "motif": "heart",
+            "text": "MAMÁ",
+            "color": "#0d0d0d"
+          }
+        ]
       }
     },
     {
       "id": "inspectora",
       "name": "Inspectora de ITV",
       "role": "Funcionaria técnica e imperturbable",
-      "description": "Mujer de cincuenta años, uniforme azul de ITV, moño tirante, gafas y cara de haber visto demasiados tribales.",
+      "description": "Mujer de cincuenta años, uniforme azul de ITV, moño tirante, gafas y cara de haber visto demasiados tribales. Único tatuaje: un código de barras en el cuello y 'ITV' en la mano.",
       "reuse": null,
       "voice_hint": "mujer 50 años, español de España, voz seca, monótona y técnica de funcionaria",
       "params": {
@@ -58,14 +78,28 @@
         "accessories": [
           "glasses"
         ],
-        "seed": 52
+        "seed": 52,
+        "tattoos": [
+          {
+            "zone": "neck",
+            "motif": "barcode",
+            "text": "",
+            "color": "#1f3a63"
+          },
+          {
+            "zone": "hand_R",
+            "motif": "text",
+            "text": "ITV",
+            "color": "#1f3a63"
+          }
+        ]
       }
     },
     {
       "id": "primo",
       "name": "El Primo",
       "role": "Tatuador casero y dueño de la ITV",
-      "description": "Treintañero comercial y sin vergüenza, gorra hacia atrás, polo de la estación, bigote fino y brazos llenos de tatuajes torcidos.",
+      "description": "Treintañero comercial y sin vergüenza, gorra hacia atrás, polo de la estación, bigote fino y brazos llenos de tatuajes torcidos. Tatuajes torcidos hechos por 'otro primo': 'APOT' en el antebrazo, ancla 'PRIMO', estrella en la mano y rosa en el cuello.",
       "reuse": null,
       "voice_hint": "hombre 30 años, español de España, voz de vendedor enrollado y descarado",
       "params": {
@@ -90,25 +124,51 @@
           "mustache",
           "earring"
         ],
-        "seed": 63
+        "seed": 63,
+        "tattoos": [
+          {
+            "zone": "arm_R_lo",
+            "motif": "text",
+            "text": "APOT",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "arm_R_up",
+            "motif": "anchor",
+            "text": "PRIMO",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "hand_R",
+            "motif": "star",
+            "text": "",
+            "color": "#0d0d0d"
+          },
+          {
+            "zone": "neck",
+            "motif": "rose",
+            "text": "",
+            "color": "#0d0d0d"
+          }
+        ]
       }
     }
   ],
   "library": {
     "toni": {
       "id": "toni",
-      "version": 1,
-      "hash": "4f4d93551c94b737"
+      "version": 2,
+      "hash": "c39630103b81c461"
     },
     "inspectora": {
       "id": "inspectora",
-      "version": 1,
-      "hash": "3f47e005ac138c25"
+      "version": 2,
+      "hash": "3c0cafb25d4f3530"
     },
     "primo": {
       "id": "primo",
-      "version": 1,
-      "hash": "5ddf208078b0adbc"
+      "version": 2,
+      "hash": "551df4d0657bfc03"
     }
   }
 }

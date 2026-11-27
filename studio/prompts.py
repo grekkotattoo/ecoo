@@ -80,9 +80,10 @@ def characters_prompt(script: dict, existing: list[dict], keep_ids: list[str] | 
             f"Personajes recurrentes en biblioteca (reutiliza con 'reuse':'id' si encaja; continuidad): {_j(existing[:20])}.\n"
             f"{('Mantén estos ids: ' + _j(keep_ids)) if keep_ids else ''}{_fb(feedback)}"
             f"Parámetros: {_j(S.CHAR_ENUMS)}; accessories ⊂ {_j(S.ACCESSORIES)}; colores #hex; height 0.75-1.35; head_scale 0.8-1.6 (0.9-1.1 = proporción realista; >1.3 solo para caricatura extrema); width 0.7-1.5.\n"
+            f"TATUAJES (serie de tatuajes: casi todos los personajes llevan, y deben contar el chiste): tattoos = lista ≤6 de {{zone ⊂ {_j(S.TATTOO_ZONES)}, motif ⊂ {_j(S.TATTOO_MOTIFS)}, text (≤14 car., obligatorio si motif=text; también rotula heart/anchor/rose), color #hex (tinta, por defecto negro)}}. arm_R_* y hand_R son los más visibles; un tatuaje en un brazo remanga esa manga. Faltas de ortografía intencionadas permitidas si son el chiste.\n"
             'Formato: {"characters":[{"id":"","name":"","role":"","description":"","voice_hint":"tipo de voz para ElevenLabs","reuse":null,'
             '"params":{"body":"","head":"","hair":"","eyes":"","nose":"","outfit":"","species":"","skin":"#hex","hair_color":"#hex",'
-            '"top_color":"#hex","bottom_color":"#hex","accent_color":"#hex","eye_color":"#hex","height":1,"head_scale":1.2,"width":1,"accessories":[],"seed":1}}]}')
+            '"top_color":"#hex","bottom_color":"#hex","accent_color":"#hex","eye_color":"#hex","height":1,"head_scale":1.2,"width":1,"accessories":[],"seed":1,"tattoos":[{"zone":"arm_R_lo","motif":"text","text":"","color":"#0d0d0d"}]}}]}')
 
 
 def storyboard_prompt(script: dict, chars: list[str], locs: list[str], feedback: list[str]) -> str:

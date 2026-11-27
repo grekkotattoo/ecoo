@@ -32,6 +32,8 @@ CHAR_ENUMS = {
 }
 ACCESSORIES = ["cap", "beanie", "chain", "headphones", "glasses", "sunglasses", "hat", "tie", "mustache", "beard", "earring", "eyepatch",
                "horns", "antenna", "crown", "bandage", "cigar"]
+TATTOO_ZONES = ["arm_R_lo", "arm_R_up", "arm_L_lo", "arm_L_up", "hand_R", "hand_L", "neck", "face"]
+TATTOO_MOTIFS = ["tribal", "text", "heart", "star", "anchor", "skull", "rose", "swallow", "dot", "barcode", "flash", "teardrop"]
 BG_TYPES = ["interior", "exterior", "city", "nature", "space", "void", "underground", "office"]
 BG_ELEMENTS = ["graffiti", "shutter", "poster", "neon", "dumpster", "building", "tree", "window", "door", "table", "lamp", "cloud", "sun", "moon", "mountain", "star", "sign",
                "plant", "chair", "screen", "rock", "planet", "car", "bush", "shelf", "frame", "column"]
@@ -154,7 +156,21 @@ def character_params(p: dict, ctx: str) -> dict:
         "width": _num(p.get("width"), 0.7, 1.5, 1.0),
         "accessories": [a for a in p.get("accessories", []) if a in ACCESSORIES][:4],
         "seed": int(_num(p.get("seed"), 0, 1e6, 7)),
+        "tattoos": tattoos(p.get("tattoos"), ctx),
     })
+    return out
+
+
+def tattoos(lst: Any, ctx: str) -> list[dict]:
+    """Tatuajes visibles sobre la piel del rig (zona + motivo + texto opcional). Inválidos se descartan."""
+    out = []
+    for t in (lst if isinstance(lst, list) else [])[:6]:
+        if not isinstance(t, dict) or t.get("zone") not in TATTOO_ZONES or t.get("motif") not in TATTOO_MOTIFS:
+            continue
+        txt = str(t.get("text") or "").strip()[:14]
+        if t["motif"] == "text" and not txt:
+            continue
+        out.append({"zone": t["zone"], "motif": t["motif"], "text": txt, "color": _color(t.get("color"), "#0d0d0d")})
     return out
 
 
