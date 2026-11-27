@@ -1,0 +1,28 @@
+{
+  "name": "retiro-espiritual-tatuadores",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Falso documental vertical 1080x1920 (Remotion): El retiro espiritual de tatuadores.",
+  "scripts": {
+    "texturas": "python3 scripts/generar_texturas.py",
+    "voces": "node scripts/sync-voces.mjs",
+    "dev": "remotion studio",
+    "render": "remotion render Retiro out/retiro_tatuadores_silencioso.mp4 --codec=h264 --muted --crf=18 --pixel-format=yuv420p",
+    "preview-voz": "remotion render RetiroConVoz out/retiro_preview_con_voz.mp4 --codec=h264 --crf=20",
+    "still": "remotion still Retiro out/frame.png",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.1.0",
+    "@fontsource/ibm-plex-mono": "5.1.0",
+    "@fontsource/eb-garamond": "5.1.0",
+    "@remotion/cli": "4.0.547",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.547"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}

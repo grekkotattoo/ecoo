@@ -1,0 +1,44 @@
+{
+  "_nota": "Duraciones en SEGUNDOS. 'npm run voces' rellena 'duracionVoz' (y 'palabras' si hay JSON de ElevenLabs) midiendo public/voz/*.mp3. Mientras 'provisional' sea true, son estimaciones editables a mano.",
+  "fps": 30,
+  "escenas": [
+    {
+      "id": "gancho",
+      "archivo": "voz/01_gancho.mp3",
+      "provisional": true,
+      "duracionVoz": 8.4,
+      "entrada": 0.15,
+      "cola": 0.45,
+      "palabras": null
+    },
+    {
+      "id": "maestro",
+      "archivo": "voz/02_maestro.mp3",
+      "provisional": true,
+      "duracionVoz": 7.2,
+      "entrada": 0.3,
+      "cola": 0.75,
+      "palabras": null
+    },
+    {
+      "id": "tecnica",
+      "archivo": "voz/03_tecnica.mp3",
+      "provisional": true,
+      "duracionVoz": 7.6,
+      "entrada": 0.3,
+      "cola": 0.9,
+      "palabras": null
+    },
+    {
+      "id": "final",
+      "archivo": "voz/04_final.mp3",
+      "provisional": true,
+      "duracionVoz": 8.6,
+      "entrada": 0.3,
+      "cola": 3.6,
+      "palabras": null
+    }
+  ],
+  "pausaRemate": 0.45,
+  "negroFinal": 0.8
+}
