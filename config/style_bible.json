@@ -149,5 +149,14 @@
       "neon",
       "noche"
     ]
+  },
+  "timing": {
+    "_doc": "ritmo de montaje (s): cartelas, aire antes/después de cada plano y entre líneas",
+    "title_s": 1.4,
+    "end_s": 1.2,
+    "lead": 0.1,
+    "tail": 0.15,
+    "gap": 0.08,
+    "last_tail": 1.0
   }
 }

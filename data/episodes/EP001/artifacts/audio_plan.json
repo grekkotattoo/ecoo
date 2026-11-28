@@ -1,71 +1,71 @@
 {
-  "total_s": 54.06666666666667,
+  "total_s": 41.46666666666667,
   "dialogue": [
     {
       "line": "l01",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l01/v001.wav",
-      "at": 2.533333333333333,
-      "duration": 3.069
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l01/v002.wav",
+      "at": 1.5,
+      "duration": 2.542
     },
     {
       "line": "l02",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l02/v001.wav",
-      "at": 6.466666666666667,
-      "duration": 2.776
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l02/v002.wav",
+      "at": 4.3,
+      "duration": 2.224
     },
     {
       "line": "l03",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l03/v001.wav",
-      "at": 10.133333333333333,
-      "duration": 7.311
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l03/v002.wav",
+      "at": 6.766666666666667,
+      "duration": 6.307
     },
     {
       "line": "l04",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l04/v001.wav",
-      "at": 18.333333333333332,
-      "duration": 5.022
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l04/v002.wav",
+      "at": 13.366666666666667,
+      "duration": 4.26
     },
     {
       "line": "l05",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l05/v001.wav",
-      "at": 24.266666666666666,
-      "duration": 5.122
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l05/v002.wav",
+      "at": 17.9,
+      "duration": 4.411
     },
     {
       "line": "l06",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l06/v001.wav",
-      "at": 29.6,
-      "duration": 3.196
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l06/v002.wav",
+      "at": 22.4,
+      "duration": 2.603
     },
     {
       "line": "l07",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l07/v001.wav",
-      "at": 33.666666666666664,
-      "duration": 3.667
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l07/v002.wav",
+      "at": 25.233333333333334,
+      "duration": 3.079
     },
     {
       "line": "l08",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l08/v001.wav",
-      "at": 37.53333333333333,
-      "duration": 5.373
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l08/v002.wav",
+      "at": 28.4,
+      "duration": 4.665
     },
     {
       "line": "l09",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l09/v001.wav",
-      "at": 43.8,
-      "duration": 1.677
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l09/v002.wav",
+      "at": 33.3,
+      "duration": 1.201
     },
     {
       "line": "l10",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l10/v001.wav",
-      "at": 46.4,
-      "duration": 3.44
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l10/v002.wav",
+      "at": 34.766666666666666,
+      "duration": 2.857
     },
     {
       "line": "l11",
-      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l11/v001.wav",
-      "at": 50.03333333333333,
-      "duration": 2.076
+      "file": "/home/user/ecoo/data/episodes/EP001/audio/lines/l11/v002.wav",
+      "at": 37.7,
+      "duration": 1.552
     }
   ],
   "sfx": [
@@ -76,27 +76,27 @@
     },
     {
       "tag": "pop",
-      "at": 7.6,
+      "at": 5.166666666666667,
       "gain": -6
     },
     {
       "tag": "whoosh",
-      "at": 9.8,
+      "at": 6.666666666666667,
       "gain": -8
     },
     {
       "tag": "pop",
-      "at": 20.366666666666667,
+      "at": 15.066666666666666,
       "gain": -6
     },
     {
       "tag": "whoosh",
-      "at": 18.0,
+      "at": 13.266666666666667,
       "gain": -8
     },
     {
       "tag": "pop",
-      "at": 50.333333333333336,
+      "at": 38.3,
       "gain": -6
     }
   ],

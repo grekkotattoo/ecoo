@@ -128,11 +128,12 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
     lines = {l["id"]: l for b in script["beats"] for l in b["lines"]}
     sp = style_props(style)
     shots, subs, dialogue, sfx = [], [], [], []
-    gap = 0.18
+    tm = {"title_s": TITLE_S, "end_s": END_S, "lead": 0.35, "tail": 0.53, "gap": 0.18, "last_tail": 0.53, **style.get("timing", {})}
+    gap = tm["gap"]
     frame = 0
 
     # cartela de título (identidad de la serie)
-    tdur = int(TITLE_S * fps)
+    tdur = int(tm["title_s"] * fps)
     tdur += tdur % 2
     shots.append({"id": "title", "start": 0, "dur": tdur, "kind": "title", "bgColor": style["title_card"]["bg"],
                   "title": {"kicker": style["title_card"]["kicker"], "text": title_text(ep["question"])}})
@@ -140,14 +141,14 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
     frame += tdur
 
     for si, s in enumerate(storyboard["shots"]):
-        lead = 0.35
+        lead = tm["lead"]
         t = lead
         line_slots = []
         for lid in s["lines"]:
             la = line_audio[lid]
             line_slots.append((lid, t, la["duration"]))
             t += la["duration"] + gap
-        dur_s = max(s["seconds"], t + 0.35)
+        dur_s = max(s["seconds"], t - gap + (tm["last_tail"] if si == len(storyboard["shots"]) - 1 else tm["tail"]))
         dur = int(round(dur_s * fps))
         dur += dur % 2  # par: render en dobles sin deriva
         sc, floor_y = FRAMING[s["framing"]]
@@ -224,7 +225,7 @@ def build_spec(ep: dict, storyboard: dict, script: dict, rigs: dict, backgrounds
                 cur += cd
         frame += dur
 
-    edur = int(END_S * fps)
+    edur = int(tm["end_s"] * fps)
     edur += edur % 2
     shots.append({"id": "end", "start": frame, "dur": edur, "kind": "end", "bgColor": style["title_card"]["bg"],
                   "title": {"kicker": style["title_card"]["kicker"], "text": "", "sub": ep.get("title", "")},

@@ -1,9 +1,9 @@
 {
   "video": "/home/user/ecoo/data/episodes/EP001/renders/EP001_fision_x_9000_1080x1920.mp4",
-  "ts": "2026-11-28T00:15:36+00:00",
+  "ts": "2026-11-28T00:22:46+00:00",
   "passed": true,
   "critical": 0,
-  "warnings": 2,
+  "warnings": 1,
   "checks": [
     {
       "check": "resolucion",
@@ -28,12 +28,12 @@
     {
       "check": "duracion",
       "level": "ok",
-      "detail": "54.067s (spec 54.067s)"
+      "detail": "41.467s (spec 41.467s)"
     },
     {
       "check": "duracion_objetivo",
-      "level": "warning",
-      "detail": "54.1s (objetivo 20-51s)"
+      "level": "ok",
+      "detail": "41.5s (objetivo 20-51s)"
     },
     {
       "check": "integridad",
@@ -63,7 +63,7 @@
     {
       "check": "sincronia_av",
       "level": "ok",
-      "detail": "audio 54.067s vs vídeo 54.067s"
+      "detail": "audio 41.467s vs vídeo 41.467s"
     },
     {
       "check": "recursos",

@@ -36,7 +36,7 @@
    "lines": [
     "l01"
    ],
-   "seconds": 3.5,
+   "seconds": 0.8,
    "description": "El tatuador señala orgulloso la gigantesca máquina con pegatina NO TOCAR, PACO; el cliente espera impasible.",
    "key_image": true,
    "text_pop": ""
@@ -67,7 +67,7 @@
    "lines": [
     "l02"
    ],
-   "seconds": 2.5,
+   "seconds": 0.8,
    "description": "Presentación de la FISIÓN X-9000 con destello de anuncio de lujo.",
    "key_image": false,
    "text_pop": "FISIÓN X-9000"
@@ -99,7 +99,7 @@
    "lines": [
     "l03"
    ],
-   "seconds": 6.0,
+   "seconds": 0.8,
    "description": "Primeros planos: máquina rugiendo, agujas girando como turbinas, contador con cifras imposibles y '16 TURBOCOMPRESORES DE PLUTONIO'.",
    "key_image": true,
    "text_pop": "48 GW"
@@ -130,7 +130,7 @@
    "lines": [
     "l04"
    ],
-   "seconds": 4.0,
+   "seconds": 0.8,
    "description": "La aguja cruza el plano a 14.000 km/h; el cliente sigue tan tranquilo tras un pequeño take.",
    "key_image": false,
    "text_pop": "14.000 KM/H"
@@ -174,7 +174,7 @@
     "l05",
     "l06"
    ],
-   "seconds": 6.0,
+   "seconds": 0.8,
    "description": "El tatuador baja la palanca: alarmas, luces rojas, farolas parpadeando por la ventana, un perro sale volando al fondo. Destello: manga completa.",
    "key_image": true,
    "text_pop": "0,0003 s"
@@ -206,7 +206,7 @@
     "l07",
     "l08"
    ],
-   "seconds": 6.5,
+   "seconds": 0.8,
    "description": "El tatuador mira el contador de la luz humeante; la cámara se aleja y media ciudad queda a oscuras.",
    "key_image": false,
    "text_pop": ""
@@ -236,7 +236,7 @@
    "lines": [
     "l09"
    ],
-   "seconds": 2.5,
+   "seconds": 0.8,
    "description": "Señor en pijama asomado a la ventana con el microondas apagado, furioso.",
    "key_image": true,
    "text_pop": ""
@@ -280,7 +280,7 @@
     "l10",
     "l11"
    ],
-   "seconds": 5.5,
+   "seconds": 0.8,
    "description": "Pulgar arriba del tatuador; el cliente es una silueta negra humeante con el tatuaje perfecto brillando. Cartel final, pitido, corte a negro.",
    "key_image": true,
    "text_pop": "FISIÓN X-9000"
