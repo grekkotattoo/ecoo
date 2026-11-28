@@ -1,19 +1,19 @@
 import {SpotLight} from '@react-three/drei';
 import React, {useMemo} from 'react';
-import {useCurrentFrame, useVideoConfig, random} from 'remotion';
+import {random} from 'remotion';
 import * as THREE from 'three';
 import {Allosaurus} from '../components/Allosaurus';
 import {StudioEnv} from '../components/Env';
 import {Particles} from '../components/Particles';
 import {CameraRig, Stage3D} from '../components/Stage3D';
 import {mix, mix3, sp, SNAPPY, wobble} from '../lib/anim';
+import {useTimeline} from '../lib/anim';
 
 const LAVA = '#ff5400';
 const BG = '#140805';
 
 export const Scene02: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {frame, fps, tick} = useTimeline();
   const t = frame / fps;
 
   // Zumbido de la máquina: ráfagas con muelle. Local 260 ≈ "CERO PULSO".
@@ -96,7 +96,7 @@ export const Scene02: React.FC = () => {
       </group>
 
       <group position={[0, 0, 0]} rotation={[0, -0.12, 0]}>
-        <Allosaurus t={t} frame={frame} buzz={buzz} jaw={jaw} panic={panic} />
+        <Allosaurus t={t} frame={tick} buzz={buzz} jaw={jaw} panic={panic} />
       </group>
 
       {/* Ceniza flotando + brasas */}

@@ -1,7 +1,8 @@
 import React from 'react';
-import {AbsoluteFill, Composition, interpolate, Series, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Composition, interpolate, Series} from 'remotion';
+import {useTimeline} from './lib/anim';
 import {Subtitles} from './components/Subtitles';
-import {FPS, HEIGHT, SCENES, TOTAL_FRAMES, WIDTH} from './lib/timeline';
+import {FPS, HEIGHT, SCENES, toFrames, TOTAL_UNITS, WIDTH} from './lib/timeline';
 import {Scene01} from './scenes/Scene01';
 import {Scene02} from './scenes/Scene02';
 import {Scene03} from './scenes/Scene03';
@@ -12,13 +13,13 @@ const SCENE_COMPONENTS = [Scene01, Scene02, Scene03, Scene04, Scene05];
 
 /** Golpe de corte: micro-fundido a negro en cada cambio de escena + viñeta cinematográfica. */
 const Finish: React.FC = () => {
-  const frame = useCurrentFrame();
+  const {frame} = useTimeline();
   const cuts = SCENES.slice(1).map((s) => s.from);
   const dip = Math.max(
     0,
     ...cuts.map((c) => interpolate(frame, [c - 5, c, c + 7], [0, 0.9, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})),
     interpolate(frame, [0, 10], [1, 0], {extrapolateRight: 'clamp'}),
-    interpolate(frame, [TOTAL_FRAMES - 14, TOTAL_FRAMES], [0, 1], {extrapolateLeft: 'clamp'}),
+    interpolate(frame, [TOTAL_UNITS - 14, TOTAL_UNITS], [0, 1], {extrapolateLeft: 'clamp'}),
   );
   return (
     <>
@@ -39,7 +40,7 @@ export const JurassicTattoo: React.FC = () => (
       {SCENES.map((s, i) => {
         const Scene = SCENE_COMPONENTS[i];
         return (
-          <Series.Sequence key={s.id} name={s.id} durationInFrames={s.duration} premountFor={30}>
+          <Series.Sequence key={s.id} name={s.id} durationInFrames={toFrames(s.duration)} premountFor={toFrames(30)}>
             <Scene />
           </Series.Sequence>
         );
@@ -55,7 +56,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="JurassicTattoo"
       component={JurassicTattoo}
-      durationInFrames={TOTAL_FRAMES}
+      durationInFrames={toFrames(TOTAL_UNITS)}
       fps={FPS}
       width={WIDTH}
       height={HEIGHT}
@@ -65,7 +66,7 @@ export const RemotionRoot: React.FC = () => (
         key={s.id}
         id={s.id}
         component={SCENE_COMPONENTS[i]}
-        durationInFrames={s.duration}
+        durationInFrames={toFrames(s.duration)}
         fps={FPS}
         width={WIDTH}
         height={HEIGHT}

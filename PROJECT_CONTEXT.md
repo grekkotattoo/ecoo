@@ -33,6 +33,7 @@
 - D5 Voz: importación de ElevenLabs (por defecto) o API ElevenLabs (desactivada, con guardas).
 - D6 Lip-sync: Rhubarb si está instalado; si no, aproximación por energía/ZCR (honesta).
 - D7 Render incremental por planos con caché por hash; bundle del motor cacheado.
+- D13 Proyecto 3D aparte `jurassic3d/` (decisión del usuario): Remotion + R3F a pantalla completa, 1080×1920 a 30 fps (60 opcional en `timeline.ts`). Excepción a la regla "solo 2D"; no toca el pipeline 2D.
 - D12 @react-three/fiber en modo híbrido `auto` (decisión del usuario): luces de neón y FX 3D solo donde se notan; dibujos siguen 2D.
 - D11 Estilo v4 urbano + render rápido (en dobles, 75 % reescalado, lotes, caché de fotogramas) por decisión del usuario.
 - D10 Estilo v3 (decisión del usuario): acabado semirrealista + actuación caricaturesca exagerada + cámara 2.5D con DOF.

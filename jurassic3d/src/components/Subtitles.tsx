@@ -7,10 +7,9 @@ import {
   interpolate,
   spring,
   staticFile,
-  useCurrentFrame,
-  useVideoConfig,
 } from 'remotion';
-import {Cue, CUES} from '../lib/timeline';
+import {useTimeline} from '../lib/anim';
+import {Cue, CUES, TL} from '../lib/timeline';
 
 export const FONT_FAMILY = 'MontserratBlack';
 
@@ -30,7 +29,7 @@ face
 const YELLOW = '#ffd60a';
 
 const Word: React.FC<{word: string; hot: boolean; local: number; index: number}> = ({word, hot, local, index}) => {
-  const {fps} = useVideoConfig();
+  const fps = TL;
   const pop = spring({frame: local - index * 4, fps, config: {damping: 9, stiffness: 210, mass: 0.6}});
   const settle = spring({frame: local - index * 4 - 6, fps, config: {damping: 14, stiffness: 120}});
   const scale = interpolate(pop, [0, 1], [0.2, 1]) * (hot ? interpolate(settle, [0, 1], [1.25, 1.06]) : 1);
@@ -55,7 +54,7 @@ const Word: React.FC<{word: string; hot: boolean; local: number; index: number}>
 };
 
 const CueView: React.FC<{cue: Cue; frame: number}> = ({cue, frame}) => {
-  const {fps} = useVideoConfig();
+  const fps = TL;
   const local = frame - cue.from;
   const outro = spring({frame: frame - (cue.to - 9), fps, config: {damping: 20, stiffness: 200}});
   const words = cue.text.split(' ');
@@ -87,7 +86,7 @@ const CueView: React.FC<{cue: Cue; frame: number}> = ({cue, frame}) => {
 
 /** Capa superior de subtítulos (frames globales). */
 export const Subtitles: React.FC = () => {
-  const frame = useCurrentFrame();
+  const {frame} = useTimeline();
   const active = CUES.filter((c) => frame >= c.from && frame < c.to);
   return (
     <AbsoluteFill style={{pointerEvents: 'none'}}>

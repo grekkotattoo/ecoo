@@ -1,11 +1,12 @@
 import {MeshReflectorMaterial, RoundedBox, SpotLight} from '@react-three/drei';
 import React, {useMemo} from 'react';
-import {useCurrentFrame, useVideoConfig, random} from 'remotion';
+import {random} from 'remotion';
 import * as THREE from 'three';
 import {Arm} from '../components/Arm';
 import {StudioEnv} from '../components/Env';
 import {CameraRig, Stage3D} from '../components/Stage3D';
 import {mix, mix3, sp, wobble} from '../lib/anim';
+import {useTimeline} from '../lib/anim';
 import {makeMarbleTexture, makePlaqueTexture} from '../lib/textures';
 
 const BG = '#040406';
@@ -45,8 +46,7 @@ const Rope: React.FC<{a: THREE.Vector3; b: THREE.Vector3}> = ({a, b}) => {
 };
 
 export const Scene05: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {frame, fps} = useTimeline();
   const t = frame / fps;
 
   const marble = useMemo(() => makeMarbleTexture(), []);

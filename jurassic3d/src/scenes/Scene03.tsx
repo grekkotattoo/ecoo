@@ -1,10 +1,11 @@
 import {RoundedBox} from '@react-three/drei';
 import React, {useMemo} from 'react';
-import {random, useCurrentFrame, useVideoConfig} from 'remotion';
+import {random} from 'remotion';
 import * as THREE from 'three';
 import {StudioEnv} from '../components/Env';
 import {CameraRig, Stage3D} from '../components/Stage3D';
 import {ease, HEAVY, mix, sp, wobble} from '../lib/anim';
+import {useTimeline} from '../lib/anim';
 
 const NEON = '#38b000';
 const PURPLE = '#9d4edd';
@@ -153,8 +154,7 @@ const mouthOf = (cx: number, cy: number, angle: number) => {
 };
 
 export const Scene03: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {frame, fps} = useTimeline(480 / 420);
   const t = frame / fps;
 
   // Entrada flotante

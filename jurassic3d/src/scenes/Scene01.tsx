@@ -1,11 +1,12 @@
 import {SpotLight} from '@react-three/drei';
 import React, {useMemo} from 'react';
-import {random, useCurrentFrame, useVideoConfig} from 'remotion';
+import {random} from 'remotion';
 import * as THREE from 'three';
 import {CameraRig, Stage3D} from '../components/Stage3D';
 import {StudioEnv} from '../components/Env';
 import {TattooChair} from '../components/TattooChair';
 import {ease, mix, mix3, sp, wobble} from '../lib/anim';
+import {useTimeline} from '../lib/anim';
 import {makeBarkTexture} from '../lib/textures';
 
 const FOG = '#0d3437';
@@ -141,8 +142,7 @@ const LightStand: React.FC<{position: [number, number, number]; target: [number,
 };
 
 export const Scene01: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {frame, fps} = useTimeline();
   const t = frame / fps;
   const bark = useMemo(() => makeBarkTexture(), []);
 
@@ -186,7 +186,7 @@ export const Scene01: React.FC = () => {
   const close: [number, number, number] = [1.7, 2.6, 5.0];
   let pos = mix3([0.4, 7.5, 25], close, push);
   let fov = mix(58, 30, push);
-  const vertigo = ease(frame, [185, 300], [0, 1]);
+  const vertigo = ease(frame, [200, 360], [0, 1]);
   if (vertigo > 0) {
     const fov2 = mix(30, 21, vertigo);
     const k = Math.tan(THREE.MathUtils.degToRad(30 / 2)) / Math.tan(THREE.MathUtils.degToRad(fov2 / 2));

@@ -1,10 +1,11 @@
 import {RoundedBox} from '@react-three/drei';
 import React from 'react';
-import {useCurrentFrame, useVideoConfig, random} from 'remotion';
+import {random} from 'remotion';
 import {Arm} from '../components/Arm';
 import {StudioEnv} from '../components/Env';
 import {CameraRig, Stage3D} from '../components/Stage3D';
 import {ease, mix, sp, SNAPPY} from '../lib/anim';
+import {useTimeline} from '../lib/anim';
 import {Easing} from 'remotion';
 
 const ALARM = '#d00000';
@@ -14,8 +15,7 @@ const ARM_Y = TABLE_Y + 0.36;
 const TRIGGER = 105;
 
 export const Scene04: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {frame, fps} = useTimeline();
   const t = frame / fps;
 
   // Cambio brusco clínica → alarma

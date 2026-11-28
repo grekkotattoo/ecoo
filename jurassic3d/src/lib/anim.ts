@@ -1,4 +1,15 @@
-import {Easing, interpolate, spring, SpringConfig} from 'remotion';
+import {Easing, interpolate, spring, SpringConfig, useCurrentFrame, useVideoConfig} from 'remotion';
+import {TL} from './timeline';
+
+/**
+ * Tiempo en unidades de timeline (60/s) sea cual sea el fps de salida.
+ * `tick` = frame real de salida (para vibraciones que alternan cada fotograma).
+ */
+export const useTimeline = (speed = 1) => {
+  const tick = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  return {frame: ((tick * TL) / fps) * speed, fps: TL, tick};
+};
 
 export const SOFT: Partial<SpringConfig> = {damping: 18, stiffness: 70, mass: 1.1};
 export const SNAPPY: Partial<SpringConfig> = {damping: 11, stiffness: 160, mass: 0.7};
