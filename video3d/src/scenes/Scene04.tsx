@@ -1,17 +1,17 @@
 // ESCENA 4 — LA CICATRIZACIÓN CÓSMICA (frames 1200–1740). La línea fina muta en un borrón radiactivo.
 import React, {useMemo} from 'react';
 import {RoundedBox} from '@react-three/drei';
-import {useCurrentFrame, useVideoConfig} from 'remotion';
+import {useDesignFrame} from '../lib/time';
 import * as THREE from 'three';
 import type {Vec3} from '../config/physics';
-import {BEATS, PALETTE, SCENES} from '../config/timeline';
+import {DESIGN_BEATS, DESIGN_FPS, PALETTE} from '../config/timeline';
 import {ease, EASE, fbm3, lerp3, rnd, rndRange, sp} from '../lib/motion';
 import {CabinLights, ISSModule} from '../three/ISS';
 import {CameraRig, SceneCanvas, TITLE_FONT, useCanvasTexture} from '../three/Stage';
 
-const RAD_START = BEATS.radiationStart - SCENES.S04.from; // 60
-const MUT_START = BEATS.mutationStart - SCENES.S04.from; // 120
-const MUT_PEAK = BEATS.mutationPeak - SCENES.S04.from; // 440
+const RAD_START = DESIGN_BEATS.S04.radiationStart; // 60 (diseño)
+const MUT_START = DESIGN_BEATS.S04.mutationStart; // 120
+const MUT_PEAK = DESIGN_BEATS.S04.mutationPeak; // 440
 
 const ARM_R = 0.42;
 const ARM_POS: Vec3 = [0, -0.35, 0];
@@ -186,8 +186,8 @@ const CreamTube: React.FC<JSX.IntrinsicElements['group']> = (props) => {
 };
 
 export const Scene04: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const frame = useDesignFrame('S04');
+  const fps = DESIGN_FPS;
   const t = frame / fps;
   const rays = useRays();
 

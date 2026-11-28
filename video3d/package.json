@@ -2,10 +2,10 @@
   "name": "qps-gravedad-cero-3d",
   "version": "1.0.0",
   "private": true,
-  "description": "¿Qué pasaría si te tatuaras en gravedad cero? — corto 3D (Remotion + Three.js), 1080x1920 @60fps, 36 s.",
+  "description": "¿Qué pasaría si te tatuaras en gravedad cero? — corto 3D (Remotion + Three.js), 1080x1920 @30fps, 18 s.",
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render GravedadCero out/gravedad-cero.mp4",
+    "render": "remotion render GravedadCero out/gravedad-cero.mp4 --timeout=240000",
     "still": "remotion still GravedadCero out/still.png",
     "typecheck": "tsc --noEmit"
   },

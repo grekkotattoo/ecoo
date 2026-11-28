@@ -1,16 +1,16 @@
 // ESCENA 2 — LA TINTA FLOTANTE (frames 300–720). La máquina se enciende (420) → nube negra asesina.
 import React, {useMemo} from 'react';
-import {useCurrentFrame, useVideoConfig} from 'remotion';
+import {useDesignFrame} from '../lib/time';
 import * as THREE from 'three';
 import type {Vec3} from '../config/physics';
-import {BEATS, PALETTE, SCENES} from '../config/timeline';
+import {DESIGN_BEATS, DESIGN_FPS, PALETTE} from '../config/timeline';
 import {buzz, cameraBasis, ease, EASE, rnd, rndRange, sp} from '../lib/motion';
 import {CabinLights, ISSModule, MODULE_R, StudioEnv} from '../three/ISS';
 import {InkBottle, TattooMachine} from '../three/Props';
 import {AimedSpotLight, CameraRig, SceneCanvas} from '../three/Stage';
 
-const ON = BEATS.machineOn - SCENES.S02.from; // 120 (local)
-const SPLAT = BEATS.lensSplat - SCENES.S02.from; // 300 (local)
+const ON = DESIGN_BEATS.S02.machineOn; // 120 (diseño)
+const SPLAT = DESIGN_BEATS.S02.lensSplat; // 300 (diseño)
 const ORIGIN: Vec3 = [0, 0.3, 2]; // boca del bote (coordenadas del módulo)
 const BLOBS = 56;
 
@@ -104,8 +104,8 @@ const LensSplat: React.FC<{cam: Vec3; target: Vec3; offset: [number, number]; si
 };
 
 export const Scene02: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const frame = useDesignFrame('S02');
+  const fps = DESIGN_FPS;
   const t = frame / fps;
   const blobs = useBlobs();
   const on = frame >= ON;

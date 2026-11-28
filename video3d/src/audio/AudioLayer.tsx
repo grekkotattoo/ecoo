@@ -35,13 +35,11 @@ export const AudioLayer: React.FC<{muted?: boolean}> = ({muted = false}) => {
       })}
 
       {/*
-        Bloques manuales equivalentes (por si prefieres conectarlos a mano):
-        <Sequence from={420}  durationInFrames={300}><Audio src={staticFile('sfx/buzz.mp3')} volume={0.55} /></Sequence>
-        <Sequence from={428}  durationInFrames={40}><Audio src={staticFile('sfx/liquid_pop.mp3')} volume={0.7} /></Sequence>
-        <Sequence from={600}  durationInFrames={50}><Audio src={staticFile('sfx/liquid_pop.mp3')} volume={0.9} /></Sequence>
-        <Sequence from={840}  durationInFrames={45}><Audio src={staticFile('sfx/bonk.mp3')} volume={0.9} /></Sequence>
-        <Sequence from={1260} durationInFrames={480}><Audio src={staticFile('sfx/geiger.mp3')} volume={0.6} /></Sequence>
-        <Sequence from={1740} durationInFrames={420}><Audio src={staticFile('sfx/fanfare.mp3')} volume={0.85} /></Sequence>
+        Bloque manual equivalente (frames REALES a 30 fps; los valores vivos están en timeline.ts → sfxMarkers):
+        <Sequence from={BEATS.machineOn} durationInFrames={90}><Audio src={staticFile('sfx/buzz.mp3')} volume={0.55} /></Sequence>
+        <Sequence from={BEATS.needleContact} durationInFrames={23}><Audio src={staticFile('sfx/bonk.mp3')} volume={0.9} /></Sequence>
+        <Sequence from={BEATS.radiationStart} durationInFrames={105}><Audio src={staticFile('sfx/geiger.mp3')} volume={0.6} /></Sequence>
+        <Sequence from={BEATS.trophyReveal} durationInFrames={90}><Audio src={staticFile('sfx/fanfare.mp3')} volume={0.85} /></Sequence>
       */}
     </>
   );

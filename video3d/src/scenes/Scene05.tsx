@@ -1,10 +1,10 @@
 // ESCENA 5 — EL REMATE MEME (frames 1740–2160). Pull back épico desde el trofeo de oro.
 import React, {useMemo} from 'react';
 import {RoundedBox} from '@react-three/drei';
-import {useCurrentFrame, useVideoConfig} from 'remotion';
+import {useDesignFrame} from '../lib/time';
 import * as THREE from 'three';
 import type {Vec3} from '../config/physics';
-import {PALETTE} from '../config/timeline';
+import {DESIGN_FPS, PALETTE} from '../config/timeline';
 import {ease, EASE, lerp3, rnd, rndRange, sp} from '../lib/motion';
 import {Astronaut} from '../three/Astronaut';
 import {StudioEnv} from '../three/ISS';
@@ -123,8 +123,8 @@ const Confetti: React.FC<{frame: number}> = ({frame}) => {
 };
 
 export const Scene05: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const frame = useDesignFrame('S05');
+  const fps = DESIGN_FPS;
   const t = frame / fps;
 
   // Pull back épico (muelle largo) + ligera órbita

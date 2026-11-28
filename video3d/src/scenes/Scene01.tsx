@@ -1,9 +1,10 @@
 // ESCENA 1 — EL GANCHO (frames 0–300). Dolly zoom atravesando la escotilla hasta la máquina flotante.
 import React from 'react';
-import {spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {spring} from 'remotion';
+import {useDesignFrame} from '../lib/time';
 import * as THREE from 'three';
 import type {Vec3} from '../config/physics';
-import {PALETTE} from '../config/timeline';
+import {DESIGN_FPS, PALETTE} from '../config/timeline';
 import {EASE, easeKeys, lerp3} from '../lib/motion';
 import {CabinLights, Cable, Earth, ISSModule, Starfield, StudioEnv} from '../three/ISS';
 import {PowerSupply, TattooMachine} from '../three/Props';
@@ -18,8 +19,8 @@ const toWorld = (local: Vec3, pos: Vec3, rot: Vec3): Vec3 => {
 };
 
 export const Scene01: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const frame = useDesignFrame('S01');
+  const fps = DESIGN_FPS;
   const t = frame / fps;
 
   // Empuje de cámara con muelle sobreamortiguado (entrada) y sin rebote (no atraviesa la máquina).

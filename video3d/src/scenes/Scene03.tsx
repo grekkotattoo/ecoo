@@ -1,16 +1,16 @@
 // ESCENA 3 — EL PULSO SIN GRAVEDAD (frames 720–1200). Tercera ley de Newton: salen girando como peonzas.
 import React from 'react';
-import {useCurrentFrame, useVideoConfig} from 'remotion';
+import {useDesignFrame} from '../lib/time';
 import type {Vec3} from '../config/physics';
-import {ASTRO_SIM, PALETTE, S03_IMPULSE_LOCAL, SCENES, WALL_HITS} from '../config/timeline';
+import {ASTRO_SIM, DESIGN_BEATS, DESIGN_FPS, PALETTE, WALL_HITS_DESIGN} from '../config/timeline';
 import {ease, EASE, lerp3, sp} from '../lib/motion';
 import {Astronaut} from '../three/Astronaut';
 import {CabinLights, ISSModule, MODULE_R, StudioEnv} from '../three/ISS';
 import {TattooMachine} from '../three/Props';
 import {CameraRig, SceneCanvas} from '../three/Stage';
 
-const IMPULSE = S03_IMPULSE_LOCAL; // 120
-const HITS_LOCAL = WALL_HITS.map((f) => f - SCENES.S03.from);
+const IMPULSE = DESIGN_BEATS.S03.needleContact; // 120 (diseño)
+const HITS_LOCAL = WALL_HITS_DESIGN;
 
 /** Intensidad de alarma: destello con caída exponencial en cada choque + latido suave tras el primero. */
 const alarmLevel = (frame: number) => {
@@ -28,11 +28,11 @@ const squash = (frame: number, fps: number, hits: number[]) => {
 };
 
 export const Scene03: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const frame = useDesignFrame('S03');
+  const fps = DESIGN_FPS;
   const t = frame / fps;
-  const a = ASTRO_SIM.a[Math.min(frame, ASTRO_SIM.a.length - 1)];
-  const b = ASTRO_SIM.b[Math.min(frame, ASTRO_SIM.b.length - 1)];
+  const a = ASTRO_SIM.a[Math.min(Math.round(frame), ASTRO_SIM.a.length - 1)];
+  const b = ASTRO_SIM.b[Math.min(Math.round(frame), ASTRO_SIM.b.length - 1)];
   const flying = frame >= IMPULSE;
 
   // Aproximación del tatuador al brazo (antes del impulso)

@@ -9,7 +9,7 @@ const isHighlighted = (word: string, cue: SubtitleCue) => cue.highlight.some((h)
 const Cue: React.FC<{cue: SubtitleCue; frame: number; fps: number}> = ({cue, frame, fps}) => {
   const words = cue.text.split(/\s+/);
   const local = frame - cue.from;
-  const out = spring({frame: frame - (cue.to - 10), fps, config: {damping: 20, stiffness: 200}});
+  const out = spring({frame: frame - (cue.to - 6), fps, config: {damping: 20, stiffness: 200}});
   const long = cue.text.length > 22;
   return (
     <div
@@ -24,7 +24,7 @@ const Cue: React.FC<{cue: SubtitleCue; frame: number; fps: number}> = ({cue, fra
       }}
     >
       {words.map((w, i) => {
-        const pop = spring({frame: local - i * 4, fps, config: {damping: 9, stiffness: 190, mass: 0.6}});
+        const pop = spring({frame: local - i * 3, fps, config: {damping: 9, stiffness: 190, mass: 0.6}});
         const hl = isHighlighted(w, cue);
         return (
           <span
