@@ -4,10 +4,10 @@
   "idea_id": "I0001",
   "title": "FISIÓN X-9000",
   "question": "¿Qué pasaría si te tatuaras con una máquina alimentada por energía nuclear?",
-  "status": "waiting_audio",
+  "status": "delivered",
   "test": false,
   "created": "2026-11-27T22:37:18+00:00",
-  "updated": "2026-11-27T23:42:54+00:00",
+  "updated": "2026-11-28T00:15:36+00:00",
   "phases": {
     "development": {
       "status": "done",
@@ -90,43 +90,94 @@
       "task": null
     },
     "voice": {
-      "status": "waiting",
-      "attempts": 2,
-      "pid": 163,
-      "started": "2026-11-27T23:42:54+00:00",
-      "error": "EP001: faltan 11 audios de voz → /home/user/ecoo/data/inbox/audio/EP001"
+      "status": "done",
+      "attempts": 3,
+      "pid": 454,
+      "started": "2026-11-28T00:08:00+00:00",
+      "error": null,
+      "finished": "2026-11-28T00:08:01+00:00",
+      "output_hash": "79352f179523a6d3",
+      "task": null
     },
     "audio_sync": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:08:01+00:00",
+      "finished": "2026-11-28T00:08:01+00:00",
+      "output_hash": "80fddf9136cd46c0",
+      "error": null,
+      "task": null
     },
     "animation": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:08:01+00:00",
+      "finished": "2026-11-28T00:08:01+00:00",
+      "output_hash": "4c36b77b82c2371e",
+      "error": null,
+      "task": null
     },
     "edit": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:08:01+00:00",
+      "finished": "2026-11-28T00:08:01+00:00",
+      "output_hash": "d656c8633c21176e",
+      "error": null,
+      "task": null
     },
     "sound": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:08:01+00:00",
+      "finished": "2026-11-28T00:08:03+00:00",
+      "output_hash": "666b83a1844eaa35",
+      "error": null,
+      "task": null
     },
     "render": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:08:03+00:00",
+      "finished": "2026-11-28T00:15:18+00:00",
+      "output_hash": "cad376455e2fb29b",
+      "error": null,
+      "task": null
     },
     "master": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:15:18+00:00",
+      "finished": "2026-11-28T00:15:24+00:00",
+      "output_hash": "8462b046af478bcc",
+      "error": null,
+      "task": null
     },
     "qa": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:15:24+00:00",
+      "finished": "2026-11-28T00:15:36+00:00",
+      "output_hash": "d268000b0ee5d99e",
+      "error": null,
+      "task": null
     },
     "delivery": {
-      "status": "pending",
-      "attempts": 0
+      "status": "done",
+      "attempts": 1,
+      "pid": 454,
+      "started": "2026-11-28T00:15:36+00:00",
+      "finished": "2026-11-28T00:15:36+00:00",
+      "output_hash": "8d744731f676c0fd",
+      "error": null,
+      "task": null
     }
   },
   "feedback": [
@@ -155,23 +206,7 @@
       "cliente": "9384a81695cafd2e"
     }
   },
-  "waiting": {
-    "type": "audio",
-    "lines": [
-      "l01",
-      "l02",
-      "l03",
-      "l04",
-      "l05",
-      "l06",
-      "l07",
-      "l08",
-      "l09",
-      "l10",
-      "l11"
-    ],
-    "inbox": "/home/user/ecoo/data/inbox/audio/EP001"
-  },
+  "waiting": null,
   "history": [
     {
       "ts": "2026-11-27T22:49:43+00:00",
