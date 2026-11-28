@@ -1,0 +1,2 @@
+- Montserrat (variable, subset latin) — SIL Open Font License 1.1 — © The Montserrat Project Authors.
+- Anton — SIL Open Font License 1.1 — © Vernon Adams (copia de library/fonts).
