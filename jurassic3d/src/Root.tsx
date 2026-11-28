@@ -1,8 +1,8 @@
 import React from 'react';
-import {AbsoluteFill, Composition, interpolate, Series} from 'remotion';
+import {AbsoluteFill, Audio, Composition, interpolate, Sequence, Series, staticFile} from 'remotion';
 import {useTimeline} from './lib/anim';
 import {Subtitles} from './components/Subtitles';
-import {FPS, HEIGHT, SCENES, toFrames, TOTAL_UNITS, WIDTH} from './lib/timeline';
+import {FPS, HEIGHT, SCENES, toFrames, TOTAL_UNITS, VO_BLOCKS, VO_FILE, WIDTH} from './lib/timeline';
 import {Scene01} from './scenes/Scene01';
 import {Scene02} from './scenes/Scene02';
 import {Scene03} from './scenes/Scene03';
@@ -48,6 +48,12 @@ export const JurassicTattoo: React.FC = () => (
     </Series>
     <Finish />
     <Subtitles />
+    {/* Locución: cada bloque arranca con su escena */}
+    {VO_BLOCKS.map((b) => (
+      <Sequence key={b.scene} from={toFrames(SCENES[b.scene].from)} durationInFrames={Math.ceil((b.srcTo - b.srcFrom) * FPS)} name={`VO ${b.scene + 1}`}>
+        <Audio src={staticFile(VO_FILE)} trimBefore={Math.round(b.srcFrom * FPS)} trimAfter={Math.round(b.srcTo * FPS)} />
+      </Sequence>
+    ))}
   </AbsoluteFill>
 );
 

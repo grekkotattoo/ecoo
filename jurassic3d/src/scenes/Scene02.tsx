@@ -16,20 +16,20 @@ export const Scene02: React.FC = () => {
   const {frame, fps, tick} = useTimeline();
   const t = frame / fps;
 
-  // Zumbido de la máquina: ráfagas con muelle. Local 260 ≈ "CERO PULSO".
+  // Zumbido de la máquina: ráfagas con muelle. Local 325 ≈ "CERO PULSO" en la VO.
   const buzz = Math.max(
     0,
-    sp(frame, fps, 40, SNAPPY) - 0.8 * sp(frame, fps, 175, SNAPPY) + 1.0 * sp(frame, fps, 245, SNAPPY),
+    sp(frame, fps, 40, SNAPPY) - 0.8 * sp(frame, fps, 230, SNAPPY) + 1.0 * sp(frame, fps, 322, SNAPPY),
   );
-  const panic = sp(frame, fps, 250, {damping: 10, stiffness: 90});
-  const jaw = 0.12 + 0.25 * sp(frame, fps, 255, {damping: 9, stiffness: 120}) + Math.sin(t * 3) * 0.03;
+  const panic = sp(frame, fps, 325, {damping: 10, stiffness: 90});
+  const jaw = 0.12 + 0.25 * sp(frame, fps, 330, {damping: 9, stiffness: 120}) + Math.sin(t * 3) * 0.03;
 
   // CÁMARA contrapicada que se acerca (muelle lento) + camera shake sincronizado al zumbido.
   const approach = sp(frame, fps, 0, {damping: 24, stiffness: 28, mass: 1.6});
   const basePos = mix3([0.2, 0.3, 8.6], [1.0, 0.55, 6.3], approach);
   const baseTarget = mix3([0, 3.0, 1.2], [0.05, 3.35, 1.6], approach);
-  const kick = sp(frame, fps, 245, {damping: 6, stiffness: 260, mass: 0.4}); // golpe al arrancar fuerte
-  const amp = buzz * 0.035 + (1 - kick) * (frame > 245 ? 0.08 : 0);
+  const kick = sp(frame, fps, 322, {damping: 6, stiffness: 260, mass: 0.4}); // golpe al arrancar fuerte
+  const amp = buzz * 0.035 + (1 - kick) * (frame > 322 ? 0.08 : 0);
   const jitter = (n: number) => (random(`shake-${frame}-${n}`) - 0.5) * 2;
   const shake: [number, number, number] = [
     amp * (jitter(1) * 0.6 + wobble(t * 25, 1) * 0.4),

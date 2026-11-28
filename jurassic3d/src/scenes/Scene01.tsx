@@ -186,7 +186,7 @@ export const Scene01: React.FC = () => {
   const close: [number, number, number] = [1.7, 2.6, 5.0];
   let pos = mix3([0.4, 7.5, 25], close, push);
   let fov = mix(58, 30, push);
-  const vertigo = ease(frame, [200, 360], [0, 1]);
+  const vertigo = ease(frame, [205, 390], [0, 1]);
   if (vertigo > 0) {
     const fov2 = mix(30, 21, vertigo);
     const k = Math.tan(THREE.MathUtils.degToRad(30 / 2)) / Math.tan(THREE.MathUtils.degToRad(fov2 / 2));

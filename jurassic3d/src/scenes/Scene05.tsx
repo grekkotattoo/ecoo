@@ -12,7 +12,7 @@ import {makeMarbleTexture, makePlaqueTexture} from '../lib/textures';
 const BG = '#040406';
 const PED_H = 1.05;
 const CASE = {w: 2.3, h: 1.25, d: 1.25};
-const FLASHES = [205, 238, 262, 300, 318, 352, 384, 401];
+const FLASHES = [262, 279, 297, 316, 333, 352, 371, 390, 409, 431]; // desde "Arte Rupestre"
 
 const Stanchion: React.FC<{position: [number, number, number]}> = ({position}) => (
   <group position={position}>
@@ -58,7 +58,7 @@ export const Scene05: React.FC = () => {
   }, []);
 
   // CÁMARA: plano detalle de la placa → pull back lento revelando la vitrina
-  const pull = sp(frame, fps, 25, {damping: 30, stiffness: 16, mass: 2.4}, 380);
+  const pull = sp(frame, fps, 25, {damping: 30, stiffness: 16, mass: 2.4}, 400);
   const plaqueY = PED_H * 0.62;
   const plaqueZ = 0.56;
   const pos = mix3([0.08, plaqueY + 0.05, plaqueZ + 1.05], [1.1, 1.85, 7.6], pull);

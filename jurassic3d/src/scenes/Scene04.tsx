@@ -12,10 +12,10 @@ const ALARM = '#d00000';
 const ARM_X = -2.15; // hombro en coordenadas mundiales
 const TABLE_Y = 0;
 const ARM_Y = TABLE_Y + 0.36;
-const TRIGGER = 105;
+const TRIGGER = 225; // "bacteria" en la VO (unidades locales ya escaladas)
 
 export const Scene04: React.FC = () => {
-  const {frame, fps} = useTimeline();
+  const {frame, fps} = useTimeline(540 / 480);
   const t = frame / fps;
 
   // Cambio brusco clínica → alarma
@@ -25,7 +25,7 @@ export const Scene04: React.FC = () => {
   const strobe = frame >= TRIGGER && frame < TRIGGER + 10 ? (frame % 4 < 2 ? 1 : 0.2) : 1;
 
   // Frente de petrificación: hombro → mano
-  const front = mix(ARM_X - 0.3, ARM_X + 4.75, ease(frame, [TRIGGER + 10, 455], [0, 1], Easing.inOut(Easing.quad)));
+  const front = mix(ARM_X - 0.3, ARM_X + 4.75, ease(frame, [TRIGGER + 10, 470], [0, 1], Easing.inOut(Easing.quad)));
   const stoneFront = frame < TRIGGER + 10 ? -Infinity : front;
 
   // Ondas expansivas (shockwaves) que recorren el brazo
@@ -39,13 +39,13 @@ export const Scene04: React.FC = () => {
   });
 
   // CÁMARA: tracking lateral del hombro a la mano siguiendo el frente
-  const dolly = ease(frame, [0, 500], [0, 1], Easing.inOut(Easing.sin));
+  const dolly = ease(frame, [0, TRIGGER], [0, 1], Easing.inOut(Easing.sin));
   const follow = sp(frame, fps, TRIGGER, {damping: 26, stiffness: 30, mass: 1.6});
   const camX = mix(ARM_X + 0.6 + dolly * 0.3, Math.min(front + 0.45, ARM_X + 4.2), follow);
   const jolt = frame >= TRIGGER ? (1 - sp(frame, fps, TRIGGER, SNAPPY)) * 0.06 : 0;
   const jx = (random(`j${frame}`) - 0.5) * jolt;
   const jy = (random(`k${frame}`) - 0.5) * jolt;
-  const pos: [number, number, number] = [camX + jx, ARM_Y + 1.75 + jy + ease(frame, [440, 540], [0, 0.4]), 3.3 + ease(frame, [440, 540], [0, 0.8])];
+  const pos: [number, number, number] = [camX + jx, ARM_Y + 1.75 + jy + ease(frame, [470, 540], [0, 0.4]), 3.3 + ease(frame, [470, 540], [0, 0.8])];
   const target: [number, number, number] = [camX + 0.25, ARM_Y + 0.05, 0];
 
   return (
